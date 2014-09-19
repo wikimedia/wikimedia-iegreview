@@ -1,0 +1,46 @@
+# vim temp files
+[._]*.s[a-w][a-z]
+[._]s[a-w][a-z]
+*.un~
+Session.vim
+.netrwhist
+*~
+
+# Windows image file caches
+Thumbs.db
+ehthumbs.db
+
+# Folder config file
+Desktop.ini
+
+# Recycle Bin used on file shares
+$RECYCLE.BIN/
+
+# OSX junk
+.DS_Store
+.AppleDouble
+.LSOverride
+Icon
+
+# Thumbnails
+._*
+
+# Files that might appear on external disk
+.Spotlight-V100
+.Trashes
+
+# composer stuff
+/vendor/.git
+/composer.phar
+
+# phpenv
+/.php-version
+
+# testing environment
+/.env
+
+# cache directory
+/data/cache
+
+# git-deploy
+/.deploy

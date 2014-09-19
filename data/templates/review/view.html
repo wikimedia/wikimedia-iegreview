@@ -1,0 +1,354 @@
+{% extends "review/base.html" %}
+{% import "inc/helpers.html" as helpers %}
+{% set ctx = _context %}
+
+{% set col_style = phase > 0 ? 'col-sm-6' : 'col-sm-10 col-sm-offset-1' %}
+
+{% block content %}
+{% spaceless %}
+<ol class="breadcrumb">
+  <li>{{ 'nav-review'|message }}</li>
+  <li>{{ 'review'|message }}</li>
+  <li>{{ id }}</li>
+</ol>
+
+{% if schol != false %}
+<div class="row">
+  <div class="{{ col_style }}">
+
+    <div class="panel-group" id="application">
+
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h4 class="panel-title">
+            <a data-toggle="collapse" data-parent="#application" href="#contact">
+            {{ 'form-contact-info'|message }}
+            </a>
+          </h4>
+        </div>
+      </div>
+      <div id="contact" class="panel-collapse collapse in">
+        <div class="panel-body">
+          <dl class="dl-horizontal">
+            <dt>{{ 'review-view-name'|message }}</dt>
+            <dd>{{ schol.fname }} {{ schol.lname }}</dd>
+            <dt>{{ 'review-view-email'|message }}</dt>
+            <dd><a href="mailto:{{ schol.email }}">{{ schol.email }}</a></dd>
+            <dt>{{ 'review-view-residence'|message }}</dt>
+            <dd>{{ schol.residence_name }}</dd>
+          </dl>
+        </div>
+      </div>
+
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h4 class="panel-title">
+            <a data-toggle="collapse" data-parent="#application" href="#personal">
+            {{ 'form-personalinfo'|message }}
+            </a>
+          </h4>
+        </div>
+      </div>
+      <div id="personal" class="panel-collapse collapse in">
+        <div class="panel-body">
+          <dl class="dl-horizontal">
+            <dt>{{ 'review-view-haspassport'|message }}</dt>
+            <dd>{{ helpers.yesNo( schol.haspassport ) }}</dd>
+            <dt>{{ 'review-view-nationality'|message }}</dt>
+            <dd>{{ schol.country_name }}</dd>
+            <dt>{{ 'review-view-language'|message }}</dt>
+            <dd>{{ schol.languages }}</dd>
+            <dt>{{ 'review-view-dateofbirth'|message }}</dt>
+            <dd>
+              {% if schol.dob is not empty %}
+              {{ schol.dob }} ({{ helpers.yearsOld( schol.dob ) }})
+              {% else %}
+              {{ 'review-view-not-specified'|message }}
+              {% endif %}
+            </dd>
+            <dt>{{ 'review-view-gender'|message }}</dt>
+            <dd>{{ helpers.gender( ctx, schol.gender ) }}</dd>
+            {% if schol.gender_other is not empty %}
+            <dd>( {{ schol.gender_other }} )</dd>
+            {% endif %}
+            {% if schol.occupation is not empty %}
+            <dt>{{ 'review-view-occupation'|message }}</dt>
+            <dd>{{ schol.occupation }}</dd>
+            {% endif %}
+            {% if schol.areaofstudy is not empty %}
+            <dt>{{ 'review-view-study'|message }}</dt>
+            <dd>{{ schol.areaofstudy }}</dd>
+            {% endif %}
+          </dl>
+        </div>
+      </div>
+
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h4 class="panel-title">
+            <a data-toggle="collapse" data-parent="#application" href="#participation">
+            {{ 'form-participation'|message }}
+            </a>
+          </h4>
+        </div>
+      </div>
+      <div id="participation" class="panel-collapse collapse in">
+        <div class="panel-body">
+          <dl class="dl-horizontal">
+            <dt>{{ 'review-view-username'|message }}</dt>
+            <dd>
+              {% if schol.username is not empty %}
+              {{ schol.username }} (<a href="https://tools.wmflabs.org/quentinv57-tools/tools/sulinfo.php?username={{ schol.username|escape( 'url' ) }}" target="_blank">cross-wiki contribs</a>)
+              {% else %}
+              {{ 'review-view-not-specified'|message }}
+              {% endif %}
+            </dd>
+            {% if schol.alt_users is not empty %}
+            <dt>{{ 'review-view-alt-users'|message }}</dt>
+            <dd>{{ schol.alt_users }}</dt>
+            {% endif %}
+            <dt>{{ 'review-view-active-projects'|message }}</dt>
+            {% if schol.project %}
+            <dd>{{ schol.project }}</dt>
+            {% endif %}
+            {% if schol.project2 %}
+            <dd>{{ schol.project2 }}</dt>
+            {% endif %}
+            {% if schol.project3 %}
+            <dd>{{ schol.project3 }}</dt>
+            {% endif %}
+            {% if not(schol.project or schol.project2 or schol.project3) %}
+            <dd>{{ 'review-view-not-specified'|message }}</dd>
+            {% endif %}
+          </dl>
+
+          <div class="well well-sm">
+            <p><strong>{{ 'review-view-involvement'|message }}</strong></p>
+            {% if schol.involvement is not empty %}
+            <p style="white-space:pre-wrap">{{ schol.involvement }}</p>
+            {% else %}
+            <p>{{ 'review-view-not-specified'|message }}</p>
+            {% endif %}
+          </div>
+
+          <div class="well well-sm">
+            <p><strong>{{ 'review-view-contrib-explain'|message }}</strong></p>
+            {% if schol.contribution is not empty %}
+            <p style="white-space:pre-wrap">{{ schol.contribution }}</p>
+            {% else %}
+            <p>{{ 'review-view-not-specified'|message }}</p>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h4 class="panel-title">
+            <a data-toggle="collapse" data-parent="#application" href="#interest">
+            {{ 'form-interest'|message }}
+            </a>
+          </h4>
+        </div>
+      </div>
+      <div id="interest" class="panel-collapse collapse in">
+        <table class="table table-condensed">
+          <tr>
+            <th>2005</th>
+            <th>2006</th>
+            <th>2007</th>
+            <th>2008</th>
+            <th>2009</th>
+            <th>2010</th>
+            <th>2011</th>
+            <th>2012</th>
+            <th>2013</th>
+          </tr>
+          <tr>
+            {{ helpers.participation( schol.wm05 ) }}
+            {{ helpers.participation( schol.wm06 ) }}
+            {{ helpers.participation( schol.wm07 ) }}
+            {{ helpers.participation( schol.wm08 ) }}
+            {{ helpers.participation( schol.wm09 ) }}
+            {{ helpers.participation( schol.wm10 ) }}
+            {{ helpers.participation( schol.wm11 ) }}
+            {{ helpers.participation( schol.wm12 ) }}
+            {{ helpers.participation( schol.wm13 ) }}
+          </tr>
+        </table>
+        <div class="panel-body">
+          <dl class="dl-horizontal">
+            <dt>{{ 'review-view-presenter'|message }}</dt>
+            <dd>{{ helpers.yesNo( schol.presentation ) }}</dd>
+            {% if schol.presentation %}
+            <dt>{{ 'review-view-presentation-topic'|message }}</dt>
+            <dd>{{ schol.presentationTopic }}</dd>
+            {% endif %}
+          </dl>
+          <div class="well well-sm">
+            <p><strong>{{ 'review-view-enrichment'|message }}</strong></p>
+            <p style="white-space:pre-wrap">{{ schol.why }}</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h4 class="panel-title">
+            <a data-toggle="collapse" data-parent="#application" href="#agree">
+            {{ 'form-agree'|message }}
+            </a>
+          </h4>
+        </div>
+      </div>
+      <div id="agree" class="panel-collapse collapse in">
+        <div class="panel-body">
+          <dl class="dl-horizontal wide">
+            <dt>{{ 'review-view-visa'|message }}</dt>
+            <dd>{{ helpers.yesNo( schol.willgetvisa ) }}</dd>
+            <dt>{{ 'review-view-incidentals'|message }}</dt>
+            <dd>{{ helpers.yesNo( schol.willpayincidentals ) }}</dd>
+            <dt>{{ 'review-view-travel-conditions'|message }}</dt>
+            <dd>{{ helpers.yesNo( schol.agreestotravelconditions ) }}</dd>
+          </dl>
+        </div>
+      </div>
+
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h4 class="panel-title">
+            <a data-toggle="collapse" data-parent="#application" href="#fulldump">
+            {{ 'review-view-full-dump'|message }}
+            </a>
+          </h4>
+        </div>
+      </div>
+      <div id="fulldump" class="panel-collapse collapse">
+        <div class="panel-body">
+          <dl class="dl-horizontal wide">
+            {% for k,v in schol %}
+            <dt>{{ k }}:</dt><dd>{{ v }}</dd>
+            {% endfor %}
+          </dl>
+        </div>
+      </div>
+
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h4 class="panel-title">
+            <a data-toggle="collapse" data-parent="#application" href="#scores">
+            {{ 'review-view-scorings'|message }}
+            </a>
+          </h4>
+        </div>
+      </div>
+      <div id="scores" class="panel-collapse collapse in">
+        {% if myscorings is not empty %}
+        <table class="table table-condensed">
+          <tr><th>{{ 'review-view-criteria'|message }}</th><th>{{ 'review-view-rank'|message}}</th></tr>
+          {% for r in myscorings %}
+          <tr><td>{{ r.criterion }}</td><td>{{ r.rank }}</td></tr>
+          {% endfor %}
+        </table>
+        {% endif %}
+        {% if reviewers is not empty %}
+        <div class="panel-body">
+          <dl>
+            <dt>{{ 'review-view-reviewers'|message }}</dt>
+            <dd>
+              <ul>
+                {% for reviewer in reviewers %}
+                <li>{{ reviewer.username }}</li>
+                {% endfor %}
+              </ul>
+            </dd>
+          </dl>
+        </div>
+        {% endif %}
+      </div>
+
+    </div>
+  </div>
+
+  {% if phase > 0 %}
+  <div id="review-tools" class="col-sm-6">
+    <div class="panel-group" data-spy="affix" data-clampedwidth="#review-tools">
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h3 class="panel-title">
+            <a data-toggle="collapse" data-parent="#review-tools" href="#rankings">
+              {{ 'review-view-rankings'|message }}</a>
+          </h3>
+        </div>
+        <div id="rankings" class="panel-collapse collapse in">
+          <div class="panel-body">
+            <div class="btn-group btn-group-xs btn-group-justified">
+              {% if previd is not empty %}
+              <a class="btn btn-default" href="{{ urlFor( 'review_view' ) }}?id={{ previd }}&phase={{ phase }}">&laquo;</a>
+              {% else %}
+              <span class="btn btn-default disabled">&laquo;</span>
+              {% endif %}
+              <a class="btn btn-default" href="{{ urlFor( 'review_view' ) }}?id={{ id }}&phase=1">{{ 'phase-1'|message }}</a>
+              <a class="btn btn-default" href="{{ urlFor( 'review_view' ) }}?id={{ id }}&phase=2">{{ 'phase-2'|message }}</a>
+              {% if nextid is not empty %}
+              <a class="btn btn-default" href="{{ urlFor( 'review_view' ) }}?id={{ nextid }}&phase={{ phase }}">&raquo;</a>
+              {% else %}
+              <span class="btn btn-default disabled">&raquo;</span>
+              {% endif %}
+            </div>
+            <p></p>
+
+            <form class="form-horizontal" method="post" action="{{ urlFor( 'review_view_post' ) }}" role="form">
+              <input type="hidden" name="{{ csrf_param }}" value="{{ csrf_token }}" />
+              <input type="hidden" name="phase" value="{{ phase }}"/>
+              <input type="hidden" name="id" value="{{ id }}"/>
+              {% if phase == 1 %}
+              <div class="form-group">
+                <label for="valid" class="col-sm-6 control-label">{{ 'review-view-valid'|message }}</label>
+                <div class="col-sm-6">
+                  {{ helpers.rankDropdownList( ctx, 'valid' ) }}
+                </div>
+              {% else %}
+              <div class="form-group">
+                <label for="valid" class="col-sm-6 control-label">{{ 'review-view-onwiki'|message }}</label>
+                <div class="col-sm-6">
+                  {{ helpers.rankDropdownList( ctx, 'onwiki' ) }}
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="valid" class="col-sm-6 control-label">{{ 'review-view-offwiki'|message }}</label>
+                <div class="col-sm-6">
+                  {{ helpers.rankDropdownList( ctx, 'offwiki' ) }}
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="valid" class="col-sm-6 control-label">{{ 'review-view-interest'|message }}</label>
+                <div class="col-sm-6">
+                  {{ helpers.rankDropdownList( ctx, 'interest' ) }}
+                </div>
+                {% endif %}
+              </div>
+
+              <div class="form-group">
+                <label for="notes" class="col-sm-2">{{ 'review-view-notes'|message }}</label>
+                <div class="col-sm-10">
+                  <textarea class="form-control" id="notes" name="notes" rows="10">{{ schol.notes }}</textarea>
+                </div>
+              </div>
+
+              <div class="col-sm-2 col-sm-offset-10">
+                <input type="submit" class="btn btn-primary" id="save" name="save" value="{{ 'review-view-save'|message }}" />
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  {% endif %}
+
+
+</div>
+{% endif %}
+{% endspaceless %}
+{% endblock content %}

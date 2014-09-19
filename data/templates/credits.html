@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block nav_li_credits %}class="active"{% endblock %}
+
+{% block content %}
+{% spaceless %}
+<div class="row">
+  <div class="col-md-10 col-md-offset-1">
+    <h2>{{ 'credits'|message }}</h2>
+    <p>{{ 'credits-page-license'|message|raw }}</p>
+    <p>{{ 'credits-page-scholarships'|message|raw }}</p>
+    <p>{{ 'credits-page-logo'|message|raw }}</p>
+  </div>
+</div>
+{% endspaceless %}
+{% endblock content %}

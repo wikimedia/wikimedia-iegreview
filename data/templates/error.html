@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block content %}
+{% spaceless %}
+<div class="row">
+  <div class="col-md-10 col-md-offset-1">
+    <h2>{{ 'error-heading'|message }}</h2>
+    <p>{{ 'error-message'|message }}</p>
+    {% if errorId|default(false) %}
+    <p>{{ 'error-id'|message( errorId ) }}</p>
+    {% endif %}
+  </div>
+</div>
+{% endspaceless %}
+{% endblock content %}
+

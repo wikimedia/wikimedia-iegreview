@@ -1,0 +1,99 @@
+{# Form rendering helpers #}
+
+{# FIXME: document macro args #}
+
+{% macro div( ctx, mesg, name, opts = {} ) %}
+{% set opts = { 'class':false }|merge( opts ) %}
+<div class="form-group {{ opts['class'] ? opts['class'] ~ ' '}}{{ name in ctx.form.errors ? 'has-error' }}">
+{% endmacro %}
+
+{% macro li( ctx, mesg, name, opts = {} ) %}
+{% set opts = { 'class':false }|merge( opts ) %}
+<li class="{{ opts['class'] ? opts['class'] ~ ' '}}{{ name in ctx.form.errors ? 'fieldWithErrors' }}">
+{% endmacro %}
+
+{% macro label( ctx, mesg, name, opts = {} ) %}
+{% set opts = { 'required':false, 'escape':true }|merge( opts ) %}
+{% set tran = mesg|message %}
+<label for="{{ name }}" class="control-label {{ opts['required'] ? 'required' }}">{% if
+    opts['escape'] == false %}{{ tran|raw }}{% else %}{{ tran }}{% endif %}</label>
+{% endmacro %}
+
+{% macro startElement( ctx, mesg, name, opts = {} ) %}
+{% import _self as forms %}
+{{ forms.div( ctx, mesg, name, opts ) }}
+{{ forms.label( ctx, mesg, name, opts ) }}
+{% endmacro %}
+
+{% macro endElement( ctx, name, mesg ) %}
+{% if name in ctx.form.errors %}
+{% set errmesg = mesg ~ '-error' %}
+<p class="error">{{ errmesg|message }}</p>
+{% endif %}
+</div>
+{% endmacro %}
+
+{% macro text( ctx, mesg, name, opts = {} ) %}
+{% import _self as forms %}
+{% set opts = { 'required':false }|merge( opts ) %}
+{% set value = ctx.form.get( name ) %}
+{{ forms.startElement( ctx, mesg, name, opts ) }}
+<input type="text" class="form-control" id="{{ name }}" name="{{ name }}" value="{{ value ?: '' }}" {{ opts['required'] ? 'required' }}/>
+{{ forms.endElement( ctx, name, mesg ) }}
+{% endmacro %}
+
+{% macro textArea( ctx, mesg, name, opts = {} ) %}
+{% import _self as forms %}
+{% set opts = { 'required':false }|merge( opts ) %}
+{% set value = ctx.form.get( name ) %}
+{{ forms.startElement( ctx, mesg, name, opts ) }}
+  <textarea class="form-control" id="{{ name }}" name="{{ name }}" cols="80" rows="3" {{ opts['required'] ? 'required' }}>{{ value ?: '' }}</textarea>
+{{ forms.endElement( ctx, name, mesg ) }}
+{% endmacro %}
+
+{% macro yesNo( ctx, mesg, name, opts = {} ) %}
+{% import _self as forms %}
+{% set value = ctx.form.get( name ) %}
+{{ forms.startElement( ctx, mesg, '', opts ) }}
+  <div class="form-inline">
+  <label class="control-label">
+    <input type="radio" id="{{ name }}-yes" name="{{ name }}" value="1" {{ value ? 'checked="checked"' }}/>
+    {{ 'form-yes'|message }}
+  </label>&nbsp;
+  <label class="control-label">
+    <input type="radio" id="{{ name }}-no" name="{{ name }}" value="0" {{ not(value) ? 'checked="checked"' }}/>
+    {{ 'form-no'|message }}
+  </label>
+</div>
+{{ forms.endElement( ctx, name, mesg ) }}
+{% endmacro %}
+
+{% macro checkboxList( ctx, mesg, options, opts = {} ) %}
+{% import _self as forms %}
+{{ forms.startElement( ctx, mesg, '', opts ) }}
+  {% for name, label in options %}
+  {% set value = ctx.form.get( name ) %}
+  <div class="checkbox">
+  <label class="control-label">
+    <input type="checkbox" id="{{ name }}" name="{{ name }}" value="1" {{ value ? 'checked="checked"' }}/>&nbsp;
+    {{ label }}
+  </label>
+</div>
+  {% endfor %}
+{{ forms.endElement( ctx, name, mesg ) }}
+{% endmacro %}
+
+{% macro checkbox( ctx, mesg, name, opts = {} ) %}
+{% import _self as forms %}
+{% set opts = { 'required':false, 'escape':true }|merge( opts ) %}
+{% set value = ctx.form.get( name ) %}
+{% set tran = mesg|message %}
+{{ forms.div( ctx, mesg, name, opts ) }}
+<div class="checkbox">
+  <label class="control-label {{ opts['required'] ? 'required' }}">
+    <input type="checkbox" id="{{ name }}" name="{{ name }}" value="1" {{ value ? 'checked="checked"' }} {{ opts['required'] ? 'required' }}/>&nbsp;
+    {% if opts['escape'] == false %}{{ tran|raw }}{% else %}{{ tran }}{% endif %}
+  </label>
+</div>
+</div>
+{% endmacro %}

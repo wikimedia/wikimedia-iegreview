@@ -1,0 +1,22 @@
+{
+  "name": "mediawiki/iegreview",
+  "require": {
+    "php": ">=5.3.7",
+    "twig/twig": "1.16.0",
+    "slim/slim": "2.4.3",
+    "slim/views": "0.1.2",
+    "monolog/monolog": "1.10.0",
+    "phpmailer/phpmailer": "v5.2.8",
+    "bd808/monolog-udp2log-handler": "1.0.0",
+    "wikimedia/simplei18n": "dev-master"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "~4.0"
+  },
+  "preferred-install": "dist",
+  "autoload": {
+    "psr-4": {
+      "Wikimedia\\IEGReview\\": "src/"
+    }
+  }
+}

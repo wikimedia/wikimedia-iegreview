@@ -1,0 +1,100 @@
+{
+	"@metadata": {
+		"authors": [
+			"Bryan Davis"
+		]
+	},
+	"header-title": "IEG grant review",
+
+	"nav-credits": "Credits",
+	"nav-privacy": "Privacy",
+	"nav-language": "Language:",
+
+	"nav-proposals": "Proposals",
+	"nav-proposals-add": "Add proposal",
+	"nav-proposals-queue": "Review queue",
+	"nav-proposals-search": "Search",
+	"nav-reports": "Reports",
+	"nav-admin": "Admin",
+	"nav-users": "Manage users",
+	"nav-account": "My Account",
+
+	"required-field": "Required field",
+
+	"new-account-subject": "New IEG review account",
+	"new-account-email": "A new IEG review account has been created for you.\n\nYour login info is:\n\nusername: $1\npassword: $2\n\nYou may login at: $3\n\nYou may change your password at: $4\n\nSincerely,\nIndividual Engagement Grants committee",
+
+	"contact-us": "Contact us",
+	"contact-page": "IEG at meta.wikimedia.org: <a href=\"//meta.wikimedia.org/wiki/Grants:IEG/Questions\">http://meta.wikimedia.org/wiki/Grants:IEG/Questions</a>",
+
+	"credits": "Credits & licensing",
+	"credits-page-license": "The Wikimedia IEG review software is open source and <a href=\"//git.wikimedia.org/log/wikimedia%2Fiegreview\">available</a> under the <a href=\"http://www.gnu.org/copyleft/gpl.html\">GNU General Public License 3.0</a>.",
+	"credits-page-scholarships": "The application is based on code developed for the <a href=\"https://git.wikimedia.org/log/wikimedia%2Fwikimania-scholarships\">Wikimania Scholarships application</a>.",
+	"credits-page-logo": "The <a href=\"https://commons.wikimedia.org/wiki/File%3AIEG_glasses_lightblue.png\">glasses logo</a> is by Wikimedia Commons user Heatherawalls and used under the Creative Commons CC0 1.0 Universal Public Domain Dedication license.",
+
+	"privacy": "Privacy",
+	"privacy-page": "All personal information will be held strictly confidential by the members of the Individual Engagement Grants committee and the <a href=\"http://wikimediafoundation.org\">Wikimedia Foundation</a>, in accordance to the Wikimedia Foundation <a href=\"http://wikimediafoundation.org/wiki/Privacy_policy\">privacy policy</a>.",
+
+	"footer-credits": "credits",
+	"footer-privacy": "privacy",
+	"footer-contact": "contact",
+
+	"login": "Log in",
+	"username": "Username:",
+	"password": "Password:",
+	"login-success": "Login successful.",
+	"login-failed": "Login failed.",
+	"login-error": "Username and password required.",
+
+	"error-heading": "System error",
+	"error-message": "An unexpected error has occurred and we are working to fix the problem. Please try again in a moment.",
+	"error-id": "Error ID: $1",
+
+	"404-header": "Page not found",
+	"404-message": "The page you requested cannot be found. Please check the link/URL and try again.",
+
+	"change-password": "Change password",
+	"logout": "Logout",
+
+	"password-username": "Username:",
+	"old-password": "Old password:",
+	"new-password": "New password:",
+	"new-password-again": "New password (again):",
+	"save-password": "Save password",
+
+	"admin-user-id": "Id:",
+	"admin-user-email": "Email:",
+	"admin-user-reviewer": "Is reviewer:",
+	"admin-user-valid": "Is valid:",
+	"admin-user-admin": "Is admin:",
+	"admin-user-blocked": "Is blocked:",
+	"admin-user-save": "Save changes",
+
+	"admin-users-id": "id",
+	"admin-users-username": "username",
+	"admin-users-email": "email",
+	"admin-users-reviewer": "reviewer?",
+	"admin-users-admin": "admin?",
+	"admin-users-valid": "valid?",
+	"admin-users-blocked": "blocked?",
+	"admin-users-yes": "yes",
+	"admin-users-no": "no",
+	"admin-users-add": "Add new user",
+
+	"page-of-pages": "Page $1 of $2",
+	"no-results": "No results found",
+
+	"csrf-heading": "Invalid request",
+	"csrf-message": "The request that was submitted was missing the request forgery protection token. Please return to the form, reload the page and try again.",
+
+	"proposals-add-error": "Your submission has errors.  Please correct the following errors and submit the form again.",
+	"proposals-add-title": "Title",
+	"proposals-add-title-error": "Title is required.",
+	"proposals-add-url": "URL",
+	"proposals-add-url-error": "Valid URL required.",
+	"proposals-add-description": "Description",
+	"proposals-add-submit": "Add proposal",
+
+	"queue-th-proposal": "Proposal",
+	"queue-th-reviews": "Reviews"
+}

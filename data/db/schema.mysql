@@ -1,0 +1,59 @@
+SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
+
+CREATE TABLE IF NOT EXISTS users (
+    id          INT(11) NOT NULL AUTO_INCREMENT
+  , username    VARCHAR(20) DEFAULT NULL
+  , password    VARCHAR(255) DEFAULT NULL
+  , email       VARCHAR(255) DEFAULT NULL
+  , reviewer    TINYINT(1) DEFAULT NULL
+  , isvalid     TINYINT(1) DEFAULT NULL
+  , isadmin     TINYINT(1) DEFAULT NULL
+  , blocked     TINYINT(1) DEFAULT 0
+  , PRIMARY KEY (id)
+  , UNIQUE KEY username (username)
+) ENGINE=InnoDB DEFAULT CHARACTER SET=utf8 AUTO_INCREMENT=1000 ;
+
+CREATE TABLE IF NOT EXISTS settings (
+    id              INT(11) NOT NULL AUTO_INCREMENT
+  , setting_name    VARCHAR(255) NOT NULL
+  , value           VARCHAR(255) NOT NULL DEFAULT '0'
+  , entered_on      TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+  , PRIMARY KEY (id)
+  , UNIQUE (setting_name)
+) ENGINE=InnoDB DEFAULT CHARACTER SET=utf8;
+
+CREATE TABLE IF NOT EXISTS proposals (
+    id          INT(11) NOT NULL AUTO_INCREMENT
+  , title       VARCHAR(255) BINARY NOT NULL
+  , description BLOB
+  , url         VARCHAR(1023) BINARY
+  , status      ENUM('open','rejected','approved','abandoned') NOT NULL
+  , created_by  INT(11)
+  , created_at  TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+  , modified_by INT(11)
+  , modified_at TIMESTAMP
+  , PRIMARY KEY (id)
+  , CONSTRAINT FOREIGN KEY (created_by) REFERENCES users(id) ON DELETE SET NULL
+  , CONSTRAINT FOREIGN KEY (modified_by) REFERENCES users(id) ON DELETE SET NULL
+) ENGINE=InnoDB DEFAULT CHARACTER SET=utf8 ;
+
+CREATE TABLE IF NOT EXISTS reviews (
+    id          INT(11) NOT NULL AUTO_INCREMENT
+  , proposal    INT(11) NOT NULL
+  , reviewer    INT(11)
+  , impact      TINYINT UNSIGNED
+  , impact_note BLOB
+  , innovation  TINYINT UNSIGNED
+  , innovation_note BLOB
+  , ability      TINYINT UNSIGNED
+  , ability_note BLOB
+  , engagement  TINYINT UNSIGNED
+  , engagement_note BLOB
+  , recommendation TINYINT
+  , comments    BLOB
+  , created_at  TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+  , modified_at TIMESTAMP
+  , PRIMARY KEY (id)
+  , CONSTRAINT FOREIGN KEY (proposal) REFERENCES proposals(id) ON DELETE CASCADE
+  , CONSTRAINT FOREIGN KEY (reviewer) REFERENCES users(id) ON DELETE RESTRICT
+) ENGINE=InnoDB DEFAULT CHARACTER SET=utf8 ;

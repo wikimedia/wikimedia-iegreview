@@ -1,0 +1,45 @@
+{# Review helpers #}
+
+{# FIXME: document macro args #}
+
+{% macro rankDropdownList( ctx, crit ) %}
+{% set opts = [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ] %}
+{% if crit == 'valid' %}
+{% set opts = [ 0, 1 ] %}
+{% endif %}
+{% set r = -1 %}
+{% for score in ctx.myscorings %}
+{% if score.criterion == crit %}
+{% set r = score.rank %}
+{% endif %}
+{% endfor %}
+<select class="form-control input-sm" id="{{ crit }}" name="{{ crit }}">
+    <option value="">{{ 'form-select'|message }}</option>
+  {% for o in opts %}
+  <option value="{{ o }}" {{ r == o ? 'selected="selected"'}}>{{ o }}</option>
+  {% endfor %}
+</select>
+{% endmacro %}
+
+{% macro yearsOld( dob ) %}
+{{ date( dob ).diff( date( 'now' ) ).format( '%Y' ) }}
+{% endmacro %}
+
+{% macro gender( ctx, g ) %}
+{% set gmap = { 'm':'form-gender-male', 'f':'form-gender-female', 'o':'form-gender-other', 'd':'form-gender-unspecified' } %}
+{{ gmap[g]|default( 'form-gender-unspecified')|message ) }}
+{% endmacro %}
+
+{% macro yesNo( var ) %}
+  <span class="glyphicon glyphicon-{{ var == 1 ? 'ok' : 'remove'  }}"></span>
+{% endmacro %}
+
+{% macro participation( var ) %}
+  <td class="text-center">
+    {% if var == 1 %}
+    <span class="glyphicon glyphicon-ok"></span>
+    {% else %}
+    &nbsp;
+    {% endif %}
+  </td>
+{% endmacro %}

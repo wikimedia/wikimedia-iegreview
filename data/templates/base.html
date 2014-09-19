@@ -1,0 +1,112 @@
+{% set lang = i18nCtx.getCurrentLanguage %}
+{% set page = null %}
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="{{ lang }}"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8" lang="{{ lang }}"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9" lang="{{ lang }}"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="{{ lang }}"> <!--<![endif]-->
+  <head>
+    <meta http-equiv="Content-language" content="{{ lang }}"/>
+    <meta charset="utf-8"/>
+    <title>{% block title %}{{ 'header-title'|message }}{% endblock title %}</title>
+    <meta name="viewport" content="width=device-width">
+    <link rel="shortcut icon" type="image/x-icon" href="{{ siteUrl( 'favicon.ico' ) }}"/>
+    <link rel="stylesheet" type="text/css" href="{{ siteUrl( 'css/vendor/bootstrap.css' ) }}">
+    <link rel="stylesheet" type="text/css" href="{{ siteUrl( 'css/main.css' ) }}">
+    {% block css %}{% endblock css %}
+    <script type="text/javascript" src="{{ siteUrl( 'js/vendor/modernizr-2.6.2-respond-1.1.0.min.js' ) }}"></script>
+  </head>
+  <body>
+    <header class="navbar navbar-default navbar-fixed-top" role="banner">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="{{ urlFor( 'home') }}" title="{{ 'header-title'|message }}"><img src="{{ siteUrl( 'images/glasses.png' ) }}" width="46" height="36" alt="{{ 'wikimania'|message }}"></a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+            {% block navbar %}
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown">{{ 'nav-proposals'|message }} <b class="caret"></b></a>
+              <ul class="dropdown-menu">
+                <li><a href="{{ urlFor( 'proposals_queue' ) }}">{{ 'nav-proposals-queue'|message }}</a></li>
+                <li><a href="{{ urlFor( 'proposals_search' ) }}">{{ 'nav-proposals-search'|message }}</a></li>
+                <li><a href="{{ urlFor( 'proposals_add' ) }}">{{ 'nav-proposals-add'|message }}</a></li>
+              </ul>
+            </li>
+
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown">{{ 'nav-reports'|message }} <b class="caret"></b></a>
+              <ul class="dropdown-menu">
+              </ul>
+            </li>
+
+            {% if isadmin|default(false) %}
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown">{{ 'nav-admin'|message }} <b class="caret"></b></a>
+              <ul class="dropdown-menu">
+                <li><a href="{{ urlFor( 'admin_users' ) }}">{{ 'nav-users'|message }}</a></li>
+                <li><a href="{{ urlFor( 'admin_user', { 'id':'new' } ) }}">{{ 'admin-users-add'|message }}</a></li>
+              </ul>
+            </li>
+            {% endif %}
+
+            {% if user|default(false) %}
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown">{{ 'nav-account'|message }} <b class="caret"></b></a>
+              <ul class="dropdown-menu">
+                <li><a href="{{ urlFor( 'user_changepassword' ) }}">{{ 'change-password'|message }}</a></li>
+                <li><a href="{{ urlFor( 'logout' ) }}">{{ 'logout'|message }}</a></li>
+              </ul>
+            </li>
+            {% endif %}
+            {% endblock navbar %}
+          </ul>
+          <div class="navbar-right navbar-text form-inline">
+            {% if i18nCtx.getAvailableLanguages|length > 1 %}
+            <span class="langlabel">{{ 'nav-language'|message }}</span>
+            <ul class="langlist footer-links">
+              {% for l in i18nCtx.getAvailableLanguages %}
+              <li class="{{ loop.last ? 'last' }}"><a href="{{ app.request.getPath }}?uselang={{ l }}" {{ l == lang ? 'class="selected"' }}>{{ l }}</a></li>
+              {% endfor %}
+            </ul>
+            {% endif %}
+          </div>
+          </ul>
+        </div>
+      </div>
+    </header>
+
+    {% block banner %}{% endblock banner %}
+
+    <div class="container">
+      {% block pre_content %}
+      {% if flash|default(false) %}
+      {% if flash.error|default(false) %}<div class="alert alert-danger alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>{{ flash.error }}</div>{% endif %}
+      {% if flash.info|default(false) %}<div class="alert alert-success alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>{{ flash.info }}</div>{% endif %}
+      {% endif %}
+      {% endblock pre_content %}
+      {% block content %}<p>{{ app.request.getPath }}: Your message here.</p>{% endblock content %}
+      {% block post_content %}{% endblock post_content %}
+    </div>
+
+    <footer class="footer" role="contentinfo">
+      <div class="hr"><hr/></div>
+      <div class="container text-right">
+        <ul class="footer-links">
+          <li><a href="{{ urlFor( 'credits' ) }}">{{ 'footer-credits'|message }}</a></li>
+          <li class="last"><a href="{{ urlFor( 'privacy' ) }}">{{ 'footer-privacy'|message }}</a></li>
+        </ul>
+      </div>
+    </footer>
+
+    <script src="{{ siteUrl( 'js/vendor/jquery-1.10.2.min.js' ) }}"></script>
+    <script src="{{ siteUrl( 'js/vendor/bootstrap.min.js' ) }}"></script>
+    <script src="{{ siteUrl( 'js/site.js' ) }}"></script>
+    {% block javascript %}{% endblock javascript %}
+  </body>
+</html>

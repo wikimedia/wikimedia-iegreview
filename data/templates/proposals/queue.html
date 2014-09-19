@@ -1,0 +1,51 @@
+{% extends "proposals/base.html" %}
+{% set route = 'proposals_queue' %}
+
+{% block content %}
+{% spaceless %}
+<ol class="breadcrumb">
+  <li>{{ 'nav-proposals'|message }}</li>
+  <li>{{ 'nav-proposals-queue'|message }}</li>
+</ol>
+
+<table class="table table-striped table-hover table-condensed table-responsive">
+  <tr>
+    <th>{{ 'queue-th-proposal'|message }}</th>
+    <th>{{ 'queue-th-reviews'|message }}</th>
+  </tr>
+  {% for row in records %}
+  <tr>
+    <td><a href="{{ urlFor( 'proposals_view', { 'id': row.id } ) }}">{{ row.title }}</a></td>
+    <td>{{ row.review_count }}</td>
+  </tr>
+  {% else %}
+  <tr><td colspan="12">{{ 'no-results'|message }}</td></tr>
+  {% endfor %}
+</table>
+
+<div class="row">
+  <div class="col-md-3">
+    <p class="text-right">{{ 'page-of-pages'|message(  p + 1, pages ) }}</p>
+  </div>
+  <div class="col-md-9">
+      <ul class="pagination">
+        {% if p > 0 %}
+        <li><a href="{{ urlFor( route ) }}?{{ qsMerge( { 'p':(p - 1) } ) }}" id="prev">&laquo;</a></li>
+        {% else %}
+        <li class="disabled"><span>&laquo;</span></li>
+        {% endif %}
+        {% if left > 0 %}<li class="disabled"><span>&hellip;</span></li>{% endif %}
+        {% for i in left .. right %}
+        <li class="{{ i == p ? 'active' }}"><a href="{{ urlFor( route ) }}?{{ qsMerge( { 'p':i } ) }}" id="prev">{{ i + 1 }}</a></li>
+        {% endfor %}
+        {% if right < pages - 1 %}<li class="disabled"><span>&hellip;</span></li>{% endif %}
+        {% if p + 1 < pages %}
+        <li><a href="{{ urlFor( route ) }}?{{ qsMerge( { 'p':(p + 1) } ) }}" >&raquo;</a></li>
+        {% else %}
+        <li class="disabled"><span>&raquo;</span></li>
+        {% endif %}
+      </ul>
+  </div>
+</div>
+{% endspaceless %}
+{% endblock content %}
