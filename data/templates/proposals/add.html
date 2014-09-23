@@ -2,11 +2,6 @@
 {% import "inc/forms.html" as forms %}
 {% set ctx = _context %}
 
-{% set errors = flash.form_errors|default([]) %}
-{% if flash.form_defaults|default(false) %}
-{% set u = flash.form_defaults %}
-{% endif %}
-
 {% block content %}
 {% spaceless %}
 <ol class="breadcrumb">
@@ -24,7 +19,9 @@
 <form class="form-horizontal" method="post" action="{{ urlFor( 'proposals_add_post' ) }}">
   <input type="hidden" name="{{ csrf_param }}" value="{{ csrf_token }}" />
   {{ forms.text( ctx, 'proposals-add-title', 'title', { 'required':true } ) }}
-  {{ forms.text( ctx, 'proposals-add-url', 'url', { 'required':true } ) }}
+  {{ forms.url( ctx, 'proposals-add-url', 'url', { 'required':true } ) }}
+  {{ forms.select( ctx, 'proposals-add-theme', 'theme', { 'online':'online', 'offline':'offline', 'tool':'tool', 'research':'research' }, { 'required':true } ) }}
+  {{ forms.number( ctx, 'proposals-add-amount', 'amount' ) }}
   {{ forms.textArea( ctx, 'proposals-add-description', 'description' ) }}
   <input type="submit" class="btn btn-primary" id="submit" name="submit" value="{{ 'proposals-add-submit'|message }}" />
 </form>

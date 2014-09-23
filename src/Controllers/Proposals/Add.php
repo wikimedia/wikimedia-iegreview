@@ -39,8 +39,14 @@ class Add extends Controller {
 			$this->setForm( $saved );
 		} else {
 			$this->form->expectString( 'title', array( 'required' => true ) );
-			$this->form->expectString( 'description' );
 			$this->form->expectUrl( 'url', array( 'required' => true ) );
+			$this->form->expectString( 'description' );
+			$this->form->expectInt( 'amount' );
+			// TODO: themes from db?
+			$this->form->expectInArray( 'theme',
+				array( 'online', 'offline', 'tool', 'research' ),
+				array( 'required' => true )
+			);
 		}
 		$this->view->setData( 'form', $this->form );
 	}

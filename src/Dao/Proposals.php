@@ -79,6 +79,8 @@ class Proposals extends AbstractDao {
 	public function search( array $params ) {
 		$defaults = array(
 			'proposals' => '',
+			'sort' => 'id',
+			'order' => 'asc',
 			'items' => 20,
 			'page' => 0,
 		);
@@ -87,6 +89,14 @@ class Proposals extends AbstractDao {
 		$where = array();
 		$crit = array();
 		$crit['int_userid'] = $this->userId ?: 0;
+
+		$validSorts = array(
+			'id', 'title', 'amount', 'theme', 'status',
+			'review_count', 'my_review_count',
+		);
+		$sortby = in_array( $params['sort'], $validSorts ) ?
+			$params['sort'] : $defaults['sort'];
+		$order = $params['order'] === 'desc' ? 'DESC' : 'ASC';
 
 		if ( $params['items'] == 'all' ) {
 			$limit = '';
@@ -99,12 +109,14 @@ class Proposals extends AbstractDao {
 		}
 
 		$fields = array(
-			'p.id',
-			'p.title',
-			'p.url',
-			'p.status',
-			'COALESCE(review_count, 0) as review_count',
-			'COALESCE(my_review_count, 0) as my_review_count',
+			'p.id as id',
+			'p.title as title',
+			'p.url as url',
+			'p.amount as amount',
+			'p.theme as theme',
+			'p.status as status',
+			'COALESCE(rc.review_count, 0) as review_count',
+			'COALESCE(mc.my_review_count, 0) as my_review_count',
 		);
 
 		switch( $params['proposals'] ) {
@@ -139,8 +151,7 @@ class Proposals extends AbstractDao {
 			'FROM proposals p',
 			$joins,
 			self::buildWhere( $where ),
-			// TODO: add sorting
-			'ORDER BY p.id',
+			"ORDER BY {$sortby}, id {$order}",
 			$limit, $offset
 		);
 		return $this->fetchAllWithFound( $sql, $crit );

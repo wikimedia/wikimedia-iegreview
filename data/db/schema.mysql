@@ -27,6 +27,9 @@ CREATE TABLE IF NOT EXISTS proposals (
   , title       VARCHAR(255) BINARY NOT NULL
   , description BLOB
   , url         VARCHAR(1023) BINARY
+  , amount      INT(11) UNSIGNED
+  , theme       VARCHAR(32)
+  , notes       BLOB
   , status      ENUM('open','rejected','approved','abandoned') NOT NULL
   , created_by  INT(11)
   , created_at  TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP

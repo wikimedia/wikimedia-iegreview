@@ -15,8 +15,7 @@
 {% macro label( ctx, mesg, name, opts = {} ) %}
 {% set opts = { 'required':false, 'escape':true }|merge( opts ) %}
 {% set tran = mesg|message %}
-<label for="{{ name }}" class="control-label {{ opts['required'] ? 'required' }}">{% if
-    opts['escape'] == false %}{{ tran|raw }}{% else %}{{ tran }}{% endif %}</label>
+<label for="{{ name }}" class="control-label {{ opts['required'] ? 'required' }}">{% if opts['escape'] == false %}{{ tran|raw }}{% else %}{{ tran }}{% endif %}</label>
 {% endmacro %}
 
 {% macro startElement( ctx, mesg, name, opts = {} ) %}
@@ -33,13 +32,28 @@
 </div>
 {% endmacro %}
 
-{% macro text( ctx, mesg, name, opts = {} ) %}
+{% macro input( ctx, type, mesg, name, opts = {} ) %}
 {% import _self as forms %}
 {% set opts = { 'required':false }|merge( opts ) %}
 {% set value = ctx.form.get( name ) %}
 {{ forms.startElement( ctx, mesg, name, opts ) }}
-<input type="text" class="form-control" id="{{ name }}" name="{{ name }}" value="{{ value ?: '' }}" {{ opts['required'] ? 'required' }}/>
+<input type="{{ type }}" class="form-control" id="{{ name }}" name="{{ name }}" value="{{ value ?: '' }}" {{ opts['required'] ? 'required' }}/>
 {{ forms.endElement( ctx, name, mesg ) }}
+{% endmacro %}
+
+{% macro text( ctx, mesg, name, opts = {} ) %}
+{% import _self as forms %}
+{{ forms.input( ctx, 'text', mesg, name, opts ) }}
+{% endmacro %}
+
+{% macro number( ctx, mesg, name, opts = {} ) %}
+{% import _self as forms %}
+{{ forms.input( ctx, 'number', mesg, name, opts ) }}
+{% endmacro %}
+
+{% macro url( ctx, mesg, name, opts = {} ) %}
+{% import _self as forms %}
+{{ forms.input( ctx, 'url', mesg, name, opts ) }}
 {% endmacro %}
 
 {% macro textArea( ctx, mesg, name, opts = {} ) %}
@@ -47,7 +61,27 @@
 {% set opts = { 'required':false }|merge( opts ) %}
 {% set value = ctx.form.get( name ) %}
 {{ forms.startElement( ctx, mesg, name, opts ) }}
-  <textarea class="form-control" id="{{ name }}" name="{{ name }}" cols="80" rows="3" {{ opts['required'] ? 'required' }}>{{ value ?: '' }}</textarea>
+<textarea class="form-control" id="{{ name }}" name="{{ name }}" cols="80" rows="3" {{ opts['required'] ? 'required' }}>{{ value ?: '' }}</textarea>
+{{ forms.endElement( ctx, name, mesg ) }}
+{% endmacro %}
+
+{##
+ # @param Twig_Context ctx
+ # @param string mesg Message key for element label
+ # @param array options Array of value => label options to display
+ # @param array opts Additional element options
+ #}
+{% macro select( ctx, mesg, name, options, opts = {} ) %}
+{% import _self as forms %}
+{% set opts = { 'required':false }|merge( opts ) %}
+{% set value = ctx.form.get( name ) %}
+{{ forms.startElement( ctx, mesg, name, opts ) }}
+<select id="{{ name }}" name="{{ name }}" class="form-control" {{ opts['required'] ? 'required' }}>
+<option value="">{{ ( mesg ~ '-empty' )|message }}</option>
+{% for val, label in options %}
+<option value="{{ val }}" {{ val == value ? 'selected="selected"' }}>{{ label }}</option>
+{% endfor %}
+</select>
 {{ forms.endElement( ctx, name, mesg ) }}
 {% endmacro %}
 
