@@ -24,6 +24,7 @@
 namespace Wikimedia\IEGReview;
 
 /**
+ * @coversDefaultClass \Wikimedia\IEGReview\Config
  * @author Bryan Davis <bd808@wikimedia.org>
  * @copyright © 2014 Bryan Davis, Wikimedia Foundation and contributors.
  */

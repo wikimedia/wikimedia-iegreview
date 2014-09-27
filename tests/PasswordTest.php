@@ -24,14 +24,16 @@
 namespace Wikimedia\IEGReview;
 
 /**
+ * @coversDefaultClass \Wikimedia\IEGReview\Password
+ * @uses \Wikimedia\IEGReview\Password
  * @author Bryan Davis <bd808@wikimedia.org>
  * @copyright © 2014 Bryan Davis, Wikimedia Foundation and contributors.
  */
 class PasswordTest extends \PHPUnit_Framework_TestCase {
 
 	/**
-	 * @covers Password::encodePassword
-	 * @covers Password::blowfishSalt
+	 * @covers ::encodePassword
+	 * @covers ::blowfishSalt
 	 */
 	public function testUniqueEncoding() {
 		$enc = Password::encodePassword( 'password' );
@@ -40,7 +42,7 @@ class PasswordTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @covers Password::comparePasswordToHash
+	 * @covers ::comparePasswordToHash
 	 */
 	public function testComparePasswordToHash() {
 		$enc = Password::encodePassword( 'password' );
@@ -49,7 +51,7 @@ class PasswordTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @covers Password::randomPassword
+	 * @covers ::randomPassword
 	 */
 	public function testRandomPassword() {
 		// I've always wondered how to write a phpunit test to decide if random is
