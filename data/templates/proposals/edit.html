@@ -1,0 +1,33 @@
+{% extends "proposals/base.html" %}
+{% import "inc/forms.html" as forms %}
+{% set ctx = _context %}
+
+{% block content %}
+{% spaceless %}
+<ol class="breadcrumb">
+  <li>{{ 'nav-proposals'|message }}</li>
+  <li>{{ id }}</li>
+  <li><a href="{{ urlFor( 'proposals_edit', { 'id': id } ) }}">{{ 'nav-proposals-edit'|message }}</a></li>
+</ol>
+
+{% if form.hasErrors %}
+<div class="alert alert-danger alert-dismissable">
+  <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+  <p class="lead">{{ 'proposals-edit-error'|message }}</p>
+</div>
+{% endif %}
+
+<form class="form-horizontal" method="post" action="{{ urlFor( 'proposals_edit_post', { 'id': id  } ) }}">
+  <input type="hidden" name="{{ csrf_param }}" value="{{ csrf_token }}" />
+  <input type="hidden" name="id" value="{{ id }}" />
+  {{ forms.text( ctx, 'proposals-edit-title', 'title', { 'required':true } ) }}
+  {{ forms.url( ctx, 'proposals-edit-url', 'url', { 'required':true } ) }}
+  {{ forms.select( ctx, 'proposals-edit-theme', 'theme', { 'online':'online', 'offline':'offline', 'tool':'tool', 'research':'research' }, { 'required':true } ) }}
+  {{ forms.number( ctx, 'proposals-edit-amount', 'amount' ) }}
+  {{ forms.textArea( ctx, 'proposals-edit-description', 'description' ) }}
+  {{ forms.textArea( ctx, 'proposals-edit-notes', 'notes' ) }}
+  <input type="submit" class="btn btn-primary" id="submit" name="submit" value="{{ 'proposals-edit-submit'|message }}" />
+</form>
+{% endspaceless %}
+{% endblock content %}
+

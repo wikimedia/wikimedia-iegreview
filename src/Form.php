@@ -164,7 +164,9 @@ class Form {
 			$var = isset( $vars[$name] ) ? $vars[$name] : null;
 			$clean = filter_var( $var, $opt['filter'], $opt );
 
-			if ( $clean === false && $opt['filter'] !== \FILTER_VALIDATE_BOOLEAN ) {
+			if ( $clean === false &&
+				$opt['filter'] !== \FILTER_VALIDATE_BOOLEAN
+			) {
 				$this->values[$name] = null;
 
 			} else {
@@ -175,10 +177,11 @@ class Form {
 				$this->errors[] = $name;
 
 			} elseif ( is_callable( $opt['validate'] ) &&
-				call_user_func( $opt['validate'], $this->values[$name] ) === false ) {
-					$this->errors[] = $name;
-					$this->values[$name] = null;
-				}
+				call_user_func( $opt['validate'], $this->values[$name] ) === false
+			) {
+				$this->errors[] = $name;
+				$this->values[$name] = null;
+			}
 		}
 
 		$this->customValidationHook();

@@ -71,6 +71,34 @@ class Proposals extends AbstractDao {
 		return $this->insert( $sql, $data );
 	}
 
+	public function getProposal( $id ) {
+		return $this->fetch(
+			'SELECT * FROM proposals WHERE id = ?',
+			array( $id )
+		);
+	}
+
+	public function updateProposal( $id, $data ) {
+		$fields = array(
+			'title', 'description', 'url', 'amount', 'theme', 'notes',
+			'modified_by',
+		);
+		$placeholders = array();
+		foreach ( $fields as $field ) {
+			$placeholders[] = "{$field} = :{$field}";
+		}
+
+		$sql = self::concat(
+			'UPDATE proposals SET',
+			implode( ', ', $placeholders ),
+			', modified_at = now()',
+			'WHERE id = :id'
+		);
+		$data['id'] = $id;
+		$data['modified_by'] = $this->userId;
+
+		return $this->update( $sql, $data );
+	}
 
 	/**
 	 * @param array $params

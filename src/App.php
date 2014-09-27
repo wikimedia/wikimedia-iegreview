@@ -116,11 +116,10 @@ class App {
 	 * Main entry point for all requests.
 	 */
 	public function run () {
-
 		session_name( '_s' );
-		session_cache_limiter(false);
+		session_cache_limiter( false );
 		session_start();
-
+		register_shutdown_function( 'session_write_close' );
 		$this->slim->run();
 	}
 
@@ -376,28 +375,28 @@ class App {
 					$page();
 				} )->name( 'proposals_search' );
 
-				$slim->get( 'add', function () use ( $slim ) {
-					$page = new Controllers\Proposals\Add( $slim );
+				$slim->get( ':id/edit', function ( $id ) use ( $slim ) {
+					$page = new Controllers\Proposals\Edit( $slim );
 					$page->setDao( $slim->proposalsDao );
-					$page();
-				} )->name( 'proposals_add' );
+					$page( $id );
+				} )->name( 'proposals_edit' );
 
-				$slim->post( 'add.post', function () use ( $slim ) {
-					$page = new Controllers\Proposals\Add( $slim );
+				$slim->post( ':id/edit/post', function ( $id ) use ( $slim ) {
+					$page = new Controllers\Proposals\Edit( $slim );
 					$page->setDao( $slim->proposalsDao );
-					$page();
-				} )->name( 'proposals_add_post' );
+					$page( $id );
+				} )->name( 'proposals_edit_post' );
 
-				$slim->get( ':id', function () use ( $slim ) {
-					$page = new Controllers\Proposals\Proposal( $slim );
+				$slim->get( ':id', function ( $id ) use ( $slim ) {
+					$page = new Controllers\Proposals\Review( $slim );
 					$page->setDao( $slim->proposalsDao );
-					$page();
+					$page( $id );
 				} )->name( 'proposals_view' );
 
-				$slim->post( ':id', function () use ( $slim ) {
-					$page = new Controllers\Proposals\Proposal( $slim );
+				$slim->post( ':id', function ( $id ) use ( $slim ) {
+					$page = new Controllers\Proposals\Review( $slim );
 					$page->setDao( $slim->proposalsDao );
-					$page();
+					$page( $id );
 				} )->name( 'proposals_view_post' );
 
 		} );

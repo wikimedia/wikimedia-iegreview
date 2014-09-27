@@ -173,6 +173,8 @@ class AuthManager {
 
 		// destroy local session storage
 		session_destroy();
+		// generate new session id
+		session_regenerate_id(true);
 	}
 
 } //end AuthManager

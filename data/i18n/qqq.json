@@ -43,6 +43,7 @@
 	"login-error": "Message shown to user when authentication form is submitted with incomplete data",
 	"login-failed": "Message shown to user when authentication fails",
 	"login-success": "Message shown to user when authentication succeeds.\n{{Identical|Login successful}}",
+	"logo-alt": "Alternate text for the application logo",
 	"logout": "Navigation menu item, links to logout page.\n{{Identical|Log out}}",
 	"nav-account": "Navigation menu label for list of pages specific to the authenticated user's account.\n{{Identical|My account}}",
 	"nav-admin": "Navigation menu label for list of administrative pages.\n{{Identical|Admin}}",

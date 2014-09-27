@@ -5,6 +5,7 @@
 		]
 	},
 	"header-title": "IEG grant review",
+	"logo-alt": "IEG grant review",
 
 	"nav-credits": "Credits",
 	"nav-privacy": "Privacy",
@@ -12,6 +13,7 @@
 
 	"nav-proposals": "Proposals",
 	"nav-proposals-add": "Add proposal",
+	"nav-proposals-edit": "edit",
 	"nav-proposals-queue": "Review queue",
 	"nav-proposals-search": "Search",
 	"nav-reports": "Reports",
@@ -87,13 +89,21 @@
 	"csrf-heading": "Invalid request",
 	"csrf-message": "The request that was submitted was missing the request forgery protection token. Please return to the form, reload the page and try again.",
 
-	"proposals-add-error": "Your submission has errors.  Please correct the following errors and submit the form again.",
-	"proposals-add-title": "Title",
-	"proposals-add-title-error": "Title is required.",
-	"proposals-add-url": "URL",
-	"proposals-add-url-error": "Valid URL required.",
-	"proposals-add-description": "Description",
-	"proposals-add-submit": "Add proposal",
+	"proposals-edit-error": "Your submission has errors.  Please correct the following errors and submit the form again.",
+	"proposals-edit-title": "Title",
+	"proposals-edit-title-error": "Title is required.",
+	"proposals-edit-url": "URL",
+	"proposals-edit-url-error": "Valid URL required.",
+	"proposals-edit-theme": "Theme",
+	"proposals-edit-theme-empty": "Please select",
+	"proposals-edit-theme-error": "Select a theme from the list.",
+	"proposals-edit-amount": "Amount",
+	"proposals-edit-amount-error": "Amount must be numeric.",
+	"proposals-edit-description": "Description",
+	"proposals-edit-notes": "Notes",
+	"proposals-edit-submit": "Save proposal",
+    "proposals-edit-save": "Changes saved.",
+    "proposals-edit-save-error": "Failed to save changes.",
 
 	"queue-th-proposal": "Proposal",
 	"queue-th-reviews": "Reviews"
