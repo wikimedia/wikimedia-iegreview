@@ -76,5 +76,10 @@
 	"proposals-add-url": "Input label, followed by text box.",
 	"proposals-add-url-error": "Error message shown when proposal URL is omitted or invalid.",
 	"proposals-add-description": "Input label, followed by text box.",
-	"proposals-add-submit": "Form submission button"
+	"proposals-add-submit": "Form submission button",
+	"proposals-view-url": "Label shown before link to proposal.",
+	"proposals-view-amount": "Label shown before proposal amount.",
+	"proposals-view-theme": "Label shown before proposal theme.",
+	"proposals-view-notes": "Section header",
+	"proposals-view-edit": "Text for link to edit page.",
 }

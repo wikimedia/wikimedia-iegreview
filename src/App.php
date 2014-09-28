@@ -179,7 +179,7 @@ class App {
 			);
 		} );
 
-		// replace default logger with monolog
+		// Replace default logger with monolog
 		$container->singleton( 'log', function ( $c ) {
 			// Convert string level to Monolog integer value
 			$level = strtoupper( $c->settings['log.level'] );
@@ -225,6 +225,9 @@ class App {
 			new \Slim\Views\TwigExtension(),
 			new TwigExtension(),
 			new \Wikimedia\SimpleI18n\TwigExtension( $this->slim->i18nContext ),
+			new \Aptoma\Twig\Extension\MarkdownExtension(
+				new \Aptoma\Twig\Extension\MarkdownEngine\MichelfMarkdownEngine()
+			),
 		);
 
 		// set default view data
@@ -387,17 +390,17 @@ class App {
 					$page( $id );
 				} )->name( 'proposals_edit_post' );
 
-				$slim->get( ':id', function ( $id ) use ( $slim ) {
+				$slim->post( ':id/review/post', function ( $id ) use ( $slim ) {
 					$page = new Controllers\Proposals\Review( $slim );
+					$page->setDao( $slim->proposalsDao );
+					$page( $id );
+				} )->name( 'proposals_review_post' );
+
+				$slim->get( ':id', function ( $id ) use ( $slim ) {
+					$page = new Controllers\Proposals\View( $slim );
 					$page->setDao( $slim->proposalsDao );
 					$page( $id );
 				} )->name( 'proposals_view' );
-
-				$slim->post( ':id', function ( $id ) use ( $slim ) {
-					$page = new Controllers\Proposals\Review( $slim );
-					$page->setDao( $slim->proposalsDao );
-					$page( $id );
-				} )->name( 'proposals_view_post' );
 
 		} );
 

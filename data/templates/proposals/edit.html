@@ -6,7 +6,11 @@
 {% spaceless %}
 <ol class="breadcrumb">
   <li>{{ 'nav-proposals'|message }}</li>
+  {% if id != 'new' %}
+  <li><a href="{{ urlFor( 'proposals_view', { 'id': id } ) }}">{{ form.get( 'title' )|default( id ) }}</a></li>
+  {% else %}
   <li>{{ id }}</li>
+  {% endif %}
   <li><a href="{{ urlFor( 'proposals_edit', { 'id': id } ) }}">{{ 'nav-proposals-edit'|message }}</a></li>
 </ol>
 
@@ -24,9 +28,11 @@
   {{ forms.url( ctx, 'proposals-edit-url', 'url', { 'required':true } ) }}
   {{ forms.select( ctx, 'proposals-edit-theme', 'theme', { 'online':'online', 'offline':'offline', 'tool':'tool', 'research':'research' }, { 'required':true } ) }}
   {{ forms.number( ctx, 'proposals-edit-amount', 'amount' ) }}
-  {{ forms.textArea( ctx, 'proposals-edit-description', 'description' ) }}
-  {{ forms.textArea( ctx, 'proposals-edit-notes', 'notes' ) }}
-  <input type="submit" class="btn btn-primary" id="submit" name="submit" value="{{ 'proposals-edit-submit'|message }}" />
+  {{ forms.textArea( ctx, 'proposals-edit-description', 'description', { 'elmclass':'monospace' } ) }}
+  {{ forms.textArea( ctx, 'proposals-edit-notes', 'notes', { 'elmclass':'monospace' } ) }}
+  <button type="submit" class="btn btn-primary pull-right" id="submit" name="submit">
+    <i class="glyphicon glyphicon-ok"></i> {{ 'proposals-edit-submit'|message }}
+  </button>
 </form>
 {% endspaceless %}
 {% endblock content %}

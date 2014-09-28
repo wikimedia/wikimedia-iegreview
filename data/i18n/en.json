@@ -102,8 +102,14 @@
 	"proposals-edit-description": "Description",
 	"proposals-edit-notes": "Notes",
 	"proposals-edit-submit": "Save proposal",
-    "proposals-edit-save": "Changes saved.",
-    "proposals-edit-save-error": "Failed to save changes.",
+	"proposals-edit-save": "Changes saved.",
+	"proposals-edit-save-error": "Failed to save changes.",
+
+	"proposals-view-url": "URL:",
+	"proposals-view-amount": "Amount:",
+	"proposals-view-theme": "Theme:",
+	"proposals-view-notes": "Admin notes",
+	"proposals-view-edit": "Edit",
 
 	"queue-th-proposal": "Proposal",
 	"queue-th-reviews": "Reviews"

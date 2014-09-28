@@ -1,0 +1,64 @@
+{% extends "proposals/base.html" %}
+{% import "inc/forms.html" as forms %}
+{% set ctx = _context %}
+
+{% block content %}
+{% spaceless %}
+<ol class="breadcrumb">
+  <li>{{ 'nav-proposals'|message }}</li>
+  <li><a href="{{ urlFor( 'proposals_view', { 'id': proposal.id } ) }}">{{ proposal.title }}</a></li>
+</ol>
+
+<article id="proposal" class="panel-group">
+  <section class="panel panel-info">
+    <div class="panel-heading">
+      <h2 class="panel-title">
+        {{ proposal.title }}
+        <a class="accordion-toggle" data-toggle="collapse" href="#proposal-body"></a>
+        </h2>
+      </div>
+      <div id="proposal-body" class="panel-body pannel-collapse collapse in">
+        <ul class="list-inline">
+          <li><strong>{{ 'proposals-view-url'|message }}</strong>&nbsp;
+            <a href="{{ proposal.url|raw }}" target="_blank">{{ proposal.url }}</a>
+          </li>
+          <li><strong>{{ 'proposals-view-theme'|message }}</strong>&nbsp;
+            {{ proposal.theme }}
+          </li>
+          <li><strong>{{ 'proposals-view-amount'|message }}</strong>&nbsp;
+            {{ proposal.amount|number_format }}
+          </li>
+        </ul>
+
+        {% if proposal.description %}
+        <section class="panel panel-default">
+            <div class="panel-body">{{ proposal.description|markdown }}</div>
+        </section>
+        {% endif %}
+
+        {% if proposal.notes %}
+        <section class="panel panel-default">
+          <div class="panel-heading">
+            <h3 class="panel-title">{{ 'proposals-view-notes'|message }}
+              <a class="accordion-toggle collapsed" data-toggle="collapse" href="#admin-notes"></a></h3>
+          </div>
+          <div id="admin-notes" class="panel-body pannel-collapse collapse in">
+            {{ proposal.notes|markdown }}
+          </div>
+        </section>
+        {% endif %}
+      </div>
+      {% if isadmin|default(false) %}
+      <div class="panel-footer text-right">
+        <a class="btn btn-sm" href="{{ urlFor( 'proposals_edit', { 'id': proposal.id } ) }}"><span class="glyphicon glyphicon-edit"></span> {{ 'proposals-view-edit'|message }}</a>
+      </div>
+      {% endif %}
+    </section>
+</article>
+
+<article>
+</article>
+
+{% endspaceless %}
+{% endblock content %}
+

@@ -35,7 +35,9 @@
               <ul class="dropdown-menu">
                 <li><a href="{{ urlFor( 'proposals_queue' ) }}">{{ 'nav-proposals-queue'|message }}</a></li>
                 <li><a href="{{ urlFor( 'proposals_search' ) }}">{{ 'nav-proposals-search'|message }}</a></li>
+                {% if isadmin|default(false) %}
                 <li><a href="{{ urlFor( 'proposals_edit', { 'id': 'new' } ) }}">{{ 'nav-proposals-add'|message }}</a></li>
+                {% endif %}
               </ul>
             </li>
 

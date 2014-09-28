@@ -1,72 +1,89 @@
 body {
-  padding-top: 48px;
-  padding-bottom: 20px;
+  padding-top:48px;
+  padding-bottom:20px;
 }
 
 a {
-  color: #00f;
+  color:#00f;
 }
 a:visited {
-  color: #800080;
+  color:#800080;
 }
 
 .navbar-brand {
-  padding: 6px;
+  padding:6px;
 }
 .navbar-text {
-  margin-top: 12px;
-  margin-bottom: 0;
+  margin-top:12px;
+  margin-bottom:0;
 }
 
 .footer-links {
-  list-style: none;
-  padding-left: 0;
+  list-style:none;
+  padding-left:0;
 }
 .footer-links li {
-  display: inline;
-  margin: 0;
+  display:inline;
+  margin:0;
 }
 .footer-links li:after {
- content: '·';
- padding: 0 .5em;
+ content:'·';
+ padding:0 .5em;
 }
 .footer-links li.last:after {
- content: '';
- padding: 0;
+ content:'';
+ padding:0;
 }
 
 .langlabel {
-  display: none;
+  display:none;
   margin-right:.5em;
 }
 
 .required:after {
-  content: ' *';
+  content:' *';
 }
 
 .pagination {
-  margin: 0;
+  margin:0;
+}
+
+.monospace {
+  font-family:monospace;
 }
 
 .form-inline .form-group,
 .form-inline .checkbox {
-  margin-right: .5em;
+  margin-right:.5em;
 }
 
-@media (min-width: 768px) {
+@media (min-width:768px) {
   .dl-horizontal.wide dt {
-    width: 200px;
+    width:200px;
   }
   .dl-horizontal.wide dd {
-    margin-left: 220px;
+    margin-left:220px;
   }
 }
 
 .panel-collapse > .table,
 .panel-body > dl {
-  margin-bottom: 0;
+  margin-bottom:0;
 }
 
 .panel-body > dl + .well {
-  margin-top: 15px;
+  margin-top:15px;
+}
+
+/* http://stackoverflow.com/a/18568997 */
+.panel-heading .accordion-toggle:after {
+  font-family:'Glyphicons Halflings';
+  content:"\e114";
+  float:right;
+}
+.panel-heading .accordion-toggle.collapsed:after {
+  content:"\e080";
+}
+.panel-default .accordion-toggle:after {
+  color:grey;
 }
