@@ -284,6 +284,7 @@ class App {
 				$user = $slim->authManager->getUser();
 				$slim->view->set( 'user', $user );
 				$slim->view->set( 'isadmin', $slim->authManager->isAdmin() );
+				$slim->view->set( 'isreviewer', $slim->authManager->isReviewer() );
 			},
 
 			'require-admin' => function () use ( $slim ) {

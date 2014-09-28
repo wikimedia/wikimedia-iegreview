@@ -45,5 +45,23 @@
       resizeFn();
       $(window).resize(resizeFn);
     });
+
+    /**
+     * HTML5 validation scroll with fixed header fix.
+     * Author: Devin McInnis
+     * See: http://stackoverflow.com/a/14968319
+     */
+    $('input, select').on('invalid', function () {
+        var headerHeight = 60,
+            $w = $(window),
+            vTop = $w.scrollTop(),
+            vBottom = vTop + $w.height(),
+            invalid_el = $(':invalid').first().offset().top - headerHeight;
+        if ( invalid_el < vTop + headerHeight ||
+            invalid_el > vBottom
+        ) {
+            $('html, body').scrollTop(invalid_el);
+        }
+    });
   });
 })( jQuery, document, window );
