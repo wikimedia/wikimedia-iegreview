@@ -89,6 +89,7 @@ class Edit extends Controller {
 	protected function handlePost() {
 		$id = $this->request->post( 'id' );
 		$this->setupForm( array() );
+		$redir = $this->urlFor( 'proposals_edit', array( 'id' => $id ) );
 
 		if ( $this->form->validate() ) {
 			$proposal = array(
@@ -111,6 +112,9 @@ class Edit extends Controller {
 
 			if ( $ok ) {
 				$this->flash( 'info', $this->msg( 'proposals-edit-save' ) );
+				$redir = $this->urlFor(
+					'proposals_view', array( 'id' => $id )
+				);
 			} else {
 				$this->flash( 'error',
 					$this->msg( 'proposals-edit-save-error' )
@@ -121,8 +125,6 @@ class Edit extends Controller {
 		} else {
 			// TODO: save input to be shown in get screen
 		}
-		$this->redirect(
-			$this->urlFor( 'proposals_edit', array( 'id' => $id ) )
-		);
+		$this->redirect( $redir );
 	}
 }

@@ -154,6 +154,15 @@ class App {
 			);
 		} );
 
+		$container->singleton( 'reviewsDao', function ( $c ) {
+			$uid = $c->authManager->getUserId();
+			return new \Wikimedia\IEGReview\Dao\Reviews(
+				$c->settings['db.dsn'],
+				$c->settings['db.user'], $c->settings['db.pass'],
+				$uid, $c->log
+			);
+		} );
+
 		$container->singleton( 'authManager', function ( $c ) {
 			return new \Wikimedia\IEGReview\AuthManager( $c->usersDao );
 		} );
@@ -391,9 +400,9 @@ class App {
 					$page( $id );
 				} )->name( 'proposals_edit_post' );
 
-				$slim->post( ':id/review/post', function ( $id ) use ( $slim ) {
+				$slim->post( ':id/review', function ( $id ) use ( $slim ) {
 					$page = new Controllers\Proposals\Review( $slim );
-					$page->setDao( $slim->proposalsDao );
+					$page->setDao( $slim->reviewsDao );
 					$page( $id );
 				} )->name( 'proposals_review_post' );
 

@@ -3,7 +3,7 @@
 {# FIXME: document macro args #}
 
 {% macro criteria( ctx, name ) %}
-{% set msgprefix = "proposals-review-#{name}" %}
+{% set msgprefix = "review-#{name}" %}
 {% set opts = [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ] %}
 {% set r = -1 %}
 <section class="panel panel-default">
@@ -13,8 +13,8 @@
   <div class="panel-body">
     {{ "#{msgprefix}-instructions"|message|markdown }}
     <div class="form-group">
-      <label for="{{ "#{name}-rank" }}" class="control-label required">{{ "#{msgprefix}-rank"|message }}</label>
-      <select name="{{ "#{name}-rank" }}" class="form-control" required>
+      <label for="{{ name }}" class="control-label required">{{ "#{msgprefix}-rank"|message }}</label>
+      <select name="{{ name }}" class="form-control" required>
         <option value="">{{ "#{msgprefix}-rank-empty"|message }}</value>
         {% for o in opts %}
         <option value="{{ o }}" {{ r == o ? 'selected="selected"' }}>{{ o }}</option>
@@ -22,8 +22,8 @@
       </select>
     </div>
     <div class="form-group">
-      <label for="{{ "#{name}-note" }}" class="control-label">{{ "#{msgprefix}-note"|message }}</label>
-      <textarea name="{{ "#{name}-note" }}" class="form-control"></textarea>
+      <label for="{{ "#{name}_note" }}" class="control-label">{{ "#{msgprefix}-note"|message }}</label>
+      <textarea name="{{ "#{name}_note" }}" class="form-control"></textarea>
     </div>
   </div>
 </section>

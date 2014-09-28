@@ -76,22 +76,22 @@
         {{ helpers.criteria( ctx, 'engagement' ) }}
         <section class="panel panel-default">
           <div class="panel-heading">
-            <h4 class="panel-title">{{ 'proposals-review-recommendation'|message }}</h4>
+            <h4 class="panel-title">{{ 'review-recommendation'|message }}</h4>
           </div>
           <div class="panel-body">
-            {{ 'proposals-review-recommendation-instructions'|message|markdown }}
+            {{ 'review-recommendation-instructions'|message|markdown }}
             <div class="form-group">
-              {{ forms.yesNo( ctx, 'proposals-review-recommendation-rank', 'recommendation', { 'required':true } ) }}
+              {{ forms.yesNo( ctx, 'review-recommendation-rank', 'recommendation', { 'required':true } ) }}
             </div>
             <div class="form-group">
-              <label for="recommendation-note" class="control-label">{{ 'proposals-review-recommendation-note'|message }}</label>
-              <textarea name="recommendation-note" class="form-control"></textarea>
+              <label for="comments" class="control-label">{{ 'review-recommendation-note'|message }}</label>
+              <textarea name="comments" class="form-control"></textarea>
             </div>
           </div>
         </section>
         <div class="panel-footer text-right">
           <button type="submit" class="btn btn-primary" id="submit" name="submit">
-            <i class="glyphicon glyphicon-ok"></i> {{ 'proposals-review-submit'|message }}
+            <i class="glyphicon glyphicon-ok"></i> {{ 'review-submit'|message }}
           </button>
         </div>
       </form>
