@@ -119,4 +119,17 @@
 
 	"form-yes": "Radio button label.",
 	"form-no": "Radio button label.",
+
+	"proposals-search-title": "Input label, followed by text box.",
+	"proposals-search-theme": "Input label, followed by select list.",
+	"proposals-search-theme-empty": "Select list usage prompt.",
+	"proposals-search-go": "Form submit button label",
+
+	"proposals-list-id": "Table column header",
+	"proposals-list-title": "Table column header",
+	"proposals-list-url": "Table column header",
+	"proposals-list-theme": "Table column header",
+	"proposals-list-amount": "Table column header",
+	"proposals-list-reviews": "Table column header",
+	"proposals-list-myreviews": "Table column header"
 }

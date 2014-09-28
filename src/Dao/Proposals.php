@@ -106,7 +106,9 @@ class Proposals extends AbstractDao {
 	 */
 	public function search( array $params ) {
 		$defaults = array(
-			'proposals' => '',
+			'proposals' => null,
+			'title' => null,
+			'theme' => null,
 			'sort' => 'id',
 			'order' => 'asc',
 			'items' => 20,
@@ -134,6 +136,15 @@ class Proposals extends AbstractDao {
 			$crit['int_offset'] = (int)$params['page'] * (int)$params['items'];
 			$limit = 'LIMIT :int_limit';
 			$offset = 'OFFSET :int_offset';
+		}
+
+		if ( $params['title'] !== null ) {
+			$where[] = 'p.title like :title';
+			$crit['title'] = $params['title'];
+		}
+		if ( $params['theme'] !== null ) {
+			$where[] = 'p.theme = :theme';
+			$crit['theme'] = $params['theme'];
 		}
 
 		$fields = array(
@@ -179,7 +190,7 @@ class Proposals extends AbstractDao {
 			'FROM proposals p',
 			$joins,
 			self::buildWhere( $where ),
-			"ORDER BY {$sortby}, id {$order}",
+			"ORDER BY {$sortby} {$order}, id {$order}",
 			$limit, $offset
 		);
 		return $this->fetchAllWithFound( $sql, $crit );

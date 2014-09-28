@@ -34,33 +34,32 @@ use Wikimedia\IEGReview\Controller;
 class Search extends Controller {
 
 	protected function handleGet() {
-		$this->form->expectString( 'l' );
-		$this->form->expectString( 'f' );
-		$this->form->expectString( 'r' );
-		$this->form->expectString( 'rg' );
+		$this->form->expectString( 't' );
+		$this->form->expectString( 'th' );
 		$this->form->expectInt( 'items',
 			array( 'min_range' => 1, 'max_range' => 250, 'default' => 50 )
 		);
 		$this->form->expectInt( 'p', array( 'min_range' => 0, 'default' => 0 ) );
+		$this->form->expectString( 's', array( 'default' => 'id' ) );
+		$this->form->expectInArray( 'o', array( 'asc', 'desc' ),
+			array( 'default' => 'asc' )
+		);
 		$this->form->validate( $_GET );
 
-		$this->view->set( 'l', $this->form->get( 'l' ) );
-		$this->view->set( 'f', $this->form->get( 'f' ) );
-		$this->view->set( 'r', $this->form->get( 'r' ) );
-		$this->view->set( 'rg', $this->form->get( 'rg' ) );
+		$this->view->set( 't', $this->form->get( 't' ) );
+		$this->view->set( 'th', $this->form->get( 'th' ) );
 		$this->view->set( 'items', $this->form->get( 'items' ) );
 		$this->view->set( 'p', $this->form->get( 'p' ) );
+		$this->view->set( 's', $this->form->get( 's' ) );
+		$this->view->set( 'o', $this->form->get( 'o' ) );
 		$this->view->set( 'found', null );
 
-		if ( $this->form->get( 'l' ) || $this->form->get( 'f' ) ||
-			$this->form->get( 'r' ) || $this->form->get( 'rg' )
-		) {
-
+		if ( $this->form->get( 't' ) || $this->form->get( 'th' ) ) {
 			$params = array(
-				'first' => $this->form->get( 'f' ),
-				'last' => $this->form->get( 'l' ),
-				'residence' => $this->form->get( 'r' ),
-				'region' => $this->form->get( 'rg' ),
+				'title' => $this->form->get( 't' ),
+				'theme' => $this->form->get( 'th' ),
+				'sort' => $this->form->get( 's' ),
+				'order' => $this->form->get( 'o' ),
 				'items' => $this->form->get( 'items' ),
 				'page' => $this->form->get( 'p' ),
 			);

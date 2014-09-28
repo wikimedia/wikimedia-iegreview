@@ -143,6 +143,16 @@
 	"form-yes": "Yes",
 	"form-no": "No",
 
-	"queue-th-proposal": "Proposal",
-	"queue-th-reviews": "Reviews"
+	"proposals-search-title": "Title",
+	"proposals-search-theme": "Theme",
+	"proposals-search-theme-empty": "Select theme",
+	"proposals-search-go": "Search",
+
+	"proposals-list-id": "Id",
+	"proposals-list-title": "Title",
+	"proposals-list-url": "URL",
+	"proposals-list-theme": "Theme",
+	"proposals-list-amount": "Amount",
+	"proposals-list-reviews": "Reviews",
+	"proposals-list-myreviews": "Reviewed?"
 }
