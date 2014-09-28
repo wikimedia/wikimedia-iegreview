@@ -1,7 +1,4 @@
 {% extends "proposals/base.html" %}
-{% import "inc/forms.html" as forms %}
-{% import "inc/helpers.html" as helpers %}
-{% set ctx = _context %}
 
 {% block content %}
 {% spaceless %}
@@ -41,7 +38,7 @@
       <section class="panel panel-default">
         <div class="panel-heading">
           <h3 class="panel-title">{{ 'proposals-view-notes'|message }}
-            <a class="accordion-toggle collapsed" data-toggle="collapse" href="#admin-notes"></a></h3>
+            <a class="accordion-toggle" data-toggle="collapse" href="#admin-notes"></a></h3>
         </div>
         <div id="admin-notes" class="panel-body panel-collapse collapse in">
           {{ proposal.notes|markdown }}
@@ -58,46 +55,11 @@
 </article>
 
 {% if isreviewer|default(false) %}
-<article id="review" class="panel-group ">
-  <section class="panel panel-success">
-    <div class="panel-heading">
-      <h2 class="panel-title">
-        {{ 'proposals-review'|message }}
-        <a class="accordion-toggle" data-toggle="collapse" href="#review-body"></a>
-      </h2>
-    </div>
-    <div id="review-body" class="panel-body panel-collapse collapse in">
-      <form method="post" action="{{ urlFor( 'proposals_review_post', { 'id': proposal.id } ) }}">
-        <input type="hidden" name="{{ csrf_param }}" value="{{ csrf_token }}" />
-        <input type="hidden" name="proposal" value="{{ proposal.id }}" />
-        {{ helpers.criteria( ctx, 'impact' ) }}
-        {{ helpers.criteria( ctx, 'innovation' ) }}
-        {{ helpers.criteria( ctx, 'ability' ) }}
-        {{ helpers.criteria( ctx, 'engagement' ) }}
-        <section class="panel panel-default">
-          <div class="panel-heading">
-            <h4 class="panel-title">{{ 'review-recommendation'|message }}</h4>
-          </div>
-          <div class="panel-body">
-            {{ 'review-recommendation-instructions'|message|markdown }}
-            <div class="form-group">
-              {{ forms.yesNo( ctx, 'review-recommendation-rank', 'recommendation', { 'required':true } ) }}
-            </div>
-            <div class="form-group">
-              <label for="comments" class="control-label">{{ 'review-recommendation-note'|message }}</label>
-              <textarea name="comments" class="form-control"></textarea>
-            </div>
-          </div>
-        </section>
-        <div class="panel-footer text-right">
-          <button type="submit" class="btn btn-primary" id="submit" name="submit">
-            <i class="glyphicon glyphicon-ok"></i> {{ 'review-submit'|message }}
-          </button>
-        </div>
-      </form>
-    </div>
-  </section>
-</article>
+  {% include 'proposals/view_review_edit.html' %}
+{% endif %}
+
+{% if reviews is not empty %}
+  {% include 'proposals/view_reviews.html' %}
 {% endif %}
 
 {% endspaceless %}

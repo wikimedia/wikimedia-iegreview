@@ -1,0 +1,73 @@
+{# Edit form for a review #}
+{% import "inc/forms.html" as forms %}
+{% import _self as local %}
+
+{% macro criteria( review, name ) %}
+{% set msgprefix = "review-#{name}" %}
+{% set opts = [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ] %}
+{% set r = review[name] %}
+<section class="panel panel-default">
+  <div class="panel-heading">
+    <h4 class="panel-title">{{ msgprefix|message }}</h4>
+  </div>
+  <div class="panel-body">
+    {{ "#{msgprefix}-instructions"|message|markdown }}
+    <div class="form-group">
+      <label for="{{ name }}" class="control-label required">{{ "#{msgprefix}-rank"|message }}</label>
+      <select name="{{ name }}" class="form-control" required>
+        <option value="">{{ "#{msgprefix}-rank-empty"|message }}</value>
+        {% for o in opts %}
+        <option value="{{ o }}" {{ r == o ? 'selected="selected"' }}>{{ o }}</option>
+        {% endfor %}
+      </select>
+    </div>
+    <div class="form-group">
+      <label for="{{ "#{name}_note" }}" class="control-label">{{ "#{msgprefix}-note"|message }}</label>
+      <textarea name="{{ "#{name}_note" }}" class="form-control">{{ review["#{name}_note"] }}</textarea>
+    </div>
+  </div>
+</section>
+{% endmacro %}
+
+{% spaceless %}
+<article id="review" class="panel-group ">
+  <section class="panel panel-success">
+    <div class="panel-heading">
+      <h2 class="panel-title">
+        {{ 'proposals-review'|message }}
+        <a class="accordion-toggle {% if myreview is not empty %}collapsed{% endif %}" data-toggle="collapse" href="#review-body"></a>
+      </h2>
+    </div>
+    <div id="review-body" class="panel-body panel-collapse collapse {% if myreview is empty %}in{% endif %}">
+      <form method="post" action="{{ urlFor( 'proposals_review_post', { 'id': proposal.id } ) }}">
+        <input type="hidden" name="{{ csrf_param }}" value="{{ csrf_token }}" />
+        <input type="hidden" name="proposal" value="{{ proposal.id }}" />
+        {{ local.criteria( myreview, 'impact' ) }}
+        {{ local.criteria( myreview, 'innovation' ) }}
+        {{ local.criteria( myreview, 'ability' ) }}
+        {{ local.criteria( myreview, 'engagement' ) }}
+        <section class="panel panel-default">
+          <div class="panel-heading">
+            <h4 class="panel-title">{{ 'review-recommendation'|message }}</h4>
+          </div>
+          <div class="panel-body">
+            {{ 'review-recommendation-instructions'|message|markdown }}
+            <div class="form-group">
+              {{ forms.yesNo( ctx, 'review-recommendation-rank', 'recommendation', { 'required':true, 'value':myreview.recommendation } ) }}
+            </div>
+            <div class="form-group">
+              <label for="comments" class="control-label">{{ 'review-recommendation-note'|message }}</label>
+              <textarea name="comments" class="form-control">{{ myreview['comments'] }}</textarea>
+            </div>
+          </div>
+        </section>
+        <div class="panel-footer text-right">
+          <button type="submit" class="btn btn-primary" id="submit" name="submit">
+            <i class="glyphicon glyphicon-ok"></i> {{ 'review-submit'|message }}
+          </button>
+        </div>
+      </form>
+    </div>
+  </section>
+</article>
+{% endspaceless %}

@@ -33,9 +33,38 @@ use Wikimedia\IEGReview\Controller;
  */
 class View extends Controller {
 
+	/**
+	 * @var \Wikimedia\IEGReview\Dao\AbstractDao $dao
+	 */
+	protected $reviewsDao;
+
+	public function setReviewsDao( $dao ) {
+		$this->reviewsDao = $dao;
+	}
+
 	protected function handleGet( $id ) {
 		$proposal = $this->dao->getProposal( $id );
 		$this->view->setData( 'proposal', $proposal );
+
+		if ( $this->authManager->isReviewer() ) {
+			// Reviewers can only see reviews after they have reviewed
+			// a proposal themselves
+			$myReview = $this->reviewsDao->reviewByUser( $id );
+			if ( $myReview ) {
+				$this->view->setData( 'myreview', $myReview );
+				$this->addReviewsToView( $id );
+			} else {
+				$this->view->setData( 'myreview', array() );
+			}
+		} else {
+			$this->addReviewsToView( $id );
+		}
+
 		$this->render( 'proposals/view.html' );
+	}
+
+	protected function addReviewsToView( $id ) {
+		$reviews = $this->reviewsDao->getReviews( $id );
+		$this->view->setData( 'reviews', $reviews );
 	}
 }

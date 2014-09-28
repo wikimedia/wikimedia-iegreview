@@ -171,13 +171,15 @@ class Proposals extends AbstractDao {
 
 		$reviewCountSql = self::concat(
 			'SELECT proposal, count(*) as review_count',
-			'FROM reviews'
+			'FROM reviews',
+			'GROUP BY proposal'
 		);
 
 		$myReviewCountSql = self::concat(
 			'SELECT proposal, count(*) as my_review_count',
 			'FROM reviews',
-			'WHERE reviewer = :int_userid'
+			'WHERE reviewer = :int_userid',
+			'GROUP BY proposal'
 		);
 
 		$joins = array(

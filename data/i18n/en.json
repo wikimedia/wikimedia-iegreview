@@ -154,5 +154,17 @@
 	"proposals-list-theme": "Theme",
 	"proposals-list-amount": "Amount",
 	"proposals-list-reviews": "Reviews",
-	"proposals-list-myreviews": "Reviewed?"
+	"proposals-list-myreviews": "Reviewed?",
+
+	"proposal-summary": "Review summary",
+	"summary-list-reviewers": "Reviewers:",
+	"summary-list-criteria": "Criteria",
+	"summary-list-impact": "Impact",
+	"summary-list-innovation": "Innovation",
+	"summary-list-ability": "Ability",
+	"summary-list-engagement": "Engagement",
+	"summary-list-mean": "Mean",
+	"summary-list-median": "Median",
+	"summary-list-range": "Range",
+	"summary-list-stddev": "Std dev"
 }

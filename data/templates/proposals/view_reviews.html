@@ -1,0 +1,132 @@
+{% import _self as helpers %}
+
+{% macro criteria( reviews, crit, ctx ) %}
+{% import _self as helpers %}
+{% set note = crit ~ '_note' %}
+<section class="panel panel-default">
+  <div class="panel-heading">
+    <h3 class="panel-title">{{ ( 'review-' ~ crit )|message }}
+  </div>
+  <table class="table table-bordered table-hover table-condensed">
+    <thead>
+      <tr>
+        <th>{{ 'summary-list-mean'|message }}</th>
+        <th>{{ 'summary-list-median'|message }}</th>
+        <th>{{ 'summary-list-range'|message }}</th>
+        <th>{{ 'summary-list-stddev'|message }}</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{ helpers.stats( reviews, crit ) }}
+    </tbody>
+  </table>
+  <ul class="list-group">
+  {% for review in reviews %}
+    {% if review[note] %}
+    <li class="list-group-item clearfix">
+      {{ review[note]|markdown }}
+      {% if ctx.isadmin|default( false ) %}
+      <cite class="pull-right text-muted">&mdash; {{ review.reviewer_name }}</cite>
+      {% endif %}
+    </li>
+    {% endif %}
+  {% endfor %}
+  </ul>
+</section>
+{% endmacro %}
+
+{% macro stats( reviews, name ) %}
+{% import _self as helpers %}
+{% set scores = [] %}
+{% set sum = 0 %}
+{% set squares = 0 %}
+{% for review in reviews %}
+{% set val = review[name] %}
+  {% set scores = scores|merge( [ val ] ) %}
+  {% set sum = sum + val %}
+  {% set squares = squares + ( val * val ) %}
+{% endfor %}
+<tr>
+  <td class="text-right">{{ ( sum / scores|length )|number_format( 2 ) }}</td>
+  <td class="text-right">{{ helpers.median( scores ) }}</td>
+  <td class="text-right">{{ max( scores ) - min( scores ) }}</td>
+  <td class="text-right">{{ ( ( squares - ( ( sum * sum ) / scores|length ) ) ** ( 1 / 2 ) )|number_format( 2 ) }}</td>
+</tr>
+{% endmacro %}
+
+{% macro median( list, precision = 2 ) %}
+{% set midlow = ( list|length / 2 )|round( 1, 'floor') %}
+{% set midhi = ( list|length / 2 )|round( 1, 'ceil') %}
+{{ ( ( list[midlow] + list[midhi] ) / 2 )|number_format( precision ) }}
+{% endmacro %}
+
+{% macro count( reviews, name, value ) %}
+{% set count = 0 %}
+{% for review in reviews %}
+  {% if review[name] == value %}
+    {% set count = count + 1 %}
+  {% endif %}
+{% endfor %}
+{{ count }}
+{% endmacro %}
+
+{% spaceless %}
+<article id="summary" class="panel-group">
+  <section class="panel panel-default">
+    <div class="panel-heading">
+      <h2 class="panel-title">
+        {{ 'proposal-summary'|message }}
+        <a class="accordion-toggle" data-toggle="collapse" href="#summary-body"></a>
+      </h2>
+    </div>
+    <div id="summary-body" class="panel-body panel-collapse collapse in">
+      <dl class="dl-horizontal">
+        <dt>{{ 'summary-list-reviewers'|message }}</dt>
+        <dd><ul class="list-inline">
+            <li>{{ reviews|length }}</li>
+            {% if isadmin|default(false) %}
+              {% for review in reviews %}
+                <li class="text-muted">{{ review.reviewer_name }}</li>
+              {% endfor %}
+            {% endif %}
+        </ul></dd>
+      </dl>
+      {{ helpers.criteria( reviews, 'impact', _context ) }}
+      {{ helpers.criteria( reviews, 'innovation', _context ) }}
+      {{ helpers.criteria( reviews, 'ability', _context ) }}
+      {{ helpers.criteria( reviews, 'engagement', _context ) }}
+      <section class="panel panel-default">
+        <div class="panel-heading">
+          <h3 class="panel-title">{{ 'review-recommendation'|message }}
+        </div>
+        <table class="table table-bordered table-hover table-condensed">
+          <thead>
+            <tr>
+              <th>{{ 'form-yes'|message }}</th>
+              <th>{{ 'form-no'|message }}</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>{{ helpers.count( reviews, 'recommendation', 1 ) }}</td>
+              <td>{{ helpers.count( reviews, 'recommendation', 0 ) }}</td>
+            </tr>
+          </tbody>
+        </table>
+        <ul class="list-group">
+        {% for review in reviews %}
+          {% if review.comments %}
+          <li class="list-group-item clearfix">
+            {{ review.comments|markdown }}
+            {% if isadmin|default( false ) %}
+            <cite class="pull-right text-muted">&mdash; {{ review.reviewer_name }}</cite>
+            {% endif %}
+          </li>
+          {% endif %}
+        {% endfor %}
+        </ul>
+      </section>
+    </div>
+  </section>
+</article>
+{% endspaceless %}

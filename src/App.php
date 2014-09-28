@@ -409,6 +409,7 @@ class App {
 				$slim->get( ':id', function ( $id ) use ( $slim ) {
 					$page = new Controllers\Proposals\View( $slim );
 					$page->setDao( $slim->proposalsDao );
+					$page->setReviewsDao( $slim->reviewsDao );
 					$page( $id );
 				} )->name( 'proposals_view' );
 

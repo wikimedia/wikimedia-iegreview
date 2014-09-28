@@ -52,9 +52,9 @@ class Reviews extends AbstractDao {
 	}
 
 	public function saveReview( array $data ) {
-		$reviewId = $this->reviewByUser( $data['proposal'] );
-		if ( $reviewId ) {
-			return $this->updateReview( $reviewId, $data );
+		$review = $this->reviewByUser( $data['proposal'] );
+		if ( $review ) {
+			return $this->updateReview( $review['id'], $data );
 		} else {
 			return $this->createReview( $data );
 		}
@@ -66,18 +66,17 @@ class Reviews extends AbstractDao {
 	 * @param int $proposal
 	 * @return int|bool Review id or false if not found
 	 */
-	protected function reviewByUser( $proposal ) {
+	public function reviewByUser( $proposal ) {
 		$sql = self::concat(
-			'SELECT id',
+			'SELECT *',
 			'FROM reviews',
 			'WHERE proposal = :proposal',
 			'AND reviewer = :reviewer'
 		);
-		$row = $this->fetch( $sql, array(
+		return $this->fetch( $sql, array(
 			'proposal' => $proposal,
 			'reviewer' => $this->userId
 		) );
-		return $row ? $row['id'] : false;
 	}
 
 	/**
@@ -132,10 +131,14 @@ class Reviews extends AbstractDao {
 	}
 
 	public function getReviews( $proposal ) {
-		return $this->fetchAll(
-			'SELECT * FROM reviews WHERE proposal = ?',
-			array( $id )
+		$sql = self::concat(
+			'SELECT r.*, u.username as reviewer_name',
+			'FROM reviews r',
+			'LEFT OUTER JOIN users u on u.id = r.reviewer',
+			'WHERE proposal = ?',
+			'ORDER BY r.id'
 		);
+		return $this->fetchAll( $sql, array( $proposal ) );
 	}
 
 }
