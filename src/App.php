@@ -271,7 +271,6 @@ class App {
 		$slim->add( new CsrfMiddleware() );
 
 		$middleware = array(
-
 			'must-revalidate' => function () use ( $slim ) {
 				// We want clients to cache if they can, but force them to
 				// check for updates on subsequent hits
@@ -281,6 +280,13 @@ class App {
 				$slim->response->headers->set(
 					'Expires', 'Thu, 01 Jan 1970 00:00:00 GMT'
 				);
+			},
+
+			'inject-user' => function () use ( $slim ) {
+				$user = $slim->authManager->getUser();
+				$slim->view->set( 'user', $user );
+				$slim->view->set( 'isadmin', $slim->authManager->isAdmin() );
+				$slim->view->set( 'isreviewer', $slim->authManager->isReviewer() );
 			},
 
 			'require-user' => function () use ( $slim ) {
@@ -298,11 +304,6 @@ class App {
 					$slim->flashKeep();
 					$slim->redirect( $slim->urlFor( 'login' ) );
 				}
-
-				$user = $slim->authManager->getUser();
-				$slim->view->set( 'user', $user );
-				$slim->view->set( 'isadmin', $slim->authManager->isAdmin() );
-				$slim->view->set( 'isreviewer', $slim->authManager->isReviewer() );
 			},
 
 			'require-admin' => function () use ( $slim ) {
@@ -321,17 +322,19 @@ class App {
 					$slim->redirect( $slim->urlFor( 'login' ) );
 				}
 			},
-
 		);
 
 		// "Root" routes for non-autenticated users
-		$slim->group( '/', function () use ( $slim, $middleware ) {
+		$slim->group( '/',
+			$middleware['inject-user'],
+			function () use ( $slim, $middleware ) {
 
 			$slim->get( '', function () use ( $slim ) {
 				$slim->flashKeep();
-				$slim->redirect( $slim->urlFor( 'proposals_queue' ) );
+				$slim->redirect( $slim->urlFor( 'index' ) );
 			} )->name( 'home' );
 
+			App::template( $slim, 'index' );
 			App::template( $slim, 'credits' );
 			App::template( $slim, 'privacy' );
 
@@ -357,7 +360,9 @@ class App {
 
 		// Routes for authenticated users
 		$slim->group( '/user/',
-			$middleware['must-revalidate'], $middleware['require-user'],
+			$middleware['must-revalidate'],
+			$middleware['inject-user'],
+			$middleware['require-user'],
 			function () use ( $slim, $middleware ) {
 				$slim->get( '', function () use ( $slim ) {
 					$slim->flashKeep();
@@ -378,12 +383,14 @@ class App {
 
 		// Routes for proposals
 		$slim->group( '/proposals/',
-			$middleware['must-revalidate'], $middleware['require-user'],
+			$middleware['must-revalidate'],
+			$middleware['inject-user'],
+			$middleware['require-user'],
 			function () use ( $slim, $middleware ) {
 				$slim->get( '', function () use ( $slim ) {
 					$slim->flashKeep();
 					$slim->redirect( $slim->urlFor( 'proposals_queue' ) );
-				} )->name( 'review_home' );
+				} )->name( 'proposals_home' );
 
 				$slim->get( 'queue', function () use ( $slim ) {
 					$page = new Controllers\Proposals\Queue( $slim );
@@ -425,8 +432,16 @@ class App {
 
 		// Routes for reports
 		$slim->group( '/reports/',
-			$middleware['must-revalidate'], $middleware['require-user'],
+			$middleware['must-revalidate'],
+			$middleware['inject-user'],
+			$middleware['require-user'],
+			$middleware['require-admin'],
 			function () use ( $slim, $middleware ) {
+				$slim->get( '', function () use ( $slim ) {
+					$slim->flashKeep();
+					$slim->redirect( $slim->urlFor( 'reports_aggregated' ) );
+				} )->name( 'reports_home' );
+
 				$slim->get( 'aggregated', function () use ( $slim ) {
 					$page = new Controllers\Reports\Aggregated( $slim );
 					$page->setDao( $slim->reportsDao );
@@ -435,7 +450,10 @@ class App {
 		} );
 
 		$slim->group( '/admin/',
-			$middleware['must-revalidate'], $middleware['require-user'], $middleware['require-admin'],
+			$middleware['must-revalidate'],
+			$middleware['inject-user'],
+			$middleware['require-user'],
+			$middleware['require-admin'],
 			function () use ( $slim ) {
 				$slim->get( 'users', function () use ( $slim ) {
 					$page = new Controllers\Admin\Users( $slim );

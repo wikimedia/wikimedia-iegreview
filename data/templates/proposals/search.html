@@ -1,6 +1,7 @@
 {% extends 'proposals/base.html' %}
 {% set route = app.router.getCurrentRoute.getName %}
 
+{% block subtitle %}{{ 'nav-proposals-search'|message }}{% endblock %}
 {% block content %}
 {% spaceless %}
 <ol class="breadcrumb">

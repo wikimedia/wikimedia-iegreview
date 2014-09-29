@@ -45,10 +45,6 @@ class Login extends Controller {
 			$next = filter_var( $next, \FILTER_VALIDATE_URL, \FILTER_FLAG_PATH_REQUIRED );
 		}
 
-		if ( $next === false ) {
-			$next = $this->urlFor( 'review_home' );
-		}
-
 		$this->form->expectString( 'username', array( 'required' => true ) );
 		$this->form->expectString( 'password', array( 'required' => true ) );
 
@@ -60,6 +56,14 @@ class Login extends Controller {
 
 			if ( $authed ) {
 				$this->flash( 'info', $this->i18nContext->message( 'login-success' ) );
+				if ( $next === false ) {
+					if ( $this->authManager->isAdmin() ) {
+						$next = $this->urlFor( 'reports_home' );
+					} else {
+						$next = $this->urlFor( 'proposals_home' );
+					}
+				}
+
 				$this->redirect( $next );
 
 			} else {

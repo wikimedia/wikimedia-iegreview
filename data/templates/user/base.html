@@ -1,1 +1,2 @@
-{% extends "base_auth.html" %}
+{% extends "base.html" %}
+{% block title %}{% block subtitle %}{% endblock subtitle %} - {{ parent() }}{% endblock title %}

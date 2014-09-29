@@ -43,8 +43,8 @@
 	"footer-contact": "contact",
 
 	"login": "Log in",
-	"username": "Username:",
-	"password": "Password:",
+	"username": "Username",
+	"password": "Password",
 	"login-success": "Login successful.",
 	"login-failed": "Login failed.",
 	"login-error": "Username and password required.",

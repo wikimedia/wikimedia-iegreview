@@ -19,6 +19,8 @@
 {% endif %}
 {% endmacro %}
 
+{% block subtitle %}{{ ( 'nav-reports-' ~ suffix )|message }}{% endblock %}
+
 {% block content %}
 {% spaceless %}
 <ol class="breadcrumb">
