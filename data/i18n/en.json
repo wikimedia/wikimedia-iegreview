@@ -17,6 +17,7 @@
 	"nav-proposals-queue": "Review queue",
 	"nav-proposals-search": "Search",
 	"nav-reports": "Reports",
+	"nav-reports-aggregated": "Aggregated scores",
 	"nav-admin": "Admin",
 	"nav-users": "Manage users",
 	"nav-account": "My Account",
@@ -166,5 +167,15 @@
 	"summary-list-mean": "Mean",
 	"summary-list-median": "Median",
 	"summary-list-range": "Range",
-	"summary-list-stddev": "Std dev"
+	"summary-list-stddev": "Std dev",
+
+	"report-aggregated-proposal": "Proposal",
+	"report-aggregated-theme": "Theme",
+	"report-aggregated-amount": "Amount",
+	"report-aggregated-impact": "Impact",
+	"report-aggregated-innovation": "Innovation",
+	"report-aggregated-ability": "Ability",
+	"report-aggregated-engagement": "Engagement",
+	"report-aggregated-recommend": "Recommend",
+	"report-format-recommend": "$3% ($1/$2)"
 }

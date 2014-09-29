@@ -1,0 +1,50 @@
+{% extends 'reports/base.html' %}
+{% set route = app.router.getCurrentRoute.getName %}
+{% set suffix = route|split( '_' )|last %}
+
+{% macro format( row, spec ) %}
+{% set val = row[spec.column] %}
+{% if spec.format == 'number' %}
+  <td class="text-right">{{ row[spec.column]|number_format( spec.precision ) }}</td>
+{% elseif spec.format == 'proposal' %}
+  <td><a href="{{ urlFor( 'proposals_view', { 'id':row[spec.column] } ) }}">{{ row[spec.text] }}</a></td>
+{% elseif spec.format == 'message' %}
+  {% set vals = [] %}
+  {% for key in spec.columns %}
+  {% set vals = vals|merge( [ row[key] ] ) %}
+  {% endfor %}
+  <td class="text-center">{{ spec.message|message( vals ) }}</td>
+{% else %}
+  <td>{{ row[spec.column] }}</td>
+{% endif %}
+{% endmacro %}
+
+{% block content %}
+{% spaceless %}
+<ol class="breadcrumb">
+  <li>{{ 'nav-reports'|message }}</li>
+  <li><a href="{{ urlFor( route ) }}">{{ ( 'nav-reports-' ~ suffix )|message }}</a></li>
+</ol>
+
+<table class="table table-striped table-hover table-condensed table-responsive">
+  <thead>
+    <tr>
+      {% for msg in columns|keys %}
+      <th>{{ msg|message }}</th>
+      {% endfor %}
+    </tr>
+  </thead>
+  <tbody>
+    {% for row in report %}
+    <tr>
+      {% for col in columns %}
+      {{ _self.format( row, col ) }}
+      {% endfor %}
+    </tr>
+    {% else %}
+    <tr><td colspan="8">{{ 'no-results'|message }}</td></tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endspaceless %}
+{% endblock content %}

@@ -140,5 +140,4 @@ class Reviews extends AbstractDao {
 		);
 		return $this->fetchAll( $sql, array( $proposal ) );
 	}
-
 }

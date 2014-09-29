@@ -94,7 +94,7 @@ class App {
 
 		// Slim does not natively understand being behind a proxy
 		// If not corrected template links created via siteUrl() may use the wrong
-		// protocol (http instead of https).
+		// Protocol (http instead of https).
 		if ( getenv( 'HTTP_X_FORWARDED_PROTO' ) ) {
 			$proto = getenv( 'HTTP_X_FORWARDED_PROTO' );
 			$this->slim->environment['slim.url_scheme'] = $proto;
@@ -163,6 +163,15 @@ class App {
 			);
 		} );
 
+		$container->singleton( 'reportsDao', function ( $c ) {
+			$uid = $c->authManager->getUserId();
+			return new \Wikimedia\IEGReview\Dao\Reports(
+				$c->settings['db.dsn'],
+				$c->settings['db.user'], $c->settings['db.pass'],
+				$uid, $c->log
+			);
+		} );
+
 		$container->singleton( 'authManager', function ( $c ) {
 			return new \Wikimedia\IEGReview\AuthManager( $c->usersDao );
 		} );
@@ -217,7 +226,7 @@ class App {
 	 * Configure view behavior.
 	 */
 	protected function configureView() {
-		// configure twig views
+		// Configure twig views
 		$view = $this->slim->view;
 
 		$view->parserOptions = array(
@@ -229,7 +238,7 @@ class App {
 			'autoescape' => true,
 		);
 
-		// install twig parser extensions
+		// Install twig parser extensions
 		$view->parserExtensions = array(
 			new \Slim\Views\TwigExtension(),
 			new TwigExtension(),
@@ -239,7 +248,7 @@ class App {
 			),
 		);
 
-		// set default view data
+		// Set default view data
 		$view->replace( array(
 			'app' => $this->slim,
 			'i18nCtx' => $this->slim->i18nContext,
@@ -276,7 +285,7 @@ class App {
 
 			'require-user' => function () use ( $slim ) {
 				if ( $slim->authManager->isAnonymous() ) {
-					// redirect to login form if not authenticated
+					// Redirect to login form if not authenticated
 					if ( $slim->request->isGet() ) {
 						$uri = $slim->request->getUrl() . $slim->request->getPath();
 						$qs = \Wikimedia\IEGReview\Form::qsMerge();
@@ -298,7 +307,7 @@ class App {
 
 			'require-admin' => function () use ( $slim ) {
 				if ( !$slim->authManager->isAdmin() ) {
-					// redirect to login form if not an admin user
+					// Redirect to login form if not an admin user
 					if ( $slim->request->isGet() ) {
 						$uri = $slim->request->getUrl() . $slim->request->getPath();
 						$qs = \Wikimedia\IEGReview\Form::qsMerge();
@@ -346,7 +355,7 @@ class App {
 
 		} );
 
-		// routes for authenticated users
+		// Routes for authenticated users
 		$slim->group( '/user/',
 			$middleware['must-revalidate'], $middleware['require-user'],
 			function () use ( $slim, $middleware ) {
@@ -367,7 +376,7 @@ class App {
 				} )->name( 'user_changepassword_post' );
 		} );
 
-		// routes for proposals
+		// Routes for proposals
 		$slim->group( '/proposals/',
 			$middleware['must-revalidate'], $middleware['require-user'],
 			function () use ( $slim, $middleware ) {
@@ -412,7 +421,17 @@ class App {
 					$page->setReviewsDao( $slim->reviewsDao );
 					$page( $id );
 				} )->name( 'proposals_view' );
+		} );
 
+		// Routes for reports
+		$slim->group( '/reports/',
+			$middleware['must-revalidate'], $middleware['require-user'],
+			function () use ( $slim, $middleware ) {
+				$slim->get( 'aggregated', function () use ( $slim ) {
+					$page = new Controllers\Reports\Aggregated( $slim );
+					$page->setDao( $slim->reportsDao );
+					$page();
+				} )->name( 'reports_aggregated' );
 		} );
 
 		$slim->group( '/admin/',
@@ -457,5 +476,4 @@ class App {
 			$slim->render( "{$name}.html" );
 		} )->name( $routeName );
 	}
-
-} //end App
+}
