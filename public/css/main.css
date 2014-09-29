@@ -87,3 +87,20 @@ a:visited {
 .panel-default .accordion-toggle:after {
   color:grey;
 }
+
+a.sortable {
+  display:block;
+  padding-right:18px;
+  background-repeat: no-repeat;
+  background-position: center right;
+  color:inherit;
+}
+a.sortable.unsorted {
+  background-image: url(data:image/gif;base64,R0lGODlhFQAJAIAAACMtMP///yH5BAEAAAEALAAAAAAVAAkAAAIXjI+AywnaYnhUMoqt3gZXPmVg94yJVQAAOw==);
+}
+a.sortable.sorted-asc {
+  background-image: url(data:image/gif;base64,R0lGODlhFQAEAIAAACMtMP///yH5BAEAAAEALAAAAAAVAAQAAAINjI8Bya2wnINUMopZAQA7);
+}
+a.sortable.sorted-desc {
+  background-image: url(data:image/gif;base64,R0lGODlhFQAEAIAAACMtMP///yH5BAEAAAEALAAAAAAVAAQAAAINjB+gC+jP2ptn0WskLQA7);
+}
