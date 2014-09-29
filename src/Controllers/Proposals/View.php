@@ -47,16 +47,21 @@ class View extends Controller {
 		$this->view->setData( 'proposal', $proposal );
 
 		if ( $this->authManager->isReviewer() ) {
-			// Reviewers can only see reviews after they have reviewed
-			// a proposal themselves
 			$myReview = $this->reviewsDao->reviewByUser( $id );
 			if ( $myReview ) {
 				$this->view->setData( 'myreview', $myReview );
-				$this->addReviewsToView( $id );
 			} else {
 				$this->view->setData( 'myreview', array() );
 			}
+
+			// Reviewers can only see reviews after they have reviewed
+			// the proposal themselves or if they are also an admin
+			if ( $myReview || $this->authManager->isAdmin() ) {
+				$this->addReviewsToView( $id );
+			}
 		} else {
+			// Non-reviewers always see reviews. The template is responsible for
+			// showing/hiding information based on the user's permissions.
 			$this->addReviewsToView( $id );
 		}
 

@@ -76,10 +76,9 @@
     <div class="panel-heading">
       <h2 class="panel-title">
         {{ 'proposal-summary'|message }}
-        <a class="accordion-toggle" data-toggle="collapse" href="#summary-body"></a>
-      </h2>
+        <a class="accordion-toggle {% if myreview is empty %}collapsed{% endif %}" data-toggle="collapse" href="#summary-body"></a> </h2>
     </div>
-    <div id="summary-body" class="panel-body panel-collapse collapse in">
+    <div id="summary-body" class="panel-body panel-collapse collapse {% if myreview is not empty %}in{% endif %}">
       <dl class="dl-horizontal">
         <dt>{{ 'summary-list-reviewers'|message }}</dt>
         <dd><ul class="list-inline">
