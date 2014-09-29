@@ -40,7 +40,7 @@
   <tr>
     <th>{{ 'proposals-list-id'|message }}</th>
     <th>{{ 'proposals-list-title'|message }}</th>
-    <th>{{ 'proposals-list-url'|message }}</th>
+    {#<th>{{ 'proposals-list-url'|message }}</th>#}
     <th>{{ 'proposals-list-theme'|message }}</th>
     <th>{{ 'proposals-list-amount'|message }}</th>
     <th>{{ 'proposals-list-reviews'|message }}</th>
@@ -50,7 +50,7 @@
   <tr>
     <td>{{ row.id }}</td>
     <td><a href="{{ urlFor( 'proposals_view', { 'id':row.id } ) }}">{{ row.title }}</a></td>
-    <td><a href="{{ row.url|raw }}" target="_blank">{{ row.url }}</a></td>
+    {#<td><a href="{{ row.url|raw }}" target="_blank">{{ row.url }}</a></td>#}
     <td>{{ row.theme }}</td>
     <td class="text-right">{{ row.amount|number_format }}</td>
     <td class="text-right">{{ row.review_count|number_format }}</td>
