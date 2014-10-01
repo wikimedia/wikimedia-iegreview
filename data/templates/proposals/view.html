@@ -22,7 +22,7 @@
           <a href="{{ proposal.url|raw }}" target="_blank">{{ proposal.url }}</a>
         </li>
         <li><strong>{{ 'proposals-view-theme'|message }}</strong>&nbsp;
-          {{ proposal.theme }}
+            {{ "theme-#{proposal.theme}"|message }}
         </li>
         <li><strong>{{ 'proposals-view-amount'|message }}</strong>&nbsp;
           {{ proposal.amount|number_format }}

@@ -27,7 +27,7 @@
   <input type="hidden" name="id" value="{{ id }}" />
   {{ forms.text( ctx, 'proposals-edit-title', 'title', { 'required':true } ) }}
   {{ forms.url( ctx, 'proposals-edit-url', 'url', { 'required':true } ) }}
-  {{ forms.select( ctx, 'proposals-edit-theme', 'theme', { 'online':'online', 'offline':'offline', 'tool':'tool', 'research':'research' }, { 'required':true } ) }}
+  {{ forms.select( ctx, 'proposals-edit-theme', 'theme', { 'online':'theme-online'|message, 'offline':'theme-offline'|message, 'tool':'theme-tool'|message, 'research':'theme-research'|message }, { 'required':true } ) }}
   {{ forms.number( ctx, 'proposals-edit-amount', 'amount' ) }}
   {{ forms.textArea( ctx, 'proposals-edit-description', 'description', { 'elmclass':'monospace' } ) }}
   {{ forms.textArea( ctx, 'proposals-edit-notes', 'notes', { 'elmclass':'monospace' } ) }}
