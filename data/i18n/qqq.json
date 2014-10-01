@@ -140,6 +140,7 @@
 	"theme-tool": "Theme long name",
 	"theme-research": "Theme long name",
 
+	"proposals-queue-intro": "Introduction text. Rendered as Markdown.",
 	"proposals-queue-type": "Input label, followed by select list.",
 	"proposals-queue-type-empty": "Select list usage prompt.",
 	"proposals-queue-type-myqueue": "Select list label",

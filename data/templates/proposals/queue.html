@@ -22,6 +22,10 @@
   <li>{{ 'nav-proposals-queue'|message }}</li>
 </ol>
 
+<section id="intro">
+    {{ 'proposals-queue-intro'|message|markdown }}
+</section>
+
 <form class="form-inline" method="get" action="{{ urlFor( route ) }}" role="form">
   <input type="hidden" name="p" value="0">
   <input type="hidden" name="o" value="{{ o }}">
