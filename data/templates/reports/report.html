@@ -1,6 +1,29 @@
 {% extends 'reports/base.html' %}
+{##
+ # Common report display template.
+ # Expects this data:
+ # - columns : Array of report column descriptions
+ # - report : stdclass/array with "rows" and "found" members
+ # - items : number of results per page
+ # - p : current page number
+ # - s : sort column
+ # - o : sort order
+ #}
+
 {% set route = app.router.getCurrentRoute.getName %}
 {% set suffix = route|split( '_' )|last %}
+{% set ctx = _context %}
+
+{% macro sortHeader( label, column, ctx ) %}
+{% set sorted = ctx.s == column %}
+{% if sorted %}
+  {% set o = ctx.o == 'desc' ? 'desc' : 'asc' %}
+  {% set nextO = o == 'asc' ? 'desc' : 'asc' %}
+{% else %}
+  {% set nextO = 'asc' %}
+{% endif %}
+<th><a class="sortable {{ sorted ? "sorted-#{o}" : 'unsorted' }}" href="{{ urlFor( ctx.route ) }}?{{ qsMerge( { 's':column, 'o':nextO } ) }}">{{ label|message }}</a></th>
+{% endmacro %}
 
 {% macro format( row, spec ) %}
 {% set val = row[spec.column] %}
@@ -19,6 +42,7 @@
 {% endif %}
 {% endmacro %}
 
+
 {% block subtitle %}{{ ( 'nav-reports-' ~ suffix )|message }}{% endblock %}
 
 {% block content %}
@@ -31,13 +55,17 @@
 <table class="table table-striped table-hover table-condensed table-responsive">
   <thead>
     <tr>
-      {% for msg in columns|keys %}
-      <th>{{ msg|message }}</th>
+      {% for msg,col in columns %}
+        {% if col.sortable %}
+          {{ _self.sortHeader( msg, col.sortcolumn, ctx ) }}
+        {% else %}
+          <th>{{ msg|message }}</th>
+        {% endif %}
       {% endfor %}
     </tr>
   </thead>
   <tbody>
-    {% for row in report %}
+    {% for row in report.rows %}
     <tr>
       {% for col in columns %}
       {{ _self.format( row, col ) }}
@@ -48,5 +76,32 @@
     {% endfor %}
   </tbody>
 </table>
+
+{% if report.found != report.rows|length  %}
+<div class="row">
+  <div class="col-md-3">
+    <p class="text-right">{{ 'page-of-pages'|message(  p + 1, pages ) }}</p>
+  </div>
+  <div class="col-md-9">
+    <ul class="pagination">
+      {% if p > 0 %}
+      <li><a href="{{ urlFor( route ) }}?{{ qsMerge( { 'p':(p - 1) } ) }}" id="prev">&laquo;</a></li>
+      {% else %}
+      <li class="disabled"><span>&laquo;</span></li>
+      {% endif %}
+      {% if left > 0 %}<li class="disabled"><span>&hellip;</span></li>{% endif %}
+      {% for i in left .. right %}
+      <li class="{{ i == p ? 'active' }}"><a href="{{ urlFor( route ) }}?{{ qsMerge( { 'p':i } ) }}" id="prev">{{ i + 1 }}</a></li>
+      {% endfor %}
+      {% if right < pages - 1 %}<li class="disabled"><span>&hellip;</span></li>{% endif %}
+      {% if p + 1 < pages %}
+      <li><a href="{{ urlFor( route ) }}?{{ qsMerge( { 'p':(p + 1) } ) }}" >&raquo;</a></li>
+      {% else %}
+      <li class="disabled"><span>&raquo;</span></li>
+      {% endif %}
+    </ul>
+  </div>
+</div>
+{% endif %}
 {% endspaceless %}
 {% endblock content %}

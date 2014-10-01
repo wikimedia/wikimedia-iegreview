@@ -31,51 +31,88 @@ use Wikimedia\IEGReview\Controller;
  * @author Bryan Davis <bd808@wikimedia.org>
  * @copyright © 2014 Bryan Davis, Wikimedia Foundation and contributors.
  */
-class Aggregated extends Controller {
+class Aggregated extends AbstractReport {
 
-	protected function handleGet() {
-		$this->view->setData( 'columns', array(
+	/**
+	 * @return array Column descriptions
+	 */
+	protected function describeColumns() {
+		return array(
 			'report-aggregated-proposal' => array(
 				'column' => 'id',
 				'format' => 'proposal',
 				'text' => 'title',
+				'sortable' => true,
+				'sortcolumn' => 'title',
 			),
 			'report-aggregated-theme' => array(
 				'column' => 'theme',
+				'sortable' => true,
+				'sortcolumn' => 'theme',
 			),
 			'report-aggregated-amount' => array(
 				'column' => 'amount',
 				'format' => 'number',
 				'precision' => 0,
+				'sortable' => true,
+				'sortcolumn' => 'amount',
 			),
 			'report-aggregated-impact' => array(
 				'column' => 'impact',
 				'format' => 'number',
 				'precision' => 2,
+				'sortable' => true,
+				'sortcolumn' => 'impact',
 			),
 			'report-aggregated-innovation' => array(
 				'column' => 'innovation',
 				'format' => 'number',
 				'precision' => 2,
+				'sortable' => true,
+				'sortcolumn' => 'innovation',
 			),
 			'report-aggregated-ability' => array(
 				'column' => 'ability',
 				'format' => 'number',
 				'precision' => 2,
+				'sortable' => true,
+				'sortcolumn' => 'ability',
 			),
 			'report-aggregated-engagement' => array(
 				'column' => 'engagement',
 				'format' => 'number',
 				'precision' => 2,
+				'sortable' => true,
+				'sortcolumn' => 'engagement',
 			),
 			'report-aggregated-recommend' => array(
 				'format' => 'message',
 				'message' => 'report-format-recommend',
 				'columns' => array( 'recommend', 'rcnt', 'pcnt' ),
+				'sortable' => true,
+				'sortcolumn' => 'pcnt',
 			),
-		) );
-		$this->view->setData( 'report', $this->dao->aggregatedScores() );
-		$this->render( 'reports/report.html' );
+		);
 	}
 
+	protected function defaultSortColumn() {
+		return 'pcnt';
+	}
+
+	protected function defaultSortOrder() {
+		return 'desc';
+	}
+
+	/**
+	 * @return stdClass Results
+	 */
+	protected function runReport() {
+		$params = array(
+			'sort' => $this->form->get( 's' ),
+			'order' => $this->form->get( 'o' ),
+			'items' => $this->form->get( 'items' ),
+			'page' => $this->form->get( 'p' ),
+		);
+		return $this->dao->aggregatedScores( $params );
+	}
 }

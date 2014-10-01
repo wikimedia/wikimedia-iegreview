@@ -51,7 +51,39 @@ class Reports extends AbstractDao {
 		$this->userId = $uid;
 	}
 
-	public function aggregatedScores() {
+	/**
+	 * @param array $params
+	 * @return object StdClass with rows and found memebers
+	 */
+	public function aggregatedScores( array $params ) {
+		$this->logger->debug( __METHOD__, $params );
+		$defaults = array(
+			'sort' => 'pcnt',
+			'order' => 'desc',
+			'items' => 20,
+			'page' => 0,
+		);
+		$params = array_merge( $defaults, $params );
+
+		$validSorts = array(
+			'id', 'title', 'amount', 'theme',
+			'impact', 'innovation', 'ability', 'engagement', 'recommend',
+			'rcnt', 'pcnt',
+		);
+		$sortby = in_array( $params['sort'], $validSorts ) ?
+			$params['sort'] : $defaults['sort'];
+		$order = $params['order'] === 'desc' ? 'DESC' : 'ASC';
+
+		if ( $params['items'] == 'all' ) {
+			$limit = '';
+			$offset = '';
+		} else {
+			$crit['int_limit'] = (int)$params['items'];
+			$crit['int_offset'] = (int)$params['page'] * (int)$params['items'];
+			$limit = 'LIMIT :int_limit';
+			$offset = 'OFFSET :int_offset';
+		}
+
 		$sql = self::concat(
 			'SELECT p.id, p.title, p.theme, p.amount,',
 			'r.impact,',
@@ -73,8 +105,9 @@ class Reports extends AbstractDao {
 				'FROM reviews',
 				'GROUP BY proposal',
 			') r ON p.id = r.proposal',
-			'ORDER BY pcnt DESC, rcnt DESC, p.id'
+			"ORDER BY {$sortby} {$order}, id {$order}",
+			$limit, $offset
 		);
-		return $this->fetchAll( $sql );
+		return $this->fetchAllWithFound( $sql, $crit );
 	}
 }

@@ -56,7 +56,7 @@ class Controller {
 
 	public function __construct( \Slim\Slim $slim = null ) {
 		$this->slim = $slim ?: \Slim\Slim::getInstance();
-		$this->form = new Form();
+		$this->form = new Form( $this->slim->log );
 	}
 
 

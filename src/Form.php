@@ -23,6 +23,8 @@
 
 namespace Wikimedia\IEGReview;
 
+use Psr\Log\LoggerInterface;
+
 /**
  * Collect and validate user input.
  *
@@ -30,6 +32,11 @@ namespace Wikimedia\IEGReview;
  * @copyright © 2014 Bryan Davis, Wikimedia Foundation and contributors.
  */
 class Form {
+
+	/**
+	 * @var LoggerInterface $logger
+	 */
+	protected $logger;
 
 	/**
 	 * Input parameters to expect.
@@ -49,6 +56,12 @@ class Form {
 	 */
 	protected $errors = array();
 
+	/**
+	 * @param LoggerInterface $logger Log channel
+	 */
+	public function __construct( $logger = null ) {
+		$this->logger = $logger ?: new \Psr\Log\NullLogger();
+	}
 
 	/**
 	 * Add an input expectation.
@@ -162,7 +175,9 @@ class Form {
 
 		foreach ( $this->params as $name => $opt ) {
 			$var = isset( $vars[$name] ) ? $vars[$name] : null;
-			$clean = filter_var( $var, $opt['filter'], $opt );
+			// Bypass filter_var if the input is null. This keeps filter_var
+			// from "helping" by converting nulls to empty strings.
+			$clean = ( $var === null ) ? $var : filter_var( $var, $opt['filter'], $opt );
 
 			if ( $clean === false &&
 				$opt['filter'] !== \FILTER_VALIDATE_BOOLEAN
