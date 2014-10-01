@@ -88,6 +88,19 @@ a:visited {
   color:grey;
 }
 
+.panel-group table.table-bordered + .panel {
+  border-top-left-radius:0;
+  border-top-right-radius:0;
+}
+
+.panel-default.muted > .panel-heading {
+  background-color:transparent;
+}
+
+a.accordion-toggle {
+  text-decoration:none;
+}
+
 a.sortable {
   display:block;
   padding-right:18px;

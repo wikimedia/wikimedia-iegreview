@@ -131,5 +131,7 @@
 	"proposals-list-theme": "Table column header",
 	"proposals-list-amount": "Table column header",
 	"proposals-list-reviews": "Table column header",
-	"proposals-list-myreviews": "Table column header"
+	"proposals-list-myreviews": "Table column header",
+
+	"reviews-notes": "Section header"
 }

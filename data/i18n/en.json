@@ -177,5 +177,7 @@
 	"report-aggregated-ability": "Ability",
 	"report-aggregated-engagement": "Engagement",
 	"report-aggregated-recommend": "Recommend",
-	"report-format-recommend": "$3% ($1/$2)"
+	"report-format-recommend": "$3% ($1/$2)",
+
+	"reviews-notes": "Reviewer notes"
 }
