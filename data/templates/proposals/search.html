@@ -17,8 +17,8 @@
 {% block content %}
 {% spaceless %}
 <ol class="breadcrumb">
-  <li>{{ 'nav-proposals'|message }}</li>
-  <li>{{ 'nav-proposals-search'|message }}</li>
+  <li><a href="{{ urlFor( 'proposals_home' ) }}">{{ 'nav-proposals'|message }}</a></li>
+  <li><a href="{{ urlFor( route ) }}">{{ 'nav-proposals-search'|message }}</a></li>
 </ol>
 
 <form class="form-inline" method="get" action="{{ urlFor( route ) }}" role="form">

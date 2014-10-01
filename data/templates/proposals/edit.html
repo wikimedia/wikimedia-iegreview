@@ -6,7 +6,7 @@
 {% block content %}
 {% spaceless %}
 <ol class="breadcrumb">
-  <li>{{ 'nav-proposals'|message }}</li>
+  <li><a href="{{ urlFor( 'proposals_home' ) }}">{{ 'nav-proposals'|message }}</a></li>
   {% if id != 'new' %}
   <li><a href="{{ urlFor( 'proposals_view', { 'id': id } ) }}">{{ form.get( 'title' )|default( id ) }}</a></li>
   {% else %}
