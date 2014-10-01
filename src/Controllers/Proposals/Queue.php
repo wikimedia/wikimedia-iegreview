@@ -47,7 +47,7 @@ class Queue extends Controller {
 		$this->form->validate( $_GET );
 
 		$this->view->set( 'type', $this->form->get( 'type' ) );
-		$this->view->set( 'theme', $this->form->get( 'th' ) );
+		$this->view->set( 'th', $this->form->get( 'th' ) );
 		$this->view->set( 'items', $this->form->get( 'items' ) );
 		$this->view->set( 'p', $this->form->get( 'p' ) );
 		$this->view->set( 's', $this->form->get( 's' ) );
