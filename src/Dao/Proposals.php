@@ -106,7 +106,7 @@ class Proposals extends AbstractDao {
 	 */
 	public function search( array $params ) {
 		$defaults = array(
-			'proposals' => null,
+			'type' => null,
 			'title' => null,
 			'theme' => null,
 			'sort' => 'id',
@@ -158,7 +158,7 @@ class Proposals extends AbstractDao {
 			'COALESCE(mc.myreviews, 0) as myreviews',
 		);
 
-		switch( $params['proposals'] ) {
+		switch( $params['type'] ) {
 			case 'unreviewed':
 				$where[] = 'reviews IS NULL';
 				break;

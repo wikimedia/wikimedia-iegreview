@@ -134,4 +134,18 @@
 	"proposals-list-myreviews": "Table column header",
 
 	"reviews-notes": "Section header"
+
+	"theme-online": "Theme long name",
+	"theme-offline": "Theme long name",
+	"theme-tool": "Theme long name",
+	"theme-research": "Theme long name",
+
+	"proposals-queue-type": "Input label, followed by select list.",
+	"proposals-queue-type-empty": "Select list usage prompt.",
+	"proposals-queue-type-myqueue": "Select list label",
+	"proposals-queue-type-unreviewed": "Select list label",
+	"proposals-queue-type-all": "Select list label",
+	"proposals-queue-theme": "Input label, followed by select list.",
+	"proposals-queue-theme-empty": "Select list usage prompt.",
+	"proposals-queue-go": "Form submit button label"
 }

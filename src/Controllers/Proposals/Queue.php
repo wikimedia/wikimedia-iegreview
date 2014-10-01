@@ -34,16 +34,20 @@ use Wikimedia\IEGReview\Controller;
 class Queue extends Controller {
 
 	protected function handleGet() {
+		$this->form->expectString( 'type', array( 'default' => 'myqueue' ) );
+		$this->form->expectString( 'th' );
 		$this->form->expectInt( 'items',
 			array( 'min_range' => 1, 'max_range' => 250, 'default' => 20 )
 		);
 		$this->form->expectInt( 'p', array( 'min_range' => 0, 'default' => 0 ) );
-		$this->form->expectString( 's', array( 'default' => 'id' ) );
+		$this->form->expectString( 's', array( 'default' => 'theme' ) );
 		$this->form->expectInArray( 'o', array( 'asc', 'desc' ),
 			array( 'default' => 'asc' )
 		);
 		$this->form->validate( $_GET );
 
+		$this->view->set( 'type', $this->form->get( 'type' ) );
+		$this->view->set( 'theme', $this->form->get( 'th' ) );
 		$this->view->set( 'items', $this->form->get( 'items' ) );
 		$this->view->set( 'p', $this->form->get( 'p' ) );
 		$this->view->set( 's', $this->form->get( 's' ) );
@@ -51,7 +55,8 @@ class Queue extends Controller {
 		$this->view->set( 'found', null );
 
 		$params = array(
-			'proposals' => 'myqueue',
+			'type' => $this->form->get( 'type' ),
+			'theme' => $this->form->get( 'th' ),
 			'items' => $this->form->get( 'items' ),
 			'page' => $this->form->get( 'p' ),
 			'sort' => $this->form->get( 's' ),

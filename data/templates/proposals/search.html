@@ -31,9 +31,8 @@
     <label class="sr-only" for="th">{{ 'proposals-search-theme'|message }}</label>
     <select id="th" name="th" class="form-control">
       <option value="">{{ 'proposals-search-theme-empty'|message }}</option>
-  {{ forms.select( ctx, 'proposals-edit-theme', 'theme', { 'online':'online', 'offline':'offline', 'tool':'tool', 'research':'research' }, { 'required':true } ) }}
       {% for val in [ 'online', 'offline', 'tool', 'research' ] %}
-      <option value="{{ val }}" {{ val == th ? 'selected="selected"' }}>{{ val }}</option>
+      <option value="{{ val }}" {{ val == th ? 'selected="selected"' }}>{{ "theme-#{val}"|message }}</option>
       {% endfor %}
     </select>
   </div>

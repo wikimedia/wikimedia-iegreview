@@ -179,5 +179,19 @@
 	"report-aggregated-recommend": "Recommend",
 	"report-format-recommend": "$3% ($1/$2)",
 
-	"reviews-notes": "Reviewer notes"
+	"reviews-notes": "Reviewer notes",
+
+	"theme-online": "Online community organizing",
+	"theme-offline": "Offline outreach & partnerships",
+	"theme-tool": "Tools",
+	"theme-research": "Research",
+
+	"proposals-queue-type": "Type",
+	"proposals-queue-type-empty": "Select queue",
+	"proposals-queue-type-myqueue": "My unreviewed",
+	"proposals-queue-type-unreviewed": "Globally unreviewed",
+	"proposals-queue-type-all": "All",
+	"proposals-queue-theme": "Theme",
+	"proposals-queue-theme-empty": "Select theme",
+	"proposals-queue-go": "Filter queue"
 }

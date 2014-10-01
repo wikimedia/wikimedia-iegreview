@@ -22,6 +22,37 @@
   <li>{{ 'nav-proposals-queue'|message }}</li>
 </ol>
 
+<form class="form-inline" method="get" action="{{ urlFor( route ) }}" role="form">
+  <input type="hidden" name="p" value="0">
+  <input type="hidden" name="o" value="{{ o }}">
+  <input type="hidden" name="s" value="{{ s }}">
+  <div class="form-group">
+    <label class="sr-only" for="type">{{ 'proposals-queue-type'|message }}</label>
+    <select id="type" name="type" class="form-control">
+      <option value="">{{ 'proposals-queue-type-empty'|message }}</option>
+      {% for val in [ 'myqueue', 'unreviewed', 'all' ] %}
+      <option value="{{ val }}" {{ val == type ? 'selected="selected"' }}>{{ "proposals-queue-type-#{val}"|message }}</option>
+      {% endfor %}
+    </select>
+  </div>
+  <div class="form-group">
+    <label class="sr-only" for="th">{{ 'proposals-queue-theme'|message }}</label>
+    <select id="th" name="th" class="form-control">
+      <option value="">{{ 'proposals-queue-theme-empty'|message }}</option>
+      {% for val in [ 'online', 'offline', 'tool', 'research' ] %}
+      <option value="{{ val }}" {{ val == th ? 'selected="selected"' }}>{{ "theme-#{val}"|message }}</option>
+      {% endfor %}
+    </select>
+  </div>
+  <div class="form-group">
+    <button type="submit" class="btn btn-sm btn-primary">
+      <i class="glyphicon glyphicon-filter"></i>
+      {{ 'proposals-queue-go'|message }}
+    </button>
+  </div>
+</form>
+
+<p></p>
 <table class="table table-striped table-hover table-condensed table-responsive">
   <tr>
     {{ _self.sortHeader( 'title', ctx ) }}
