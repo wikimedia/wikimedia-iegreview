@@ -31,7 +31,7 @@
 
 {% spaceless %}
 <article id="review" class="panel-group ">
-  <section class="panel panel-success">
+  <section class="panel {{ myreview is empty ? 'panel-success' : 'panel-default' }}">
     <div class="panel-heading">
       <h2 class="panel-title">
         {{ 'proposals-review'|message }}
