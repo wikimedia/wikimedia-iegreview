@@ -38,16 +38,24 @@ class Queue extends Controller {
 			array( 'min_range' => 1, 'max_range' => 250, 'default' => 20 )
 		);
 		$this->form->expectInt( 'p', array( 'min_range' => 0, 'default' => 0 ) );
+		$this->form->expectString( 's', array( 'default' => 'id' ) );
+		$this->form->expectInArray( 'o', array( 'asc', 'desc' ),
+			array( 'default' => 'asc' )
+		);
 		$this->form->validate( $_GET );
 
 		$this->view->set( 'items', $this->form->get( 'items' ) );
 		$this->view->set( 'p', $this->form->get( 'p' ) );
+		$this->view->set( 's', $this->form->get( 's' ) );
+		$this->view->set( 'o', $this->form->get( 'o' ) );
 		$this->view->set( 'found', null );
 
 		$params = array(
 			'proposals' => 'myqueue',
 			'items' => $this->form->get( 'items' ),
 			'page' => $this->form->get( 'p' ),
+			'sort' => $this->form->get( 's' ),
+			'order' => $this->form->get( 'o' ),
 		);
 
 		$ret = $this->dao->search( $params );

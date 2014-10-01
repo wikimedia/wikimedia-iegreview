@@ -122,7 +122,7 @@ class Proposals extends AbstractDao {
 
 		$validSorts = array(
 			'id', 'title', 'amount', 'theme', 'status',
-			'review_count', 'my_review_count',
+			'reviews', 'myreviews',
 		);
 		$sortby = in_array( $params['sort'], $validSorts ) ?
 			$params['sort'] : $defaults['sort'];
@@ -154,29 +154,29 @@ class Proposals extends AbstractDao {
 			'p.amount as amount',
 			'p.theme as theme',
 			'p.status as status',
-			'COALESCE(rc.review_count, 0) as review_count',
-			'COALESCE(mc.my_review_count, 0) as my_review_count',
+			'COALESCE(rc.reviews, 0) as reviews',
+			'COALESCE(mc.myreviews, 0) as myreviews',
 		);
 
 		switch( $params['proposals'] ) {
 			case 'unreviewed':
-				$where[] = 'review_count IS NULL';
+				$where[] = 'reviews IS NULL';
 				break;
 			case 'myqueue':
-				$where[] = 'my_review_count IS NULL';
+				$where[] = 'myreviews IS NULL';
 				break;
 			default:
 				break;
 		}
 
 		$reviewCountSql = self::concat(
-			'SELECT proposal, count(*) as review_count',
+			'SELECT proposal, count(*) as reviews',
 			'FROM reviews',
 			'GROUP BY proposal'
 		);
 
 		$myReviewCountSql = self::concat(
-			'SELECT proposal, count(*) as my_review_count',
+			'SELECT proposal, count(*) as myreviews',
 			'FROM reviews',
 			'WHERE reviewer = :int_userid',
 			'GROUP BY proposal'

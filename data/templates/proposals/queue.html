@@ -1,5 +1,18 @@
 {% extends "proposals/base.html" %}
 {% set route = 'proposals_queue' %}
+{% set ctx = _context %}
+
+{% macro sortHeader( column, ctx ) %}
+{% set sorted = ctx.s == column %}
+{% set label = "proposals-list-#{column}" %}
+{% if sorted %}
+  {% set o = ctx.o == 'desc' ? 'desc' : 'asc' %}
+  {% set nextO = o == 'asc' ? 'desc' : 'asc' %}
+{% else %}
+  {% set nextO = 'asc' %}
+{% endif %}
+<th><a class="sortable {{ sorted ? "sorted-#{o}" : 'unsorted' }}" href="{{ urlFor( ctx.route ) }}?{{ qsMerge( { 's':column, 'o':nextO } ) }}">{{ label|message }}</a></th>
+{% endmacro %}
 
 {% block subtitle %}{{ 'nav-proposals-queue'|message }}{% endblock %}
 {% block content %}
@@ -11,17 +24,17 @@
 
 <table class="table table-striped table-hover table-condensed table-responsive">
   <tr>
-    <th>{{ 'proposals-list-title'|message }}</th>
-    <th>{{ 'proposals-list-theme'|message }}</th>
-    <th>{{ 'proposals-list-amount'|message }}</th>
-    <th>{{ 'proposals-list-reviews'|message }}</th>
+    {{ _self.sortHeader( 'title', ctx ) }}
+    {{ _self.sortHeader( 'theme', ctx ) }}
+    {{ _self.sortHeader( 'amount', ctx ) }}
+    {{ _self.sortHeader( 'reviews', ctx ) }}
   </tr>
   {% for row in records %}
   <tr>
     <td><a href="{{ urlFor( 'proposals_view', { 'id': row.id } ) }}">{{ row.title }}</a></td>
     <td>{{ row.theme }}</td>
     <td class="text-right">{{ row.amount|number_format }}</td>
-    <td class="text-right">{{ row.review_count|number_format }}</td>
+    <td class="text-right">{{ row.reviews|number_format }}</td>
   </tr>
   {% else %}
   <tr><td colspan="12">{{ 'no-results'|message }}</td></tr>
