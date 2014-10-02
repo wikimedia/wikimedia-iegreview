@@ -88,7 +88,9 @@ class Aggregated extends AbstractReport {
 			'report-aggregated-recommend' => array(
 				'format' => 'message',
 				'message' => 'report-format-recommend',
-				'columns' => array( 'recommend', 'rcnt', 'pcnt' ),
+				'columns' => array(
+					'recommend', 'conditional', 'rcnt', 'pcnt',
+				),
 				'sortable' => true,
 				'sortcolumn' => 'pcnt',
 			),

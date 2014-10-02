@@ -53,7 +53,7 @@
           <div class="panel-body">
             {{ 'review-recommendation-instructions'|message|markdown }}
             <div class="form-group">
-              {{ forms.yesNo( ctx, 'review-recommendation-rank', 'recommendation', { 'required':true, 'value':myreview.recommendation } ) }}
+                {{ forms.radioList( ctx, 'review-recommendation-rank', 'recommendation', { '2':'form-yes', '1':'form-conditional', '0':'form-neutral', '-1':'form-no' }, { 'required':true, 'value':myreview.recommendation } ) }}
             </div>
             <div class="form-group">
               <label for="comments" class="control-label">{{ 'review-recommendation-note'|message }}</label>

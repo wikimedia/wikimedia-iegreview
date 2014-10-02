@@ -103,6 +103,21 @@
 {{ forms.endElement( ctx, name, mesg ) }}
 {% endmacro %}
 
+{% macro radioList( ctx, mesg, name, options, opts = {} ) %}
+{% import _self as forms %}
+{% set value = opts.value ?: ctx.form.get( name ) %}
+{{ forms.startElement( ctx, mesg, '', opts ) }}
+<div class="form-inline">
+  {% for val,label in options %}
+  <label class="control-label">
+    <input type="radio" id="{{ name }}-{{ val }}" name="{{ name }}" value="{{ val }}" {{ value == val ? 'checked="checked"' }}/>
+    {{ label|message }}
+  </label>&nbsp;
+  {% endfor %}
+</div>
+{{ forms.endElement( ctx, name, mesg ) }}
+{% endmacro %}
+
 {% macro checkboxList( ctx, mesg, options, opts = {} ) %}
 {% import _self as forms %}
 {{ forms.startElement( ctx, mesg, '', opts ) }}

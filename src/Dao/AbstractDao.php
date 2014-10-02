@@ -150,6 +150,10 @@ abstract class AbstractDao {
 	 * Prepare and execute an SQL statement and return all results plus the
 	 * number of rows found on the server side.
 	 *
+	 * The SQL is expected to contain the "SQL_CALC_FOUND_ROWS" option in the
+	 * select statement. If it does not, the number of found rows returned is
+	 * dependent on MySQL's interpretation of the query.
+	 *
 	 * @param string $sql SQL
 	 * @param array $params Prepared statement parameters
 	 * @return object StdClass with rows and found memebers

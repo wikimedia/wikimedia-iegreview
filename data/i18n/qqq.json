@@ -118,6 +118,8 @@
 	"review-edit-save-error": "Failure message.",
 
 	"form-yes": "Radio button label.",
+	"form-conditional": "Radio button label.",
+	"form-neutral": "Radio button label.",
 	"form-no": "Radio button label.",
 
 	"proposals-search-title": "Input label, followed by text box.",
@@ -148,5 +150,15 @@
 	"proposals-queue-type-all": "Select list label",
 	"proposals-queue-theme": "Input label, followed by select list.",
 	"proposals-queue-theme-empty": "Select list usage prompt.",
-	"proposals-queue-go": "Form submit button label"
+	"proposals-queue-go": "Form submit button label",
+
+	"report-aggregated-proposal": "Report column header",
+	"report-aggregated-theme": "Report column header",
+	"report-aggregated-amount": "Report column header",
+	"report-aggregated-impact": "Report column header",
+	"report-aggregated-innovation": "Report column header",
+	"report-aggregated-ability": "Report column header",
+	"report-aggregated-engagement": "Report column header",
+	"report-aggregated-recommend": "Report column header",
+	"report-format-recommend": "Report column value.\n\n* $1 - Number of reviewers recommending proposal\n* $2 - \"*\" if some recommendations were conditional\n* $3 - Total number of reviews\n* $4 - Percentage of reviews recomending approval."
 }

@@ -111,13 +111,17 @@
           <thead>
             <tr>
               <th>{{ 'form-yes'|message }}</th>
+              <th>{{ 'form-conditional'|message }}</th>
+              <th>{{ 'form-neutral'|message }}</th>
               <th>{{ 'form-no'|message }}</th>
             </tr>
           </thead>
           <tbody>
             <tr>
+              <td>{{ helpers.count( reviews, 'recommendation', 2 ) }}</td>
               <td>{{ helpers.count( reviews, 'recommendation', 1 ) }}</td>
               <td>{{ helpers.count( reviews, 'recommendation', 0 ) }}</td>
+              <td>{{ helpers.count( reviews, 'recommendation', -1 ) }}</td>
             </tr>
           </tbody>
         </table>
