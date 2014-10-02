@@ -60,11 +60,10 @@
   <tr>
     <td>{{ row.id }}</td>
     <td><a href="{{ urlFor( 'proposals_view', { 'id':row.id } ) }}">{{ row.title }}</a></td>
-    {#<td><a href="{{ row.url|raw }}" target="_blank">{{ row.url }}</a></td>#}
     <td>{{ row.theme }}</td>
     <td class="text-right">{{ row.amount|number_format }}</td>
     <td class="text-right">{{ row.review_count|number_format }}</td>
-    <td class="text-center"><i class="glyphicon glyphicon-{{ row.my_review_count ? 'ok' }}"></i></td>
+    <td class="text-center"><i class="glyphicon glyphicon-{{ row.myreviews ? 'ok' }}"></i></td>
   </tr>
   {% else %}
   <tr><td colspan="8">{{ 'no-results'|message }}</td></tr>

@@ -1,8 +1,9 @@
 {# Edit form for a review #}
 {% import "inc/forms.html" as forms %}
 {% import _self as local %}
+{% set ctx = _context %}
 
-{% macro criteria( review, name ) %}
+{% macro criteria( review, name, ctx ) %}
 {% set msgprefix = "review-#{name}" %}
 {% set opts = [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ] %}
 {% set r = review[name] %}
@@ -12,15 +13,18 @@
   </div>
   <div class="panel-body">
     {{ "#{msgprefix}-instructions"|message|markdown }}
-    <div class="form-group">
-      <label for="{{ name }}" class="control-label required">{{ "#{msgprefix}-rank"|message }}</label>
-      <select name="{{ name }}" class="form-control" required>
-        <option value="">{{ "#{msgprefix}-rank-empty"|message }}</value>
-        {% for o in opts %}
-        <option value="{{ o }}" {{ r == o ? 'selected="selected"' }}>{{ o }}</option>
-        {% endfor %}
-      </select>
-    </div>
+    {{ ctx.forms.radioList( ctx, "#{msgprefix}-rank", name, {
+        1:'review-rank-1',
+        2:'review-rank-2',
+        3:'review-rank-3',
+        4:'review-rank-4',
+        5:'review-rank-5',
+        6:'review-rank-6',
+        7:'review-rank-7',
+        8:'review-rank-8',
+        9:'review-rank-9',
+        10:'review-rank-10'
+      }, { 'required':true, 'value':r } ) }}
     <div class="form-group">
       <label for="{{ "#{name}_note" }}" class="control-label">{{ "#{msgprefix}-note"|message }}</label>
       <textarea name="{{ "#{name}_note" }}" class="form-control">{{ review["#{name}_note"] }}</textarea>
@@ -42,10 +46,10 @@
       <form method="post" action="{{ urlFor( 'proposals_review_post', { 'id': proposal.id } ) }}">
         <input type="hidden" name="{{ csrf_param }}" value="{{ csrf_token }}" />
         <input type="hidden" name="proposal" value="{{ proposal.id }}" />
-        {{ local.criteria( myreview, 'impact' ) }}
-        {{ local.criteria( myreview, 'innovation' ) }}
-        {{ local.criteria( myreview, 'ability' ) }}
-        {{ local.criteria( myreview, 'engagement' ) }}
+        {{ local.criteria( myreview, 'impact', ctx ) }}
+        {{ local.criteria( myreview, 'innovation', ctx ) }}
+        {{ local.criteria( myreview, 'ability', ctx ) }}
+        {{ local.criteria( myreview, 'engagement', ctx ) }}
         <section class="panel panel-default">
           <div class="panel-heading">
             <h4 class="panel-title">{{ 'review-recommendation'|message }}</h4>

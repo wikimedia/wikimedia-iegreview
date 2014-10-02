@@ -110,7 +110,7 @@
 <div class="form-inline">
   {% for val,label in options %}
   <label class="control-label">
-    <input type="radio" id="{{ name }}-{{ val }}" name="{{ name }}" value="{{ val }}" {{ value == val ? 'checked="checked"' }}/>
+    <input type="radio" id="{{ name }}-{{ val }}" name="{{ name }}" value="{{ val }}" {{ value == val ? 'checked="checked"' }} {{ opts.required ? 'required' }}/>
     {{ label|message }}
   </label>&nbsp;
   {% endfor %}
