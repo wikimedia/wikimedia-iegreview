@@ -197,5 +197,7 @@
 	"proposals-queue-type-all": "All",
 	"proposals-queue-theme": "Theme",
 	"proposals-queue-theme-empty": "Select theme",
-	"proposals-queue-go": "Filter queue"
+	"proposals-queue-go": "Filter queue",
+
+	"currency-usd": "USD"
 }

@@ -68,7 +68,10 @@
   <tr>
     <td><a href="{{ urlFor( 'proposals_view', { 'id': row.id } ) }}">{{ row.title }}</a></td>
     <td>{{ row.theme }}</td>
-    <td class="text-right">{{ row.amount|number_format }}</td>
+    <td class="text-right nowrap">
+        {{ row.amount|number_format }}
+        {{ 'currency-usd'|message }}
+    </td>
     <td class="text-right">{{ row.reviews|number_format }}</td>
   </tr>
   {% else %}
