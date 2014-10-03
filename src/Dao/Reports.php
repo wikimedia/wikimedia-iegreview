@@ -74,6 +74,8 @@ class Reports extends AbstractDao {
 			$params['sort'] : $defaults['sort'];
 		$order = $params['order'] === 'desc' ? 'DESC' : 'ASC';
 
+		$crit = array();
+
 		if ( $params['items'] == 'all' ) {
 			$limit = '';
 			$offset = '';
@@ -111,5 +113,74 @@ class Reports extends AbstractDao {
 			$limit, $offset
 		);
 		return $this->fetchAllWithFound( $sql, $crit );
+	}
+
+	public function export() {
+		$sql = self::concat(
+			'SELECT p.id, p.title,',
+			'r.impact,',
+			'r.innovation,',
+			'r.ability,',
+			'r.engagement,',
+			'r.recommend,',
+			'IF(r.conditional >0, \'*\', \'\') AS conditional,',
+			'r.cnt AS rcnt,',
+			'ROUND((r.recommend / r.cnt) * 100, 2) AS pcnt',
+			'FROM proposals p',
+			'INNER JOIN (',
+				'SELECT COUNT(*) AS cnt,',
+				'AVG(impact) AS impact,',
+				'AVG(innovation) AS innovation,',
+				'AVG(ability) AS ability,',
+				'AVG(engagement) AS engagement,',
+				'SUM(IF(recommendation > 0, 1, 0)) AS recommend,',
+				'SUM(IF(recommendation = 1, 1, 0)) AS conditional,',
+				'proposal',
+				'FROM reviews',
+				'GROUP BY proposal',
+			') r ON p.id = r.proposal',
+			"ORDER BY pcnt DESC, id DESC"
+		);
+		$results = $this->fetchAllWithFound( $sql );
+
+		$commentsSql = self::concat(
+			'SELECT proposal,',
+			'impact_note,',
+			'innovation_note,',
+			'ability_note,',
+			'engagement_note,',
+			'comments',
+			'FROM reviews'
+		);
+
+		$comments = array();
+		foreach ( $this->fetchAll( $commentsSql ) as $row ) {
+			if ( !isset( $comments[ $row['proposal'] ] ) ) {
+				$comments[ $row['proposal'] ] = array();
+			}
+			if ( $row['impact_note'] ) {
+				$comments[$row['proposal']][] = $row['impact_note'];
+			}
+			if ( $row['innovation_note'] ) {
+				$comments[$row['proposal']][] = $row['innovation_note'];
+			}
+			if ( $row['ability_note'] ) {
+				$comments[$row['proposal']][] = $row['ability_note'];
+			}
+			if ( $row['engagement_note'] ) {
+				$comments[$row['proposal']][] = $row['engagement_note'];
+			}
+			if ( $row['comments'] ) {
+				$comments[$row['proposal']][] = $row['comments'];
+			}
+		}
+
+		foreach ( $results->rows as &$row ) {
+			if ( isset( $comments[$row['id']] ) ) {
+				$row['comments'] = $comments[$row['id']];
+			}
+		}
+
+		return $results;
 	}
 }

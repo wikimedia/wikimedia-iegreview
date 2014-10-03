@@ -1,0 +1,48 @@
+{% extends 'reports/base.html' %}
+
+{% block subtitle %}{{ 'nav-reports-wikitext'|message }}{% endblock %}
+
+{% block content %}
+{% spaceless %}
+<ol class="breadcrumb">
+  <li>{{ 'nav-reports'|message }}</li>
+  <li><a href="{{ urlFor( 'reports_wikitext' ) }}">{{ 'nav-reports-wikitext'|message }}</a></li>
+</ol>
+
+<div class="panel-group" id="accordion">
+  {% for row in report.rows %}
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h4 class="panel-title">
+        <a class="accordion-toggle collapsed block" data-toggle="collapse" data-parent="#accordion" href="#proposal{{ row.id }}">
+          {{ row.title }}
+          <small>
+            {{ row.pcnt|number_format(2) }}%
+            ({{ row.recommend }}/{{ row.rcnt }}){{ row.conditional }}
+          </small>
+        </a>
+      </h4>
+    </div>
+    <div id="proposal{{ row.id }}" class="panel-collapse collapse">
+      <div class="panel-body form-group">
+        <a href="{{ row.url|raw }}" target="_blank">{{ row.title }}</a>
+        <textarea class="form-control" rows="10" readonly>
+{{ '{{' }}IEG/Committee/Review/Score/2
+| A score={{ row.impact|number_format(1) }}
+| B score={{ row.innovation|number_format(1) }}
+| C score={{ row.ability|number_format(1) }}
+| D score={{ row.engagement|number_format(1) }}
+| comments=
+{% for comment in row.comments %}
+* {{ comment|replace( { "\n":' ' } ) }}
+{% endfor %}
+{{ '}}' }}
+        </textarea>
+      </div>
+    </div>
+  </div>
+  {% endfor %}
+</div>
+
+{% endspaceless %}
+{% endblock content %}

@@ -99,6 +99,7 @@ a:visited {
 
 a.accordion-toggle {
   text-decoration:none;
+  color:inherit;
 }
 
 a.sortable {
@@ -116,4 +117,8 @@ a.sortable.sorted-asc {
 }
 a.sortable.sorted-desc {
   background-image: url(data:image/gif;base64,R0lGODlhFQAEAIAAACMtMP///yH5BAEAAAEALAAAAAAVAAQAAAINjB+gC+jP2ptn0WskLQA7);
+}
+
+.block {
+  display:block;
 }

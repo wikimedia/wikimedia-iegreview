@@ -53,6 +53,8 @@
 	"nav-proposals-queue": "Navigation menu label for grant proposals review queue.",
 	"nav-proposals-search": "Navigation menu label for grant proposal search.",
 	"nav-reports": "Navigation menu label for list of report pages.\n{{Identical|Report}}",
+	"nav-reports-aggregated": "Navigation menu label for aggregate results report.",
+	"nav-reports-wikitext": "Navigation menu label for wikitext export report.",
 	"nav-users": "Navigation menu label, links to user list page",
 	"new-account-email": "Email body. Parameters:\n* $1 - Account username\n* $2 - Acocunt password\n* $3 - URL to login page of application\n* $4 - URL to password change page of application",
 	"new-account-subject": "Email subject",
