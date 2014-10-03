@@ -56,15 +56,7 @@ class Login extends Controller {
 
 			if ( $authed ) {
 				$this->flash( 'info', $this->i18nContext->message( 'login-success' ) );
-				if ( $next === false ) {
-					if ( $this->authManager->isAdmin() ) {
-						$next = $this->urlFor( 'reports_home' );
-					} else {
-						$next = $this->urlFor( 'proposals_home' );
-					}
-				}
-
-				$this->redirect( $next );
+				$this->redirect( $next ?: $this->urlFor( 'home' ) );
 
 			} else {
 				$this->flash( 'error', $this->i18nContext->message( 'login-failed' ) );
