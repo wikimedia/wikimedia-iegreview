@@ -3,3 +3,8 @@ public/js/vendor/bootstrap.min.js
 public/js/vendor/jquery-1.10.2.js
 public/js/vendor/jquery-1.10.2.min.js
 public/js/vendor/modernizr-2.6.2-respond-1.1.0.min.js
+vendor/phpmailer/phpmailer/examples/scripts/shAutoloader.js
+vendor/phpmailer/phpmailer/examples/scripts/shBrushPhp.js
+vendor/phpmailer/phpmailer/examples/scripts/shCore.js
+vendor/phpmailer/phpmailer/examples/scripts/shLegacy.js
+vendor/phpmailer/phpmailer/examples/scripts/XRegExp.js

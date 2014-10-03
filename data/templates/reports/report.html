@@ -29,6 +29,11 @@
 {% set val = row[spec.column] %}
 {% if spec.format == 'number' %}
   <td class="text-right">{{ row[spec.column]|number_format( spec.precision ) }}</td>
+{% elseif spec.format == 'usd' %}
+  <td class="text-right nowrap">
+    {{ row[spec.column]|number_format( spec.precision ) }}
+    {{ 'currency-usd'|message }}
+  </td>
 {% elseif spec.format == 'proposal' %}
   <td><a href="{{ urlFor( 'proposals_view', { 'id':row[spec.column] } ) }}">{{ row[spec.text] }}</a></td>
 {% elseif spec.format == 'message' %}
