@@ -52,7 +52,7 @@ class Aggregated extends AbstractReport {
 			),
 			'report-aggregated-amount' => array(
 				'column' => 'amount',
-				'format' => 'number',
+				'format' => 'usd',
 				'precision' => 0,
 				'sortable' => true,
 				'sortcolumn' => 'amount',

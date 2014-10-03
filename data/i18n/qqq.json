@@ -31,6 +31,7 @@
 	"credits-page-scholarships": "Credits page content",
 	"csrf-heading": "Header for cross site request forgery (CSRF) error page",
 	"csrf-message": "Cross site request forgery (CSRF) error page body",
+	"currency-usd": "Suffix for numbers representing US dollars",
 	"error-heading": "Fatal error page heading",
 	"error-id": "Fatal error identifier. Parameters:\n* $1 - short alpha numeric string unique to this error occurrence",
 	"error-message": "Fatal error page content",
