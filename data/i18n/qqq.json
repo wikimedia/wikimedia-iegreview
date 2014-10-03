@@ -41,6 +41,7 @@
 	"form-no": "Radio button label.",
 	"form-yes": "Radio button label.",
 	"header-title": "Used as the page title",
+	"index-page": "Landing page content,\n\nProcessed as markdown",
 	"login": "Login page heading and label for form submit button.\n{{Identical|Log in}}",
 	"login-error": "Message shown to user when authentication form is submitted with incomplete data",
 	"login-failed": "Message shown to user when authentication fails",

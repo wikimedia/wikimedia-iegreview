@@ -26,8 +26,10 @@
 	"new-account-subject": "New IEG review account",
 	"new-account-email": "A new IEG review account has been created for you.\n\nYour login info is:\n\nusername: $1\npassword: $2\n\nYou may login at: $3\n\nYou may change your password at: $4\n\nSincerely,\nIndividual Engagement Grants committee",
 
+	"index-page": "Welcome to the IEG grant review application.",
+
 	"credits": "Credits & licensing",
-	"credits-page-license": "The Wikimedia IEG review software is open source and <a href=\"//git.wikimedia.org/log/wikimedia%2Fiegreview\">available</a> under the <a href=\"http://www.gnu.org/copyleft/gpl.html\">GNU General Public License 3.0</a>.",
+	"credits-page-license": "The Wikimedia IEG grant review software is open source and <a href=\"//git.wikimedia.org/log/wikimedia%2Fiegreview\">available</a> under the <a href=\"http://www.gnu.org/copyleft/gpl.html\">GNU General Public License 3.0</a>.",
 	"credits-page-scholarships": "The application is based on code developed for the <a href=\"https://git.wikimedia.org/log/wikimedia%2Fwikimania-scholarships\">Wikimania Scholarships application</a>.",
 	"credits-page-logo": "The <a href=\"https://commons.wikimedia.org/wiki/File%3AIEG_glasses_lightblue.png\">glasses logo</a> is by Wikimedia Commons user Heatherawalls and used under the Creative Commons CC0 1.0 Universal Public Domain Dedication license.",
 
