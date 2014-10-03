@@ -1,5 +1,9 @@
 {% extends "admin/base.html" %}
 
+{% macro showBool( val ) %}
+{{ val ? 'admin-users-yes'|message : 'admin-users-no'|message }}
+{% endmacro %}
+
 {% block subtitle %}{{ 'nav-users'|message }}{% endblock %}
 {% block content %}
 {% spaceless %}
@@ -13,9 +17,10 @@
     <th>{{ 'admin-users-id'|message }}</th>
     <th>{{ 'admin-users-username'|message }}</th>
     <th>{{ 'admin-users-email'|message }}</th>
-    <th>{{ 'admin-users-reviewer'|message }}</th>
-    <th>{{ 'admin-users-valid'|message }}</th>
     <th>{{ 'admin-users-admin'|message }}</th>
+    <th>{{ 'admin-users-reviewer'|message }}</th>
+    <th>{{ 'admin-users-viewreports'|message }}</th>
+    <th>{{ 'admin-users-valid'|message }}</th>
     <th>{{ 'admin-users-blocked'|message }}</th>
   </tr>
   {% for row in records %}
@@ -23,10 +28,11 @@
     <td>{{ row.id }}</td>
     <td><a href="{{ urlFor( 'admin_user', { 'id':row.id} ) }}">{{ row.username }}</a></td>
     <td><a href="mailto:{{ row.email|url_encode }}">{{ row.email }}</a></td>
-    <td>{{ row.reviewer ? 'admin-users-yes'|message : 'admin-users-no'|message }}</td>
-    <td>{{ row.isvalid ? 'admin-users-yes'|message : 'admin-users-no'|message }}</td>
-    <td>{{ row.isadmin ? 'admin-users-yes'|message : 'admin-users-no'|message }}</td>
-    <td>{{ row.blocked ? 'admin-users-yes'|message : 'admin-users-no'|message }}</td>
+    <td>{{ _self.showBool( row.isadmin ) }}</td>
+    <td>{{ _self.showBool( row.reviewer ) }}</td>
+    <td>{{ _self.showBool( row.viewreports ) }}</td>
+    <td>{{ _self.showBool( row.isvalid ) }}</td>
+    <td>{{ _self.showBool( row.blocked ) }}</td>
   </tr>
   {% endfor %}
 </table>

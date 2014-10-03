@@ -22,6 +22,7 @@
     "admin-users-reviewer": "Table column header, is user a reviewer.\n{{Identical|Reviewer}}",
     "admin-users-username": "Table column header, username.\n{{Identical|Username}}",
     "admin-users-valid": "Table column header, is user valid.\n{{Identical|Valid}}",
+    "admin-users-viewreports": "Table column header, is user allowed to run reports.",
     "admin-users-yes": "Table cell value indicating that true\/false value is true.\n\nSee also:\n* {{msg-wm|Wsa-admin-users-no}}\n{{Identical|Yes}}",
     "change-password": "Navigation menu item, links to password change page.\n{{Identical|Change password}}",
     "credits": "Credits page heading",

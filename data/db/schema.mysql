@@ -8,6 +8,7 @@ CREATE TABLE IF NOT EXISTS users (
   , reviewer    TINYINT(1) DEFAULT NULL
   , isvalid     TINYINT(1) DEFAULT NULL
   , isadmin     TINYINT(1) DEFAULT NULL
+  , viewreports TINYINT(1) DEFAULT NULL
   , blocked     TINYINT(1) DEFAULT 0
   , PRIMARY KEY (id)
   , UNIQUE KEY username (username)

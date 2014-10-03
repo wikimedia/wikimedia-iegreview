@@ -67,7 +67,8 @@ class Users extends AbstractDao {
 
 	public function newUserCreate( $answers ) {
 		$fields = array(
-			'username', 'password', 'email', 'reviewer', 'isvalid', 'isadmin'
+			'username', 'password', 'email', 'reviewer', 'isvalid',
+			'isadmin', 'viewreports'
 		);
 		$placeholders = array();
 		$vals = array();
@@ -90,7 +91,8 @@ class Users extends AbstractDao {
 	 */
 	public function updateUserInfo( $answers, $id ) {
 		$fields = array(
-			'username', 'email', 'reviewer', 'isvalid', 'isadmin', 'blocked'
+			'username', 'email', 'reviewer', 'isvalid', 'isadmin',
+			'viewreports', 'blocked'
 		);
 		$placeholders = array();
 		foreach ( $fields as $field ) {

@@ -125,6 +125,20 @@ class AuthManager {
 
 
 	/**
+	 * Is the user allowed to read reports?
+	 * @return bool True if the user is authorized to read reports, false
+	 * otherwise
+	 */
+	public function canViewReports() {
+		$user = $this->getUser();
+		if ( $user ) {
+			return (bool)$user['isadmin'] || (bool)$user['viewreports'];
+		} else {
+			return false;
+		}
+	}
+
+	/**
 	 * Attempt to authenticate a user.
 	 * @param string $uname Username
 	 * @param string $password Password

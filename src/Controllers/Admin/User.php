@@ -43,6 +43,7 @@ class User extends Controller {
 				'reviewer' => 0,
 				'isvalid' => 1,
 				'isadmin' => 0,
+				'viewreports' => 0,
 				'blocked' => 0,
 			);
 
@@ -67,6 +68,7 @@ class User extends Controller {
 		$this->form->expectBool( 'reviewer' );
 		$this->form->expectBool( 'isvalid' );
 		$this->form->expectBool( 'isadmin' );
+		$this->form->expectBool( 'viewreports' );
 		$this->form->expectBool( 'blocked' );
 
 		if ( $this->form->validate() ) {
@@ -76,6 +78,7 @@ class User extends Controller {
 				'reviewer' => $this->form->get( 'reviewer' ),
 				'isvalid' => $this->form->get( 'isvalid' ),
 				'isadmin' => $this->form->get( 'isadmin' ),
+				'viewreports' => $this->form->get( 'viewreports' ),
 				'blocked' => $this->form->get( 'blocked' ),
 			);
 
@@ -127,6 +130,7 @@ class User extends Controller {
 				'reviewer' => $this->form->get( 'reviewer' ),
 				'isvalid' => $this->form->get( 'isvalid' ),
 				'isadmin' => $this->form->get( 'isadmin' ),
+				'viewreports' => $this->form->get( 'viewreports' ),
 				'blocked' => $this->form->get( 'blocked' ),
 			);
 			$this->flash( 'form_defaults', $user );

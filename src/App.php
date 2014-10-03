@@ -286,7 +286,12 @@ class App {
 				$user = $slim->authManager->getUser();
 				$slim->view->set( 'user', $user );
 				$slim->view->set( 'isadmin', $slim->authManager->isAdmin() );
-				$slim->view->set( 'isreviewer', $slim->authManager->isReviewer() );
+				$slim->view->set( 'isreviewer',
+					$slim->authManager->isReviewer()
+				);
+				$slim->view->set( 'viewreports',
+					$slim->authManager->canViewReports()
+				);
 			},
 
 			'require-user' => function () use ( $slim ) {
@@ -318,6 +323,23 @@ class App {
 						$_SESSION[AuthManager::NEXTPAGE_SESSION_KEY] = $uri;
 					}
 					$slim->flash( 'error', 'Admin rights required' );
+					$slim->flashKeep();
+					$slim->redirect( $slim->urlFor( 'login' ) );
+				}
+			},
+
+			'require-viewreports' => function () use ( $slim ) {
+				if ( !$slim->authManager->canViewReports() ) {
+					// Redirect to login form if not a report viewer
+					if ( $slim->request->isGet() ) {
+						$uri = $slim->request->getUrl() . $slim->request->getPath();
+						$qs = \Wikimedia\IEGReview\Form::qsMerge();
+						if ( $qs ) {
+							$uri = "{$uri}?{$qs}";
+						}
+						$_SESSION[AuthManager::NEXTPAGE_SESSION_KEY] = $uri;
+					}
+					$slim->flash( 'error', 'Report view rights required' );
 					$slim->flashKeep();
 					$slim->redirect( $slim->urlFor( 'login' ) );
 				}
@@ -435,7 +457,7 @@ class App {
 			$middleware['must-revalidate'],
 			$middleware['inject-user'],
 			$middleware['require-user'],
-			$middleware['require-admin'],
+			$middleware['require-viewreports'],
 			function () use ( $slim, $middleware ) {
 				$slim->get( '', function () use ( $slim ) {
 					$slim->flashKeep();

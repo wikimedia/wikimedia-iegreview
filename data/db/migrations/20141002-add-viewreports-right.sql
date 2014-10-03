@@ -1,0 +1,3 @@
+ALTER TABLE users
+  ADD COLUMN viewreports TINYINT(1) DEFAULT NULL
+  AFTER isadmin;
