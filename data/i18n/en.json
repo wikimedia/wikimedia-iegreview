@@ -7,8 +7,6 @@
 	"header-title": "IEG grant review",
 	"logo-alt": "IEG grant review",
 
-	"nav-credits": "Credits",
-	"nav-privacy": "Privacy",
 	"nav-language": "Language:",
 
 	"nav-proposals": "Proposals",
@@ -28,9 +26,6 @@
 	"new-account-subject": "New IEG review account",
 	"new-account-email": "A new IEG review account has been created for you.\n\nYour login info is:\n\nusername: $1\npassword: $2\n\nYou may login at: $3\n\nYou may change your password at: $4\n\nSincerely,\nIndividual Engagement Grants committee",
 
-	"contact-us": "Contact us",
-	"contact-page": "IEG at meta.wikimedia.org: <a href=\"//meta.wikimedia.org/wiki/Grants:IEG/Questions\">http://meta.wikimedia.org/wiki/Grants:IEG/Questions</a>",
-
 	"credits": "Credits & licensing",
 	"credits-page-license": "The Wikimedia IEG review software is open source and <a href=\"//git.wikimedia.org/log/wikimedia%2Fiegreview\">available</a> under the <a href=\"http://www.gnu.org/copyleft/gpl.html\">GNU General Public License 3.0</a>.",
 	"credits-page-scholarships": "The application is based on code developed for the <a href=\"https://git.wikimedia.org/log/wikimedia%2Fwikimania-scholarships\">Wikimania Scholarships application</a>.",
@@ -41,7 +36,6 @@
 
 	"footer-credits": "credits",
 	"footer-privacy": "privacy",
-	"footer-contact": "contact",
 
 	"login": "Log in",
 	"username": "Username",
@@ -117,22 +111,18 @@
 	"review-impact": "Criteria A: Impact potential",
 	"review-impact-instructions": "Considering...\n\n1. Does it fit with Wikimedia's strategic priorities?\n2. Does it have potential for online impact?\n3. Can it be sustained, scaled, or adapted elsewhere after the grant ends?",
 	"review-impact-rank": "If successful, how much impact could this project have in the Wikimedia movement?",
-	"review-impact-rank-empty": "Please select",
 	"review-impact-note": "What praise, suggestions, or concerns do have when considering impact potential for this proposal?",
 	"review-innovation": "Criteria B: Innovation and learning",
 	"review-innovation-instructions": "Considering...\n\n1. Does it take an innovative approach to solving a key problem?\n2. Is the potential impact greater than the risks?\n3. Can we measure success?",
 	"review-innovation-rank": "How much innovative learning is the Wikimedia movement likely to receive as a result of this project?",
-	"review-innovation-rank-empty": "Please select",
 	"review-innovation-note": "What praise, suggestions, or concerns do have when considering innovation and learning for this proposal?",
 	"review-ability": "Critiera C: Ability to execute",
 	"review-ability-instructions": "Considering...\n\n1. Can the scope be accomplished in 6 months?\n2. How realistic/efficient is the budget?\n3. Do the participants have the necessary skills/experience?",
 	"review-ability-rank": "How likely is it that the project can be executed with the current plan?",
-	"review-ability-rank-empty": "Please select",
 	"review-ability-note": "What praise, suggestions, or concerns do have when considering ability to execute for this proposal?",
 	"review-engagement": "Critiera D: Community engagement",
 	"review-engagement-instructions": "Considering...\n\n1. Does it have a specific target community and plan to engage it often?\n2. Does it have endorsements or other community support?\n3. Does it support diversity?",
 	"review-engagement-rank": "How much community engagement is there (present and planned)?",
-	"review-engagement-rank-empty": "Please select",
 	"review-engagement-note": "What praise, suggestions, or concerns do have when considering community engagement for this proposal?",
 	"review-recommendation": "Recommendation",
 	"review-recommendation-instructions": "Imagine your grantmaking budget is $80,000 total. Is this one of the projects you would fund?",
@@ -164,7 +154,6 @@
 
 	"proposals-list-id": "Id",
 	"proposals-list-title": "Title",
-	"proposals-list-url": "URL",
 	"proposals-list-theme": "Theme",
 	"proposals-list-amount": "Amount",
 	"proposals-list-reviews": "Reviews",
@@ -172,11 +161,6 @@
 
 	"proposal-summary": "Review summary",
 	"summary-list-reviewers": "Reviewers:",
-	"summary-list-criteria": "Criteria",
-	"summary-list-impact": "Impact",
-	"summary-list-innovation": "Innovation",
-	"summary-list-ability": "Ability",
-	"summary-list-engagement": "Engagement",
 	"summary-list-mean": "Mean",
 	"summary-list-median": "Median",
 	"summary-list-range": "Range",
