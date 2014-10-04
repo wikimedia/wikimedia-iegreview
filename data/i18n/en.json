@@ -112,6 +112,7 @@
 	"proposals-view-edit": "Edit",
 
 	"proposals-review": "My review",
+	"review-instructions": "__Required field *__",
 	"review-impact": "Criteria A: Impact potential",
 	"review-impact-instructions": "Considering...\n\n1. Does it fit with Wikimedia's strategic priorities?\n2. Does it have potential for online impact?\n3. Can it be sustained, scaled, or adapted elsewhere after the grant ends?",
 	"review-impact-rank": "If successful, how much impact could this project have in the Wikimedia movement?",

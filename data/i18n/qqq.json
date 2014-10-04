@@ -141,6 +141,7 @@
 	"review-innovation-instructions": "Markdown formatted section help.",
 	"review-innovation-note": "Input label, followed by textarea.",
 	"review-innovation-rank": "Input label, followed by select list.",
+	"review-instructions": "Markdown formatted form instructions.",
 	"review-rank-1": "Radio button label.",
 	"review-rank-10": "Radio button label.",
 	"review-rank-2": "Radio button label.",

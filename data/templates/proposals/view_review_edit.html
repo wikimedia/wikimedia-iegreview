@@ -43,6 +43,7 @@
       </h2>
     </div>
     <div id="review-body" class="panel-body panel-collapse collapse {% if myreview is empty %}in{% endif %}">
+      {{ 'review-instructions'|message|markdown }}
       <form method="post" action="{{ urlFor( 'proposals_review_post', { 'id': proposal.id } ) }}">
         <input type="hidden" name="{{ csrf_param }}" value="{{ csrf_token }}" />
         <input type="hidden" name="proposal" value="{{ proposal.id }}" />
