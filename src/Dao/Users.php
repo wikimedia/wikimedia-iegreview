@@ -46,8 +46,53 @@ class Users extends AbstractDao {
 		);
 	}
 
-	public function getListofUsers( $state ) {
-		return $this->fetchAll( 'SELECT * FROM users' );
+	public function search( array $params ) {
+		$defaults = array(
+			'name' => null,
+			'email' => null,
+			'sort' => 'id',
+			'order' => 'asc',
+			'items' => 20,
+			'page' => 0,
+		);
+		$params = array_merge( $defaults, $params );
+
+		$where = array();
+		$crit = array();
+
+		$validSorts = array(
+			'id', 'username', 'email', 'reviwer', 'isvalid',
+			'isadmin', 'viewreports', 'blocked',
+		);
+		$sortby = in_array( $params['sort'], $validSorts ) ?
+			$params['sort'] : $defaults['sort'];
+		$order = $params['order'] === 'desc' ? 'DESC' : 'ASC';
+
+		if ( $params['items'] == 'all' ) {
+			$limit = '';
+			$offset = '';
+		} else {
+			$crit['int_limit'] = (int)$params['items'];
+			$crit['int_offset'] = (int)$params['page'] * (int)$params['items'];
+			$limit = 'LIMIT :int_limit';
+			$offset = 'OFFSET :int_offset';
+		}
+		if ( $params['name'] !== null ) {
+			$where[] = 'username like :name';
+			$crit['name'] = $params['name'];
+		}
+		if ( $params['email'] !== null ) {
+			$where[] = 'email like :email';
+			$crit['email'] = $params['email'];
+		}
+
+		$sql = self::concat(
+			'SELECT SQL_CALC_FOUND_ROWS * FROM users',
+			self::buildWhere( $where ),
+			"ORDER BY {$sortby} {$order}, id {$order}",
+			$limit, $offset
+		);
+		return $this->fetchAllWithFound( $sql, $crit );
 	}
 
 	public function getUserInfo( $user_id ) {
