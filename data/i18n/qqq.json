@@ -17,6 +17,7 @@
 	"admin-users-admin": "Table column header, is user an administrator.\n{{Identical|Admin}}",
 	"admin-users-blocked": "Table column header, is user blocked from authenticating.\n{{Identical|Blocked}}",
 	"admin-users-email": "Table column header, email address.\n{{Identical|E-mail}}",
+	"admin-users-form-go": "Form submit buton label.",
 	"admin-users-id": "Table column header, user id number.\n{{Identical|ID}}",
 	"admin-users-no": "Table cell value indicating that true\/false value is false.\n\n\nSee also:\n* {{msg-wm|Wsa-admin-users-yes}}\n{{Identical|No}}",
 	"admin-users-reviewer": "Table column header, is user a reviewer.\n{{Identical|Reviewer}}",
