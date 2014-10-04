@@ -9,6 +9,25 @@
   <li><a href="{{ urlFor( 'reports_wikitext' ) }}">{{ 'nav-reports-wikitext'|message }}</a></li>
 </ol>
 
+<form class="form-inline" method="get" action="{{ urlFor( 'reports_wikitext' ) }}" role="form">
+  <div class="form-group">
+    <label class="sr-only" for="th">{{ 'proposals-queue-theme'|message }}</label>
+    <select id="th" name="th" class="form-control">
+      <option value="">{{ 'proposals-queue-theme-empty'|message }}</option>
+      {% for val in [ 'online', 'offline', 'tool', 'research' ] %}
+      <option value="{{ val }}" {{ val == th ? 'selected="selected"' }}>{{ "theme-#{val}"|message }}</option>
+      {% endfor %}
+    </select>
+  </div>
+  <div class="form-group">
+    <button type="submit" class="btn btn-sm btn-primary">
+      <i class="glyphicon glyphicon-filter"></i>
+      {{ 'reports-wikitext-go'|message }}
+    </button>
+  </div>
+</form>
+
+<p></p>
 <div class="panel-group" id="accordion">
   {% for row in report.rows %}
   <div class="panel panel-default">
@@ -16,6 +35,9 @@
       <h4 class="panel-title">
         <a class="accordion-toggle collapsed block" data-toggle="collapse" data-parent="#accordion" href="#proposal{{ row.id }}">
           {{ row.title }}
+          ·
+          <small>{{ "theme-#{row.theme}"|message }}</small>
+          ·
           <small>
             {{ row.pcnt|number_format(2) }}%
             ({{ row.recommend }}/{{ row.rcnt }}){{ row.conditional }}
@@ -27,6 +49,7 @@
       <div class="panel-body form-group">
         <a href="{{ row.url|raw }}" target="_blank">{{ row.title }}</a>
         <textarea class="form-control" rows="10" readonly>
+==Aggregated feedback from the committee for ''{{ row.title }}''==
 {{ '{{' }}IEG/Committee/Review/Score/2
 | A score={{ row.impact|number_format(1) }}
 | B score={{ row.innovation|number_format(1) }}
@@ -37,7 +60,7 @@
 * {{ comment|replace( { "\n":' ' } ) }}
 {% endfor %}
 {{ '}}' }}
-        </textarea>
+</textarea>
       </div>
     </div>
   </div>

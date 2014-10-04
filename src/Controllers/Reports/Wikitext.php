@@ -34,7 +34,14 @@ use Wikimedia\IEGReview\Controller;
 class Wikitext extends Controller {
 
 	protected function handleGet() {
-		$this->view->setData( 'report', $this->dao->export() );
+		$this->form->expectString( 'th' );
+		$this->form->validate( $_GET );
+
+		$params = array(
+			'theme' => $this->form->get( 'th' ),
+		);
+		$this->view->setData( 'report', $this->dao->export( $params ) );
+		$this->view->set( 'th', $this->form->get( 'th' ) );
 		$this->render( 'reports/wikitext.html' );
 	}
 }

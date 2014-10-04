@@ -115,9 +115,26 @@ class Reports extends AbstractDao {
 		return $this->fetchAllWithFound( $sql, $crit );
 	}
 
-	public function export() {
+	/**
+	 * @param array $params
+	 * @return object StdClass with rows and found memebers
+	 */
+	public function export( array $params ) {
+		$this->logger->debug( __METHOD__, $params );
+		$defaults = array(
+			'theme' => null,
+		);
+		$params = array_merge( $defaults, $params );
+
+		$where = array();
+		$crit = array();
+		if ( $params['theme'] !== null ) {
+			$where[] = 'p.theme = :theme';
+			$crit['theme'] = $params['theme'];
+		}
+
 		$sql = self::concat(
-			'SELECT p.id, p.title,',
+			'SELECT p.id, p.title, p.url,p.theme,',
 			'r.impact,',
 			'r.innovation,',
 			'r.ability,',
@@ -139,9 +156,10 @@ class Reports extends AbstractDao {
 				'FROM reviews',
 				'GROUP BY proposal',
 			') r ON p.id = r.proposal',
+			self::buildWhere( $where ),
 			"ORDER BY pcnt DESC, id DESC"
 		);
-		$results = $this->fetchAllWithFound( $sql );
+		$results = $this->fetchAllWithFound( $sql, $crit );
 
 		$commentsSql = self::concat(
 			'SELECT proposal,',

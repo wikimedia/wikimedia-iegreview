@@ -200,5 +200,7 @@
 	"proposals-queue-theme-empty": "Select theme",
 	"proposals-queue-go": "Filter queue",
 
-	"currency-usd": "USD"
+	"currency-usd": "USD",
+
+  "reports-wikitext-go": "Filter report"
 }
