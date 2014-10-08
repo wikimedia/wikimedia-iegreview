@@ -29,6 +29,18 @@ namespace Wikimedia\IEGReview;
  */
 class TwigExtension extends \Twig_Extension {
 
+	/**
+	 * @var ParsoidClient $parsoid
+	 */
+	protected $parsoid;
+
+	/**
+	 * @param ParsoidClient $parsoid
+	 */
+	public function __construct( ParsoidClient $parsoid ) {
+		$this->parsoid = $parsoid;
+	}
+
 	public function getName() {
 		return 'iegreview';
 	}
@@ -39,8 +51,20 @@ class TwigExtension extends \Twig_Extension {
 		);
 	}
 
+	public function getFilters() {
+		return array(
+			new \Twig_SimpleFilter(
+				'wikitext', array( $this, 'wikitextFilterCallback' ),
+				array( 'pre_escape' => 'html', 'is_safe' => array( 'html' ) )
+			),
+		);
+	}
+
 	public function qsMerge( $parms ) {
 		return Form::qsMerge( $parms );
 	}
 
+	public function wikitextFilterCallback( $text ) {
+		return $this->parsoid->parse( $text );
+	}
 }
