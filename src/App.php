@@ -243,9 +243,6 @@ class App {
 			new \Slim\Views\TwigExtension(),
 			new TwigExtension(),
 			new \Wikimedia\SimpleI18n\TwigExtension( $this->slim->i18nContext ),
-			new \Aptoma\Twig\Extension\MarkdownExtension(
-				new \Aptoma\Twig\Extension\MarkdownEngine\MichelfMarkdownEngine()
-			),
 		);
 
 		// Set default view data
