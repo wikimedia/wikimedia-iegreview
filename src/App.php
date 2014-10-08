@@ -51,10 +51,14 @@ class App {
 		$this->slim = new \Slim\Slim( array(
 			'mode' => 'production',
 			'debug' => false,
-			'log.level' => Config::getStr( 'LOG_LEVEL', \Psr\Log\LogLevel::NOTICE ),
+			'log.level' => Config::getStr( 'LOG_LEVEL',
+				\Psr\Log\LogLevel::NOTICE
+			),
 			'log.file' => Config::getStr( 'LOG_FILE', 'php://stderr' ),
 			'view' => new \Slim\Views\Twig(),
-			'view.cache' => Config::getStr( 'CACHE_DIR', "{$this->deployDir}/data/cache" ),
+			'view.cache' => Config::getStr( 'CACHE_DIR',
+				"{$this->deployDir}/data/cache"
+			),
 			'smtp.host' => Config::getStr( 'SMTP_HOST', 'localhost' ),
 			'templates.path' => "{$this->deployDir}/data/templates",
 			'i18n.path' => "{$this->deployDir}/data/i18n",
@@ -62,6 +66,12 @@ class App {
 			'db.dsn' => Config::getStr( 'DB_DSN' ),
 			'db.user' => Config::getStr( 'DB_USER' ),
 			'db.pass' => Config::getStr( 'DB_PASS' ),
+			'parsoid.url' => Config::getStr( 'PARSOID_URL',
+				'http://parsoid-lb.eqiad.wikimedia.org/enwiki/'
+			),
+			'parsoid.cache' => Config::getStr( 'CACHE_DIR',
+				"{$this->deployDir}/data/cache"
+			),
 		));
 
 		$slim = $this->slim;
@@ -197,6 +207,14 @@ class App {
 			);
 		} );
 
+		$container->singleton( 'parsoid', function ( $c ) {
+			return new \Wikimedia\IEGReview\ParsoidClient(
+				$c->settings['parsoid.url'],
+				$c->settings['parsoid.cache'],
+				$c->log
+			);
+		} );
+
 		// Replace default logger with monolog
 		$container->singleton( 'log', function ( $c ) {
 			// Convert string level to Monolog integer value
@@ -241,7 +259,7 @@ class App {
 		// Install twig parser extensions
 		$view->parserExtensions = array(
 			new \Slim\Views\TwigExtension(),
-			new TwigExtension(),
+			new TwigExtension( $this->slim->parsoid ),
 			new \Wikimedia\SimpleI18n\TwigExtension( $this->slim->i18nContext ),
 		);
 
