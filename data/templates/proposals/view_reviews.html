@@ -31,7 +31,7 @@
       {% for review in reviews %}
         {% if review[note] %}
         <li class="list-group-item clearfix">
-          {{ review[note] }}
+          {{ review[note]|wikitext }}
           {% if ctx.isadmin|default( false ) %}
           <cite class="pull-right text-muted">&mdash; {{ review.reviewer_name }}</cite>
           {% endif %}
@@ -136,7 +136,7 @@
             {% for review in reviews %}
               {% if review.comments %}
               <li class="list-group-item clearfix">
-                {{ review.comments }}
+                {{ review.comments|wikitext }}
                 {% if isadmin|default( false ) %}
                 <cite class="pull-right text-muted">&mdash; {{ review.reviewer_name }}</cite>
                 {% endif %}

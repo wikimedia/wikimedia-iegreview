@@ -39,8 +39,43 @@ class TwigExtension extends \Twig_Extension {
 		);
 	}
 
+	public function getFilters() {
+		return array(
+			new \Twig_SimpleFilter(
+				'wikitext', array( $this, 'wikitextFilterCallback' ),
+				array( 'pre_escape' => 'html', 'is_safe' => array( 'html' ) )
+			),
+		);
+	}
+
 	public function qsMerge( $parms ) {
 		return Form::qsMerge( $parms );
+	}
+
+	public function wikitextFilterCallback( $text ) {
+		// TODO: add message caching
+		// TODO: make the parsoid URL configurable
+		$url = 'http://parsoid-lb.eqiad.wikimedia.org/enwiki/';
+		$params = 'wt=' . urlencode( $text ) . '&body=1';
+
+		$ch = curl_init();
+		curl_setopt( $ch, CURLOPT_URL, $url );
+		curl_setopt( $ch, CURLOPT_POST, true );
+		curl_setopt( $ch, CURLOPT_POSTFIELDS, $params );
+		curl_setopt( $ch, CURLOPT_HTTPHEADER, array(
+			'Content-Length: ' . strlen( $params ),
+		) );
+		curl_setopt( $ch, CURLOPT_ENCODING, 'gzip' );
+		curl_setopt( $ch, CURLOPT_RETURNTRANSFER, true );
+		curl_setopt( $ch, CURLOPT_USERAGENT, 'IEG Grant review 0.1' );
+		$body = curl_exec( $ch );
+		curl_close( $ch );
+
+		// Using a regex to parse html is generally not a sane thing to do,
+		// but in this case we are trusting Parsoid to be returning clean HTML
+		// and all we want to do is unwrap our payload from the
+		// <body>...</body> tag.
+		return preg_replace( '@^<body[^>]+>(.*)</body>$@', '$1', $body );
 	}
 
 }
