@@ -31,7 +31,7 @@
 
       {% if proposal.description %}
       <section class="panel panel-default">
-        <div class="panel-body">{{ proposal.description|markdown }}</div>
+        <div class="panel-body">{{ proposal.description }}</div>
       </section>
       {% endif %}
 
@@ -42,7 +42,7 @@
             <a class="accordion-toggle" data-toggle="collapse" href="#admin-notes"></a></h3>
         </div>
         <div id="admin-notes" class="panel-body panel-collapse collapse in">
-          {{ proposal.notes|markdown }}
+          {{ proposal.notes }}
         </div>
       </section>
       {% endif %}
