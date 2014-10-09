@@ -123,9 +123,12 @@ class Password {
 	 * Get N high entropy random bytes.
 	 *
 	 * @param int $count Number of bytes to generate
+	 * @param bool $allowWeak Allow weak entropy sources
 	 * @return string String of random bytes
+	 * @throws InvalidArgumentException if $allowWeak is false and no high
+	 * entropy sources of random data can be found
 	 */
-	public static function getBytes( $count ) {
+	public static function getBytes( $count, $allowWeak = false ) {
 
 		if ( function_exists( 'mcrypt_create_iv' ) ) {
 			$bytes = mcrypt_create_iv( $count, MCRYPT_DEV_URANDOM );
@@ -159,6 +162,13 @@ class Password {
 				}
 			}
 		} // end if /dev/urandom
+
+		if ( $allowWeak !== true ) {
+			throw new InvalidArgumentException(
+				'No high entropy source of random data found and ' .
+				'weak sources disallowed in function call'
+			);
+		}
 
 		// create a high entropy seed value
 		$seed = microtime() . uniqid( '', true );
@@ -217,7 +227,7 @@ class Password {
 		}
 		$csLen = strlen( $cs );
 
-		$random = self::getBytes( $len );
+		$random = self::getBytes( $len, true );
 		$password = '';
 
 		foreach( range( 0, $len - 1 ) as $i ) {
