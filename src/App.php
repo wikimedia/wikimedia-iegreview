@@ -128,6 +128,7 @@ class App {
 	public function run () {
 		session_name( '_s' );
 		session_cache_limiter( false );
+		ini_set( 'session.cookie_httponly', true );
 		session_start();
 		register_shutdown_function( 'session_write_close' );
 		$this->slim->run();
@@ -280,6 +281,12 @@ class App {
 		// Add a Vary: Cookie header to all responses
 		$headerMiddleware = new HeaderMiddleware( array(
 			'Vary' => 'Cookie',
+			'X-Frame-Options' => 'DENY',
+			'Content-Security-Policy' =>
+				"default-src 'self'; frame-src 'none'; object-src 'none'",
+			// Don't forget to override this for any content that is not
+			// actually HTML (e.g. json)
+			'Content-Type' => 'text/html; charset=UTF-8',
 		) );
 		$slim->add( $headerMiddleware );
 		// Add CSRF protection
