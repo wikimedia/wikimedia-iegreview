@@ -22,7 +22,7 @@
 	"nav-account": "My Account",
 
 	"new-account-subject": "New IEG review account",
-	"new-account-email": "A new IEG review account has been created for you.\n\nYour login info is:\n\nusername: $1\npassword: $2\n\nYou may login at: $3\n\nYou may change your password at: $4\n\nSincerely,\nIndividual Engagement Grants committee",
+	"new-account-email": "A new IEG review account has been created for you.\n\nYour login info is:\n\nusername: $1\npassword: $2\n\nYou may login at: $3\n\nYou may change your password at: $4\n\nSincerely,\nIndividual Engagement Grants team",
 
 	"index-page": "Welcome to the IEG grant review application.",
 
