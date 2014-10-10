@@ -151,6 +151,6 @@ class ParsoidClient {
 		// but in this case we are trusting Parsoid to be returning clean HTML
 		// and all we want to do is unwrap our payload from the
 		// <body>...</body> tag.
-		return preg_replace( '@^<body[^>]+>(.*)</body>$@', '$1', $body );
+		return preg_replace( '@.*<body[^>]+>(.*)</body>.*@s', '$1', $body );
 	}
 }
