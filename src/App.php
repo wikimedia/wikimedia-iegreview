@@ -283,7 +283,13 @@ class App {
 			'Vary' => 'Cookie',
 			'X-Frame-Options' => 'DENY',
 			'Content-Security-Policy' =>
-				"default-src 'self'; frame-src 'none'; object-src 'none'",
+				"default-src 'self'; " .
+				"frame-src 'none'; " .
+				"object-src 'none'; " .
+				// Needed for css data:... sprites
+				"img-src 'self' data:; " .
+				// Needed for jQuery and Modernizr feature detection
+				"style-src 'self' 'unsafe-inline'",
 			// Don't forget to override this for any content that is not
 			// actually HTML (e.g. json)
 			'Content-Type' => 'text/html; charset=UTF-8',
