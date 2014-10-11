@@ -2,7 +2,7 @@
 {% set route = 'proposals_queue' %}
 {% set ctx = _context %}
 
-{% macro sortHeader( column, ctx ) %}
+{% macro sortHeader( column, ctx, class ) %}
 {% set sorted = ctx.s == column %}
 {% set label = "proposals-list-#{column}" %}
 {% if sorted %}
@@ -11,7 +11,7 @@
 {% else %}
   {% set nextO = 'asc' %}
 {% endif %}
-<th><a class="sortable {{ sorted ? "sorted-#{o}" : 'unsorted' }}" href="{{ urlFor( ctx.route ) }}?{{ qsMerge( { 's':column, 'o':nextO } ) }}">{{ label|message }}</a></th>
+<th><a class="sortable {{ sorted ? "sorted-#{o}" : 'unsorted' }} {{ class|default( '' ) }}" href="{{ urlFor( ctx.route ) }}?{{ qsMerge( { 's':column, 'o':nextO } ) }}">{{ label|message }}</a></th>
 {% endmacro %}
 
 {% block subtitle %}{{ 'nav-proposals-queue'|message }}{% endblock %}
@@ -61,8 +61,8 @@
   <tr>
     {{ _self.sortHeader( 'title', ctx ) }}
     {{ _self.sortHeader( 'theme', ctx ) }}
-    {{ _self.sortHeader( 'amount', ctx ) }}
-    {{ _self.sortHeader( 'reviews', ctx ) }}
+    {{ _self.sortHeader( 'amount', ctx, 'text-right' ) }}
+    {{ _self.sortHeader( 'reviews', ctx, 'text-right' ) }}
   </tr>
   {% for row in records %}
   <tr>
