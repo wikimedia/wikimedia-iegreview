@@ -253,7 +253,7 @@ class App {
 			'cache' => $this->slim->config( 'view.cache' ),
 			'debug' => $this->slim->config( 'debug' ),
 			'auto_reload' => true,
-			'strict_variables' => !$this->slim->config( 'debug' ),
+			'strict_variables' => false,
 			'autoescape' => true,
 		);
 
