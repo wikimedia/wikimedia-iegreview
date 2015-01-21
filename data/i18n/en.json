@@ -16,6 +16,7 @@
 	"nav-proposals-search": "Search",
 	"nav-reports": "Reports",
 	"nav-reports-aggregated": "Aggregated scores",
+	"nav-reports-campaigns": "Campaigns",
 	"nav-reports-wikitext": "Wikitext export",
 	"nav-admin": "Admin",
 	"nav-users": "Manage users",
@@ -151,9 +152,11 @@
 	"form-neutral": "Neutral",
 	"form-no": "No",
 
+	"proposals-search-campaign": "Campaign",
 	"proposals-search-title": "Title",
 	"proposals-search-theme": "Theme",
 	"proposals-search-theme-empty": "Select theme",
+	"proposals-search-campaigns-empty": "Select campaign",
 	"proposals-search-go": "Search",
 
 	"proposals-list-id": "Id",
@@ -178,6 +181,11 @@
 	"report-aggregated-ability": "Ability",
 	"report-aggregated-engagement": "Engagement",
 	"report-aggregated-recommend": "Recommend",
+	"report-campaign-id": "ID",
+	"report-campaign-name": "Name",
+	"report-campaign-startdate": "Start Date",
+	"report-campaign-enddate": "End Date",
+	"report-campaign-status": "Status",
 	"report-format-recommend": "$4% ($1/$3)$2",
 
 	"reviews-notes": "Reviewer notes",
