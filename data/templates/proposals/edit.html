@@ -5,6 +5,7 @@
 {% block subtitle %}{{ 'nav-proposals-edit'|message }}{% endblock %}
 {% block content %}
 {% spaceless %}
+
 <ol class="breadcrumb">
   <li><a href="{{ urlFor( 'proposals_home' ) }}">{{ 'nav-proposals'|message }}</a></li>
   {% if id != 'new' %}
