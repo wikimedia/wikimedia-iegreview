@@ -498,6 +498,12 @@ class App {
 					$page();
 				} )->name( 'reports_aggregated' );
 
+				$slim->get( 'campaigns', function () use ( $slim ) {
+					$page = new Controllers\Reports\Campaigns( $slim );
+					$page->setDao( $slim->reportsDao );
+					$page();
+				} )->name( 'reports_campaigns' );
+
 				$slim->get( 'wikitext', function () use ( $slim ) {
 					$page = new Controllers\Reports\Wikitext( $slim );
 					$page->setDao( $slim->reportsDao );

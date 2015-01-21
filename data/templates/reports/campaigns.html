@@ -1,0 +1,119 @@
+{% extends 'reports/base.html' %}
+{##
+ # Common report display template.
+ # Expects this data:
+ # - columns : Array of report column descriptions
+ # - report : stdclass/array with "rows" and "found" members
+ # - items : number of results per page
+ # - p : current page number
+ # - s : sort column
+ # - o : sort order
+ #}
+
+{% set route = app.router.getCurrentRoute.getName %}
+{% set suffix = route|split( '_' )|last %}
+{% set ctx = _context %}
+
+{% macro sortHeader( label, column, ctx, format ) %}
+{% set sorted = ctx.s == column %}
+{% if sorted %}
+  {% set o = ctx.o == 'desc' ? 'desc' : 'asc' %}
+  {% set nextO = o == 'asc' ? 'desc' : 'asc' %}
+{% else %}
+  {% set nextO = 'asc' %}
+{% endif %}
+{% if format == 'number' or format == 'usd' %}
+  {% set class = 'text-right' %}
+{% elseif format == 'message' %}
+  {% set class = 'text-center' %}
+{% else %}
+  {% set class = '' %}
+{% endif %}
+<th><a class="sortable {{ sorted ? "sorted-#{o}" : 'unsorted' }} {{ class }}" href="{{ urlFor( ctx.route ) }}?{{ qsMerge( { 's':column, 'o':nextO } ) }}">{{ label|message }}</a></th>
+{% endmacro %}
+
+{% macro format( row, spec ) %}
+{% set val = row[spec.column] %}
+{% if spec.format == 'number' %}
+  <td class="text-right">{{ row[spec.column]|number_format( spec.precision ) }}</td>
+{% elseif spec.format == 'usd' %}
+  <td class="text-right nowrap">
+    {{ row[spec.column]|number_format( spec.precision ) }}
+    {{ 'currency-usd'|message }}
+  </td>
+{% elseif spec.format == 'proposal' %}
+  <td><a href="{{ urlFor( 'proposals_view', { 'id':row[spec.column] } ) }}">{{ row[spec.text] }}</a></td>
+{% elseif spec.format == 'message' %}
+  {% set vals = [] %}
+  {% for key in spec.columns %}
+  {% set vals = vals|merge( [ row[key] ] ) %}
+  {% endfor %}
+  <td class="text-center">{{ spec.message|message( vals ) }}</td>
+{% else %}
+  <td>{{ row[spec.column] }}</td>
+{% endif %}
+{% endmacro %}
+
+
+{% block subtitle %}{{ ( 'nav-reports-' ~ suffix )|message }}{% endblock %}
+
+{% block content %}
+{% spaceless %}
+<ol class="breadcrumb">
+  <li>{{ 'nav-reports'|message }}</li>
+  <li><a href="{{ urlFor( route ) }}">{{ ( 'nav-reports-' ~ suffix )|message }}</a></li>
+</ol>
+
+<table class="table table-striped table-hover table-condensed table-responsive">
+  <thead>
+    <tr>
+      {% for msg,col in columns %}
+        {% if col.sortable %}
+          {{ _self.sortHeader( msg, col.sortcolumn, ctx, col.format ) }}
+        {% else %}
+          <th>{{ msg|message }}</th>
+        {% endif %}
+      {% endfor %}
+    </tr>
+  </thead>
+  <tbody>
+    {% for row in report.rows %}
+    <tr>
+      {% for col in columns %}
+      {{ _self.format( row, col ) }}
+      {% endfor %}
+    </tr>
+    {% else %}
+    <tr><td colspan="8">{{ 'no-results'|message }}</td></tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+{% if report.found != report.rows|length  %}
+<div class="row">
+  <div class="col-md-3">
+    <p class="text-right">{{ 'page-of-pages'|message(  p + 1, pages ) }}</p>
+  </div>
+  <div class="col-md-9">
+    <ul class="pagination">
+      {% if p > 0 %}
+      <li><a href="{{ urlFor( route ) }}?{{ qsMerge( { 'p':(p - 1) } ) }}" id="prev">&laquo;</a></li>
+      {% else %}
+      <li class="disabled"><span>&laquo;</span></li>
+      {% endif %}
+      {% if left > 0 %}<li class="disabled"><span>&hellip;</span></li>{% endif %}
+      {% for i in left .. right %}
+      <li class="{{ i == p ? 'active' }}"><a href="{{ urlFor( route ) }}?{{ qsMerge( { 'p':i } ) }}" id="prev">{{ i + 1 }}</a></li>
+      {% endfor %}
+      {% if right < pages - 1 %}<li class="disabled"><span>&hellip;</span></li>{% endif %}
+      {% if p + 1 < pages %}
+      <li><a href="{{ urlFor( route ) }}?{{ qsMerge( { 'p':(p + 1) } ) }}" >&raquo;</a></li>
+      {% else %}
+      <li class="disabled"><span>&raquo;</span></li>
+      {% endif %}
+    </ul>
+  </div>
+</div>
+{% endif %}
+{% endspaceless %}
+{% endblock content %}
