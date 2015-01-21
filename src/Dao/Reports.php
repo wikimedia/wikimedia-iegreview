@@ -203,11 +203,11 @@ class Reports extends AbstractDao {
 	}
 
 
-		/**
+	/**
 	 * @param array $params
 	 * @return object StdClass with rows and found memebers
 	 */
-	public function campaignsReport( array $params ) {
+	public function campaigns( array $params ) {
 		$this->logger->debug( __METHOD__, $params );
 		$defaults = array(
 			'sort' => 'pcnt',
@@ -237,9 +237,9 @@ class Reports extends AbstractDao {
 		}
 
 		$sql = self::concat(
-			'SELECT c.id, c.name, c.start_date, c.end_date, c.campaign_status',
+			'SELECT c.id, c.name, c.start_date, c.end_date, c.status',
 			'FROM campaigns c',
-			'WHERE campaign_status = 0', //Only expired campaigns shown in this view
+			'WHERE status = 0', //Only expired campaigns shown in this view
 			"ORDER BY {$sortby} {$order}, id {$order}",
 			$limit, $offset
 		);

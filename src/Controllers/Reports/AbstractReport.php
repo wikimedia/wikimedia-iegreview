@@ -34,7 +34,13 @@ use Wikimedia\IEGReview\Controller;
 abstract class AbstractReport extends Controller {
 
 	/**
-	 * @return array Column descriptions
+	 * Labels should be specific to this report.
+	 * The description of the various elements in the Abstract Report is as follows:
+	 * 'text' => 'X' element will display X as the text in the column
+	 * 'sortcolumn' => 'X' will sort the column by X
+	 * 'format' => 'X' is used to set the element format which can then be customized in the template macro
+	 * 'sortable' => true/false
+	* @return array Column descriptions
 	 */
 	abstract protected function describeColumns();
 
