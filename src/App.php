@@ -512,6 +512,13 @@ class App {
 					$page->setDao( $slim->reportsDao );
 					$page();
 				} )->name( 'reports_wikitext' );
+
+				$slim->get( 'campaigns', function () use ( $slim ) {
+					$page = new Controllers\Reports\Campaigns( $slim );
+					$page->setDao( $slim->reportsDao );
+					$page();
+				} )->name( 'reports_campaigns' );
+
 		} );
 
 		$slim->group( '/admin/',
@@ -539,17 +546,29 @@ class App {
 					$page();
 				} )->name( 'admin_user_post' );
 
-				$slim->get( 'managecampaign', function () use ( $slim ) {
-					$page = new Controllers\Admin\Campaigns( $slim );
+				$slim->get( 'addcampaign', function () use ( $slim ) {
+					$page = new Controllers\Admin\AddCampaign( $slim );
 					$page->setDao( $slim->campaignsDao );
 					$page();
-				} )->name( 'admin_manage_campaign' );
+				} )->name( 'admin_add_campaign' );
 
-				$slim->post( 'managecampaign', function () use ( $slim ) {
-					$page = new Controllers\Admin\Campaigns( $slim );
+				$slim->post( 'addcampaign.post', function () use ( $slim ) {
+					$page = new Controllers\Admin\AddCampaign( $slim );
 					$page->setDao( $slim->campaignsDao );
 					$page();
-				} )->name( 'admin_campaign_post' );
+				} )->name( 'admin_add_campaign_post' );
+
+				$slim->get( 'editcampaign', function () use ( $slim ) {
+					$page = new Controllers\Admin\EditCampaigns( $slim );
+					$page->setDao( $slim->campaignsDao );
+					$page();
+				} )->name( 'admin_edit_campaign' );
+
+				$slim->post( 'editcampaign.post', function () use ( $slim ) {
+					$page = new Controllers\Admin\EditCampaigns( $slim );
+					$page->setDao( $slim->campaignsDao );
+					$page();
+				} )->name( 'admin_edit_campaign_post' );
 		} );
 
 		$slim->notFound( function () use ( $slim, $middleware ) {
