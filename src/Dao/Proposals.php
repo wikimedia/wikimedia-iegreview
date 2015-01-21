@@ -109,6 +109,7 @@ class Proposals extends AbstractDao {
 			'type' => null,
 			'title' => null,
 			'theme' => null,
+			'campid' => null,
 			'sort' => 'id',
 			'order' => 'asc',
 			'items' => 20,
@@ -145,6 +146,10 @@ class Proposals extends AbstractDao {
 		if ( $params['theme'] !== null ) {
 			$where[] = 'p.theme = :theme';
 			$crit['theme'] = $params['theme'];
+		}
+		if ( $params['campid'] !== null ) {
+			$where[] = 'p.campaign_id = :campid';
+			$crit['campid'] = $params['campid'];
 		}
 
 		$fields = array(

@@ -35,6 +35,7 @@ class Search extends Controller {
 
 	protected function handleGet() {
 		$this->form->expectString( 't' );
+		$this->form->expectString( 'campid' );
 		$this->form->expectString( 'th' );
 		$this->form->expectInt( 'items',
 			array( 'min_range' => 1, 'max_range' => 250, 'default' => 50 )
@@ -47,6 +48,7 @@ class Search extends Controller {
 		$this->form->validate( $_GET );
 
 		$this->view->set( 't', $this->form->get( 't' ) );
+		$this->view->set( 'campid', $this->form->get( 'campid' ) );
 		$this->view->set( 'th', $this->form->get( 'th' ) );
 		$this->view->set( 'items', $this->form->get( 'items' ) );
 		$this->view->set( 'p', $this->form->get( 'p' ) );
@@ -54,10 +56,14 @@ class Search extends Controller {
 		$this->view->set( 'o', $this->form->get( 'o' ) );
 		$this->view->set( 'found', null );
 
-		if ( $this->form->get( 't' ) || $this->form->get( 'th' ) ) {
+		if ( $this->form->get( 't' ) ||
+			 $this->form->get( 'th' ) ||
+			 $this->form->get( 'campid' )
+			) {
 			$params = array(
 				'title' => $this->form->get( 't' ),
 				'theme' => $this->form->get( 'th' ),
+				'campid' => $this->form->get( 'campid' ),
 				'sort' => $this->form->get( 's' ),
 				'order' => $this->form->get( 'o' ),
 				'items' => $this->form->get( 'items' ),
