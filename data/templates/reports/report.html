@@ -14,46 +14,7 @@
 {% set suffix = route|split( '_' )|last %}
 {% set ctx = _context %}
 
-{% macro sortHeader( label, column, ctx, format ) %}
-{% set sorted = ctx.s == column %}
-{% if sorted %}
-  {% set o = ctx.o == 'desc' ? 'desc' : 'asc' %}
-  {% set nextO = o == 'asc' ? 'desc' : 'asc' %}
-{% else %}
-  {% set nextO = 'asc' %}
-{% endif %}
-{% if format == 'number' or format == 'usd' %}
-  {% set class = 'text-right' %}
-{% elseif format == 'message' %}
-  {% set class = 'text-center' %}
-{% else %}
-  {% set class = '' %}
-{% endif %}
-<th><a class="sortable {{ sorted ? "sorted-#{o}" : 'unsorted' }} {{ class }}" href="{{ urlFor( ctx.route ) }}?{{ qsMerge( { 's':column, 'o':nextO } ) }}">{{ label|message }}</a></th>
-{% endmacro %}
-
-{% macro format( row, spec ) %}
-{% set val = row[spec.column] %}
-{% if spec.format == 'number' %}
-  <td class="text-right">{{ row[spec.column]|number_format( spec.precision ) }}</td>
-{% elseif spec.format == 'usd' %}
-  <td class="text-right nowrap">
-    {{ row[spec.column]|number_format( spec.precision ) }}
-    {{ 'currency-usd'|message }}
-  </td>
-{% elseif spec.format == 'proposal' %}
-  <td><a href="{{ urlFor( 'proposals_view', { 'id':row[spec.column] } ) }}">{{ row[spec.text] }}</a></td>
-{% elseif spec.format == 'message' %}
-  {% set vals = [] %}
-  {% for key in spec.columns %}
-  {% set vals = vals|merge( [ row[key] ] ) %}
-  {% endfor %}
-  <td class="text-center">{{ spec.message|message( vals ) }}</td>
-{% else %}
-  <td>{{ row[spec.column] }}</td>
-{% endif %}
-{% endmacro %}
-
+{% import "inc/helpers.html" as helpers %}
 
 {% block subtitle %}{{ ( 'nav-reports-' ~ suffix )|message }}{% endblock %}
 
@@ -69,7 +30,7 @@
     <tr>
       {% for msg,col in columns %}
         {% if col.sortable %}
-          {{ _self.sortHeader( msg, col.sortcolumn, ctx, col.format ) }}
+          {{ helpers.sortHeader2( msg, col.sortcolumn, ctx, col.format ) }}
         {% else %}
           <th>{{ msg|message }}</th>
         {% endif %}
@@ -80,7 +41,7 @@
     {% for row in report.rows %}
     <tr>
       {% for col in columns %}
-      {{ _self.format( row, col ) }}
+      {{ helpers.format( row, col ) }}
       {% endfor %}
     </tr>
     {% else %}

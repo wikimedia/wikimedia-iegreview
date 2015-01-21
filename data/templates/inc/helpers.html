@@ -1,0 +1,156 @@
+{% macro sortHeader2( label, column, ctx, format ) %}
+{% set sorted = ctx.s == column %}
+{% if sorted %}
+  {% set o = ctx.o == 'desc' ? 'desc' : 'asc' %}
+  {% set nextO = o == 'asc' ? 'desc' : 'asc' %}
+{% else %}
+  {% set nextO = 'asc' %}
+{% endif %}
+{% if format == 'number' or format == 'usd' %}
+  {% set class = 'text-right' %}
+{% elseif format == 'message' %}
+  {% set class = 'text-center' %}
+{% else %}
+  {% set class = '' %}
+{% endif %}
+<th><a class="sortable {{ sorted ? "sorted-#{o}" : 'unsorted' }} {{ class }}" href="{{ urlFor( ctx.route ) }}?{{ qsMerge( { 's':column, 'o':nextO } ) }}">{{ label|message }}</a></th>
+{% endmacro %}
+
+{% macro showBool( val ) %}
+{{ val ? 'admin-users-yes'|message : 'admin-users-no'|message }}
+{% endmacro %}
+
+{% macro sortHeader( label, column, ctx, class ) %}
+{% set sorted = ctx.s == column %}
+{% if sorted %}
+  {% set o = ctx.o == 'desc' ? 'desc' : 'asc' %}
+  {% set nextO = o == 'asc' ? 'desc' : 'asc' %}
+{% else %}
+  {% set nextO = 'asc' %}
+{% endif %}
+<th><a class="sortable {{ sorted ? "sorted-#{o}" : 'unsorted' }} {{ class|default( '' ) }}" href="{{ urlFor( ctx.route ) }}?{{ qsMerge( { 's':column, 'o':nextO } ) }}">{{ label|message }}</a></th>
+{% endmacro %}
+
+{% macro sortHeader4( label, column, ctx, class ) %}
+{% set sorted = ctx.s == column %}
+{% if sorted %}
+  {% set o = ctx.o == 'desc' ? 'desc' : 'asc' %}
+  {% set nextO = o == 'asc' ? 'desc' : 'asc' %}
+{% else %}
+  {% set nextO = 'asc' %}
+{% endif %}
+{% endmacro %}
+
+{% macro format( row, spec ) %}
+{% set val = row[spec.column] %}
+{% if spec.format == 'number' %}
+  <td class="text-right">{{ row[spec.column]|number_format( spec.precision ) }}</td>
+{% elseif spec.format == 'usd' %}
+  <td class="text-right nowrap">
+    {{ row[spec.column]|number_format( spec.precision ) }}
+    {{ 'currency-usd'|message }}
+  </td>
+{% elseif spec.format == 'proposal' %}
+  <td><a href="{{ urlFor( 'proposals_view', { 'id':row[spec.column] } ) }}">{{ row[spec.text] }}</a></td>
+{% elseif spec.format == 'message' %}
+  {% set vals = [] %}
+  {% for key in spec.columns %}
+  {% set vals = vals|merge( [ row[key] ] ) %}
+  {% endfor %}
+  <td class="text-center">{{ spec.message|message( vals ) }}</td>
+{% else %}
+  <td>{{ row[spec.column] }}</td>
+{% endif %}
+{% endmacro %}
+
+{% macro sortHeader3( column, ctx, class ) %}
+{% set sorted = ctx.s == column %}
+{% set label = "proposals-list-#{column}" %}
+{% if sorted %}
+  {% set o = ctx.o == 'desc' ? 'desc' : 'asc' %}
+  {% set nextO = o == 'asc' ? 'desc' : 'asc' %}
+{% else %}
+  {% set nextO = 'asc' %}
+{% endif %}
+<th><a class="sortable {{ sorted ? "sorted-#{o}" : 'unsorted' }} {{ class|default( '' ) }}" href="{{ urlFor( ctx.route ) }}?{{ qsMerge( { 's':column, 'o':nextO } ) }}">{{ label|message }}</a></th>
+{% endmacro %}
+
+
+{% macro criteria( reviews, crit, ctx ) %}
+{% import _self as helpers %}
+{% set note = crit ~ '_note' %}
+<section class="panel panel-default">
+  <div class="panel-heading">
+    <h3 class="panel-title">{{ ( 'review-' ~ crit )|message }}</h3>
+  </div>
+  <table class="table table-bordered table-hover table-condensed">
+    <thead>
+      <tr>
+        <th>{{ 'summary-list-mean'|message }}</th>
+        <th>{{ 'summary-list-median'|message }}</th>
+        <th>{{ 'summary-list-range'|message }}</th>
+        <th>{{ 'summary-list-stddev'|message }}</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{ helpers.stats( reviews, crit ) }}
+    </tbody>
+  </table>
+  <section class="panel panel-default muted">
+    <div class="panel-heading">
+      <a class="accordion-toggle collapsed" data-toggle="collapse" href="#{{ crit }}-notes">
+        <span class="text-muted">{{ 'reviews-notes'|message }}</span>
+      </a>
+    </div>
+    <div id="{{ crit }}-notes" class="panel-body panel-collapse collapse">
+      <ul class="list-group">
+      {% for review in reviews %}
+        {% if review[note] %}
+        <li class="list-group-item clearfix">
+          {{ review[note] }}
+          {% if ctx.isadmin|default( false ) %}
+          <cite class="pull-right text-muted">&mdash; {{ review.reviewer_name }}</cite>
+          {% endif %}
+        </li>
+        {% endif %}
+      {% endfor %}
+      </ul>
+    </div>
+  </section>
+</section>
+{% endmacro %}
+
+{% macro stats( reviews, name ) %}
+{% import _self as helpers %}
+{% set scores = [] %}
+{% set sum = 0 %}
+{% set squares = 0 %}
+{% for review in reviews %}
+{% set val = review[name] %}
+  {% set scores = scores|merge( [ val ] ) %}
+  {% set sum = sum + val %}
+  {% set squares = squares + ( val * val ) %}
+{% endfor %}
+<tr>
+  <td class="text-right">{{ ( sum / scores|length )|number_format( 2 ) }}</td>
+  <td class="text-right">{{ helpers.median( scores ) }}</td>
+  <td class="text-right">{{ max( scores ) - min( scores ) }}</td>
+  <td class="text-right">{{ ( ( squares - ( ( sum * sum ) / scores|length ) ) ** ( 1 / 2 ) )|number_format( 2 ) }}</td>
+</tr>
+{% endmacro %}
+
+{% macro median( list, precision = 2 ) %}
+{% set midlow = ( list|length / 2 )|round( 1, 'floor') %}
+{% set midhi = ( list|length / 2 )|round( 1, 'ceil') %}
+{{ ( ( list[midlow] + list[midhi] ) / 2 )|number_format( precision ) }}
+{% endmacro %}
+
+{% macro count( reviews, name, value ) %}
+{% set count = 0 %}
+{% for review in reviews %}
+  {% if review[name] == value %}
+    {% set count = count + 1 %}
+  {% endif %}
+{% endfor %}
+{{ count }}
+{% endmacro %}

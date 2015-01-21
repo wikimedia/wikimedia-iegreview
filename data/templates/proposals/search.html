@@ -2,16 +2,7 @@
 {% set route = app.router.getCurrentRoute.getName %}
 {% set ctx = _context %}
 
-{% macro sortHeader( label, column, ctx, class ) %}
-{% set sorted = ctx.s == column %}
-{% if sorted %}
-  {% set o = ctx.o == 'desc' ? 'desc' : 'asc' %}
-  {% set nextO = o == 'asc' ? 'desc' : 'asc' %}
-{% else %}
-  {% set nextO = 'asc' %}
-{% endif %}
-<th><a class="sortable {{ sorted ? "sorted-#{o}" : 'unsorted' }} {{ class|default( '' ) }}" href="{{ urlFor( ctx.route ) }}?{{ qsMerge( { 's':column, 'o':nextO } ) }}">{{ label|message }}</a></th>
-{% endmacro %}
+{% import "inc/helpers.html" as helpers %}
 
 {% block subtitle %}{{ 'nav-proposals-search'|message }}{% endblock %}
 {% block content %}
@@ -49,12 +40,12 @@
 {% if found is not null %}
 <table class="table table-striped table-hover table-condensed table-responsive">
   <tr>
-    {{ _self.sortHeader( 'proposals-list-id', 'id', ctx, 'text-right' ) }}
-    {{ _self.sortHeader( 'proposals-list-title', 'title', ctx ) }}
-    {{ _self.sortHeader( 'proposals-list-theme', 'theme', ctx ) }}
-    {{ _self.sortHeader( 'proposals-list-amount', 'amount', ctx, 'text-right' ) }}
-    {{ _self.sortHeader( 'proposals-list-reviews', 'reviews', ctx, 'text-right' ) }}
-    {{ _self.sortHeader( 'proposals-list-myreviews', 'myreviews', ctx, 'text-center' ) }}
+    {{ helpers.sortHeader4( 'proposals-list-id', 'id', ctx, 'text-right' ) }}
+    {{ helpers.sortHeader4( 'proposals-list-title', 'title', ctx ) }}
+    {{ helpers.sortHeader4( 'proposals-list-theme', 'theme', ctx ) }}
+    {{ helpers.sortHeader4( 'proposals-list-amount', 'amount', ctx, 'text-right' ) }}
+    {{ helpers.sortHeader4( 'proposals-list-reviews', 'reviews', ctx, 'text-right' ) }}
+    {{ helpers.sortHeader4( 'proposals-list-myreviews', 'myreviews', ctx, 'text-center' ) }}
   </tr>
   {% for row in records %}
   <tr>
