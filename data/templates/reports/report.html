@@ -49,6 +49,8 @@
   {% set vals = vals|merge( [ row[key] ] ) %}
   {% endfor %}
   <td class="text-center">{{ spec.message|message( vals ) }}</td>
+{% elseif spec.format == 'campaign' %}
+  <td><a href="{{ urlFor( 'proposals_search' ) }}?campaign={{ row[spec.column] }}">{{ row[spec.text] }}</a></td>
 {% else %}
   <td>{{ row[spec.column] }}</td>
 {% endif %}

@@ -23,8 +23,10 @@
 	"admin-users-no": "Table cell value indicating that true\/false value is false.\n\n\nSee also:\n* {{msg-wm|Wsa-admin-users-yes}}\n{{Identical|No}}",
 
 	"admin-campaign-name": "Campaign in progress:",
-	"admin-end-campaign": "End campaign",
-	"admin-start-campaign": "Start campaign",
+	"admin-campaign-end": "End campaign?",
+	"admin-campaign-start": "Create campaign",
+	"admin-campaign-start-date": "Start date:",
+	"admin-campaign-end-date": "End date",
 
 	"admin-users-reviewer": "Table column header, is user a reviewer.\n{{Identical|Reviewer}}",
 	"admin-users-username": "Table column header, username.\n{{Identical|Username}}",
@@ -114,6 +116,7 @@
 	"proposals-search-go": "Form submit button label",
 	"proposals-search-theme": "Input label, followed by select list.",
 	"proposals-search-theme-empty": "Select list usage prompt.",
+	"proposals-search-campaigns-empty": "Select list usage prompt.",
 	"proposals-search-title": "Input label, followed by text box.",
 	"proposals-view-amount": "Label shown before proposal amount.",
 	"proposals-view-edit": "Text for link to edit page.",

@@ -68,9 +68,6 @@
 	"admin-user-viewreports": "View reports?",
 	"admin-user-blocked": "Is blocked:",
 	"admin-user-save": "Save changes",
-	"admin-campaign-name": "Campaign in progress:",
-	"admin-end-campaign": "End campaign",
-	"admin-start-campaign": "Start campaign",
 	"admin-users-id": "Id",
 	"admin-users-username": "Username",
 	"admin-users-email": "Email",
@@ -82,8 +79,17 @@
 	"admin-users-yes": "yes",
 	"admin-users-no": "no",
 	"admin-users-add": "Add new user",
-	"admin-campaign-add": "Manage campaign",
 	"admin-users-form-go": "Search",
+
+	"admin-campaign-name": "Campaign in progress:",
+	"admin-campaign-end": "End campaign?",
+	"admin-campaign-start": "Create campaign",
+	"admin-campaign-start-date": "Start date:",
+	"admin-campaign-end-date": "End date:",
+	"admin-campaign-add": "Add new campaign",
+	"admin-campaign-edit": "Edit campaign",
+	"admin-campaign-save": "Save",
+	"admin-campaign-new": "Name of campaign:",
 
 	"page-of-pages": "Page $1 of $2",
 	"no-results": "No results found",
@@ -154,9 +160,12 @@
 	"form-neutral": "Neutral",
 	"form-no": "No",
 
+
+	"proposals-search-campaign": "Campaign",
 	"proposals-search-title": "Title",
 	"proposals-search-theme": "Theme",
 	"proposals-search-theme-empty": "Select theme",
+	"proposals-search-campaigns-empty": "Select campaign",
 	"proposals-search-go": "Search",
 
 	"proposals-list-id": "Id",
@@ -181,6 +190,12 @@
 	"report-aggregated-ability": "Ability",
 	"report-aggregated-engagement": "Engagement",
 	"report-aggregated-recommend": "Recommend",
+
+	"report-campaign-id": "ID",
+	"report-campaign-name": "Name",
+	"report-campaign-startdate": "Start Date",
+	"report-campaign-enddate": "End Date",
+	"report-campaign-status": "Status",
 	"report-format-recommend": "$4% ($1/$3)$2",
 
 	"reviews-notes": "Reviewer notes",

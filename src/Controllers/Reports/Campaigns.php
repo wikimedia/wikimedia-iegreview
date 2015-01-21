@@ -26,9 +26,9 @@ namespace Wikimedia\IEGReview\Controllers\Reports;
 use Wikimedia\IEGReview\Controller;
 
 /**
- * Aggregated scores.
+ * Campaigns (existing and current).
  *
- * @author Bryan Davis <bd808@wikimedia.org>
+ * @author Niharika Kohli <nkohli@wikimedia.org>
  * @copyright © 2014 Bryan Davis, Wikimedia Foundation and contributors.
  */
 class Campaigns extends AbstractReport {
@@ -38,34 +38,30 @@ class Campaigns extends AbstractReport {
 	 */
 	protected function describeColumns() {
 		return array(
-			'report-aggregated-id' => array(
-				'column' => 'id',
-				'text' => 'title',
-				'sortable' => true,
-				'sortcolumn' => 'title',
-			),
-			'report-aggregated-name' => array(
+			'report-campaign-name' => array(
 				'column' => 'id',
 				'sortable' => true,
 				'text' => 'name',
-				'format' => 'proposal',
+				'format' => 'campaign',
 				'sortcolumn' => 'name',
 			),
-			'report-aggregated-startdate' => array(
+			'report-campaign-startdate' => array(
 				'column' => 'start_date',
 				'sortable' => true,
 				'sortcolumn' => 'start_date',
 			),
-			'report-aggregated-enddate' => array(
+			'report-campaign-enddate' => array(
 				'column' => 'end_date',
 				'sortable' => true,
 				'sortcolumn' => 'end_date',
+			),
+			'report-campaign-status' => array(
+				'column' => 'status',
+				'format' => 'number',
+				'sortable' => true,
+				'sortcolumn' => 'status', //TODO: Show active/expired instead of 0/1
 			)
 		);
-	}
-
-	protected function getTemplate() {
-		return 'reports/campaigns.html';
 	}
 
 	/**
@@ -78,6 +74,6 @@ class Campaigns extends AbstractReport {
 			'items' => $this->form->get( 'items' ),
 			'page' => $this->form->get( 'p' ),
 		);
-		return $this->dao->campaignsReport( $params );
+		return $this->dao->Campaigns( $params );
 	}
 }

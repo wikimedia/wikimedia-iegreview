@@ -24,9 +24,9 @@
 namespace Wikimedia\IEGReview\Dao;
 
 /**
- * Data access object for proposals.
+ * Data access object for campaigns.
  *
- * @author Bryan Davis <bd808@wikimedia.org>
+ * @author Niharika Kohli <nkohli@wikimedia.org>
  * @copyright © 2014 Bryan Davis, Wikimedia Foundation and contributors.
  */
 class Campaigns extends AbstractDao {
@@ -51,44 +51,85 @@ class Campaigns extends AbstractDao {
 		$this->userId = $uid;
 	}
 
+
 	public function getCampaign( $status ) {
 		return $this->fetch(
-			'SELECT * FROM campaigns WHERE campaign_status = ?',
+			'SELECT * FROM campaigns WHERE status = ?',
 			array( $status )
 		);
 	}
 
+
 	/**
-	* @param int $campid ID of the campaign to end
+	* Ends current in progress campaign
 	*/
-	public function endCampaign( $id ) {
+	public function endCampaign() {
 		$sql = self::concat(
 			'UPDATE campaigns SET',
 			'end_date = now()',
-			',campaign_status = 0',
-			'WHERE id = :id'
-		);
-		$crit = array(
-			'id' => $id
+			',status = 0',
+			'WHERE status = 1'
 		);
 
-		return $this->update( $sql, $crit );
+		return $this->update( $sql );
 	}
 
-	/**
-	* @param string $campname Name of the campaign to start
-	
-	public function startCampaign( $campname ) {
-		$crit = array();
-		$sql = self::concat(
-			'INSERT INTO campaigns SET',
-			'end_date = now()',
-			',campaign_status = 0'
-			'WHERE id = :id'
-		);
-		$crit['id'] = $campid;
 
-		return $this->insert( $sql, $crit );
-	}*/
+	/**
+	 * @param array $data Campaign data for a new campaign
+	 */
+	public function addCampaign( array $data ) {
+		$data['created_by'] = $this->userId ? : null;
+		$data['status'] = 1;
+		$cols = array_keys( $data );
+		$params = array_map( function ( $elm ) { return ":{$elm}"; }, $cols );
+
+		$sql = self::concat(
+			'INSERT INTO campaigns (',
+			implode( ', ', $cols ),
+			') VALUES (',
+			implode( ', ', $params ),
+			')'
+		);
+		return $this->insert( $sql, $data );
+
+	}
+
+
+	/**
+	 * @param string $params Campaign data to be updated
+	 */
+	public function updateCampaign( $params ) {
+		$fields = array( 'name', 'start_date', 'end_date' );
+		$placeholders = array();
+		foreach ( $fields as $field ) {
+			$placeholders[] = "{$field} = :{$field}";
+		}
+
+		$sql = self::concat(
+			'UPDATE campaigns SET',
+			implode( ', ', $placeholders ),
+			'WHERE status = 1'
+		);
+		$stmt = $this->dbh->prepare( $sql );
+
+		try {
+			$this->dbh->beginTransaction();
+			$stmt->execute( $params );
+			$this->dbh->commit();
+			return true;
+
+		} catch ( PDOException $e) {
+			$this->dbh->rollback();
+			$this->logger->error( 'Failed to update user', array(
+				'method' => __METHOD__,
+				'exception' => $e,
+				'sql' => $sql,
+				'params' => $params,
+			) );
+			return false;
+		}
+
+	}
 
 }
