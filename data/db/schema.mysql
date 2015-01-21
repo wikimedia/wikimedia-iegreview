@@ -67,7 +67,7 @@ CREATE TABLE IF NOT EXISTS campaigns (
   , name            VARCHAR(255) NOT NULL
   , created_by      INT(11)
   , created_at      TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
-  , campaign_status TINYINT(1) DEFAULT 0
+  , status          TINYINT(1) DEFAULT 0
   , start_date      TIMESTAMP NOT NULL
   , end_date        TIMESTAMP NOT NULL
   , PRIMARY KEY (id)

@@ -22,11 +22,24 @@
 </ol>
 
 <form class="form-inline" method="get" action="{{ urlFor( route ) }}" role="form">
+
   <input type="hidden" name="p" value="0">
+
+  <div class="form-group">
+    <label class="sr-only" for="campaign">{{ 'campaigns-search-title'|message }}</label>
+    <select id="campaign" name="campaign" class="form-control">
+      <option value="">{{ 'proposals-search-campaigns-empty'|message }}</option>
+      {% for id, name in campaigns %}
+      <option value="{{ id }}" {{ id == campaign ? 'selected="selected"' }}>{{ name }}</option>
+      {% endfor %}
+    </select>
+  </div>
+
   <div class="form-group">
     <label class="sr-only" for="t">{{ 'proposals-search-title'|message }}</label>
     <input type="text" id="t" name="t" class="form-control" placeholder="{{ 'proposals-search-title'|message }}" value="{{ t }}">
   </div>
+
   <div class="form-group">
     <label class="sr-only" for="th">{{ 'proposals-search-theme'|message }}</label>
     <select id="th" name="th" class="form-control">
@@ -36,12 +49,14 @@
       {% endfor %}
     </select>
   </div>
+
   <div class="form-group">
     <button type="submit" class="btn btn-sm btn-primary">
       <i class="glyphicon glyphicon-search"></i>
       {{ 'proposals-search-go'|message }}
     </button>
   </div>
+
 </form>
 
 <p></p>
