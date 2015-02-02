@@ -60,12 +60,6 @@ class Campaigns extends AbstractReport {
 				'column' => 'end_date',
 				'sortable' => true,
 				'sortcolumn' => 'end_date',
-			),
-			'report-aggregated-status' => array(
-				'column' => 'status',
-				'format' => 'number',
-				'sortable' => true,
-				'sortcolumn' => 'status',
 			)
 		);
 	}

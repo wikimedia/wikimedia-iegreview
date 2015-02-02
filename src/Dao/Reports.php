@@ -238,6 +238,7 @@ class Reports extends AbstractDao {
 		$sql = self::concat(
 			'SELECT c.id, c.name, c.start_date, c.end_date, c.campaign_status',
 			'FROM campaigns c',
+			'WHERE campaign_status = 0', //Only expired campaigns shown in this view
 			"ORDER BY {$sortby} {$order}, id {$order}",
 			$limit, $offset
 		);
