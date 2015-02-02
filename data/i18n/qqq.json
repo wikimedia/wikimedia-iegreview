@@ -14,12 +14,18 @@
 	"admin-user-save": "Edit user form submit button",
 	"admin-user-valid": "Input label, followed by checkbox",
 	"admin-users-add": "Navigation menu item, links to user account creation page",
+	"admin-campaign-add": "Navigation menu item, links to form for starting a new campaign",
 	"admin-users-admin": "Table column header, is user an administrator.\n{{Identical|Admin}}",
 	"admin-users-blocked": "Table column header, is user blocked from authenticating.\n{{Identical|Blocked}}",
 	"admin-users-email": "Table column header, email address.\n{{Identical|E-mail}}",
 	"admin-users-form-go": "Form submit button label.",
 	"admin-users-id": "Table column header, user id number.\n{{Identical|ID}}",
 	"admin-users-no": "Table cell value indicating that true\/false value is false.\n\n\nSee also:\n* {{msg-wm|Wsa-admin-users-yes}}\n{{Identical|No}}",
+
+	"admin-campaign-name": "Campaign in progress:",
+	"admin-end-campaign": "End campaign",
+	"admin-start-campaign": "Start campaign",
+
 	"admin-users-reviewer": "Table column header, is user a reviewer.\n{{Identical|Reviewer}}",
 	"admin-users-username": "Table column header, username.\n{{Identical|Username}}",
 	"admin-users-valid": "Table column header, is user valid.\n{{Identical|Valid}}",

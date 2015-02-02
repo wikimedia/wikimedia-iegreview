@@ -69,7 +69,9 @@
 	"admin-user-viewreports": "View reports?",
 	"admin-user-blocked": "Is blocked:",
 	"admin-user-save": "Save changes",
-
+	"admin-campaign-name": "Campaign in progress:",
+	"admin-end-campaign": "End campaign",
+	"admin-start-campaign": "Start campaign",
 	"admin-users-id": "Id",
 	"admin-users-username": "Username",
 	"admin-users-email": "Email",
@@ -81,6 +83,7 @@
 	"admin-users-yes": "yes",
 	"admin-users-no": "no",
 	"admin-users-add": "Add new user",
+	"admin-campaign-add": "Manage campaign",
 	"admin-users-form-go": "Search",
 
 	"page-of-pages": "Page $1 of $2",
