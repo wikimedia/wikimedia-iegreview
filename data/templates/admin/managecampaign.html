@@ -1,0 +1,56 @@
+{% extends "admin/base.html" %}
+
+{% set errors = flash.form_errors|default([]) %}
+{% if flash.form_defaults|default(false) %}
+{% set campaign = flash.form_defaults %}
+{% endif %}
+
+{% block subtitle %}{{ 'nav-users'|message }}{% endblock %}
+{% block content %}
+{% spaceless %}
+<ol class="breadcrumb">
+  <li>{{ 'nav-admin'|message }}</li>
+  <li><a href="{{ urlFor( 'admin_users' ) }}">{{ 'nav-users'|message }}</a></li>
+  <li>{{ id }}</li>
+</ol>
+
+<form class="form-horizontal" method="post" action="{{ urlFor( 'admin_campaign_post' ) }}">
+  <input type="hidden" name="{{ csrf_param }}" value="{{ csrf_token }}" />
+  <input type="hidden" name="id" value="{{ id }}"/>
+  <input type="hidden" name="campaign_existing" value="{{ campaign.id }}"/>
+
+{% if campaign.name != null %}
+    <h4> The following campaign is in progress:</h4>
+  <div class="form-group {{ 'camp_name' in errors ? 'has-error' }}">
+    <label for="camp_name" class="col-sm-2 control-label">
+      {{ 'admin-campaign-name'|message }}
+    </label>
+    <div class="col-sm-10">
+      <p class="form-control-static">{{ campaign.name }}</p>
+    </div>
+  </div>
+
+  <div class="col-sm-10 col-sm-offset-2">
+    <input type="submit" class="btn btn-default" id="end" name="end" value="{{ 'admin-end-campaign'|message }}" onclick="return confirm('Are you sure?');"/>
+  </div>
+
+{% else %}
+  <div class="form-group {{ 'camp_name' in errors ? 'has-error' }}">
+    <h4> No campaign currently is in progress. Start a new campaign.</h4>
+    <label for="camp_name" class="col-sm-2 control-label">
+      {{ 'admin-campaign-name'|message }}
+    </label>
+    <div class="col-sm-10">
+      <input type="text" class="form-control" name="camp_name" id="camp_name" value="{{ campaign.name }}" required="required">
+    </div>
+  </div>
+
+  <div class="col-sm-10 col-sm-offset-2">
+    <input type="submit" class="btn btn-default" id="save" name="save" value="{{ 'admin-start-campaign'|message }}"/>
+  </div>
+
+{% endif %}
+</form>
+{% endspaceless %}
+{% endblock content %}
+
