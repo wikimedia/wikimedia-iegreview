@@ -57,7 +57,6 @@ class Campaigns extends AbstractDao {
 		);
 	}
 
-
 	/*
 	 * @param int $id ID of campaign whose data is to be fetched
 	 */
@@ -185,6 +184,5 @@ class Campaigns extends AbstractDao {
 		);
 		return $this->fetchAllWithFound( $sql, $crit );
 	}
-
 
 }
