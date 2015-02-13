@@ -1,7 +1,8 @@
 {
 	"@metadata": {
 		"authors": [
-			"Bryan Davis"
+			"Bryan Davis",
+			"Niharika Kohli"
 		]
 	},
 	"header-title": "IEG grant review",
@@ -17,9 +18,12 @@
 	"nav-reports": "Reports",
 	"nav-reports-aggregated": "Aggregated scores",
 	"nav-reports-wikitext": "Wikitext export",
+
+	"nav-reports-campaigns": "Prior Campaigns",
 	"nav-admin": "Admin",
 	"nav-users": "Manage users",
 	"nav-account": "My Account",
+	"nav-campaigns": "Manage campaigns",
 
 	"new-account-subject": "New IEG review account",
 	"new-account-email": "A new IEG review account has been created for you.\n\nYour login info is:\n\nusername: $1\npassword: $2\n\nYou may login at: $3\n\nYou may change your password at: $4\n\nSincerely,\nIndividual Engagement Grants team",
@@ -68,7 +72,6 @@
 	"admin-user-viewreports": "View reports?",
 	"admin-user-blocked": "Is blocked:",
 	"admin-user-save": "Save changes",
-
 	"admin-users-id": "Id",
 	"admin-users-username": "Username",
 	"admin-users-email": "Email",
@@ -80,7 +83,28 @@
 	"admin-users-yes": "yes",
 	"admin-users-no": "no",
 	"admin-users-add": "Add new user",
+	"admin-campaign-add": "Manage campaign",
 	"admin-users-form-go": "Search",
+
+	"admin-campaign-name": "Campaign in progress:",
+	"admin-campaign-end": "End campaign?",
+	"admin-campaign-start": "Create campaign",
+	"admin-campaign-start-date": "Start date:",
+	"admin-campaign-end-date": "End date:",
+	"admin-campaign-add": "Add new campaign",
+	"admin-campaign-manage": "Manage campaigns",
+	"admin-campaign-save": "Save",
+	"admin-campaign-new": "Name of campaign:",
+	"admin-campaigns-name": "Campaign name",
+	"admin-campaigns-add": "Add a campaign",
+	"admin-campaigns-form-go": "Search",
+	"admin-campaigns-start": "Start date",
+	"admin-campaigns-end": "End date",
+	"admin-campaigns-id": "ID",
+	"admin-campaign-create-success": "Campaign created succesfully.",
+	"admin-campaign-create-fail": "Campaign creation failed. Check logs.",
+	"admin-campaign-update-success": "Campaign updated.",
+	"admin-campaign-update-fail": "Error. Check logs.",
 
 	"page-of-pages": "Page $1 of $2",
 	"no-results": "No results found",
