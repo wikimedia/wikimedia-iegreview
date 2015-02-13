@@ -503,6 +503,12 @@ class App {
 					$page->setDao( $slim->reportsDao );
 					$page();
 				} )->name( 'reports_wikitext' );
+
+				$slim->get( 'campaigns', function () use ( $slim ) {
+					$page = new Controllers\Reports\Campaigns( $slim );
+					$page->setDao( $slim->reportsDao );
+					$page();
+				} )->name( 'reports_campaigns' );
 		} );
 
 		$slim->group( '/admin/',

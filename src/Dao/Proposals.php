@@ -71,6 +71,18 @@ class Proposals extends AbstractDao {
 		return $this->insert( $sql, $data );
 	}
 
+	/*
+	 * @return Array $campaigns campaign data for all campaigns
+	 */
+	public function getCampaigns() {
+		$campaigns = array();
+		$sql = 'SELECT id, name FROM campaigns';
+		foreach ( $this->fetchAll( $sql ) as $row ) {
+			$campaigns[$row['id']] = $row['name'];
+		}
+		return $campaigns;
+	}
+
 	public function getProposal( $id ) {
 		return $this->fetch(
 			'SELECT * FROM proposals WHERE id = ?',
@@ -109,6 +121,7 @@ class Proposals extends AbstractDao {
 			'type' => null,
 			'title' => null,
 			'theme' => null,
+			'campaign' => null,
 			'sort' => 'id',
 			'order' => 'asc',
 			'items' => 20,
@@ -145,6 +158,10 @@ class Proposals extends AbstractDao {
 		if ( $params['theme'] !== null ) {
 			$where[] = 'p.theme = :theme';
 			$crit['theme'] = $params['theme'];
+		}
+		if ( $params['campaign'] !== null ) {
+			$where[] = 'p.campaign = :campaign';
+			$crit['campaign'] = $params['campaign'];
 		}
 
 		$fields = array(
