@@ -71,6 +71,9 @@ class Proposals extends AbstractDao {
 		return $this->insert( $sql, $data );
 	}
 
+	/*
+	 * @param int $id ID of campaign to fetch
+	 */
 	public function getProposal( $id ) {
 		return $this->fetch(
 			'SELECT * FROM proposals WHERE id = ?',
@@ -78,6 +81,24 @@ class Proposals extends AbstractDao {
 		);
 	}
 
+
+	/*
+	 * @return Array $campaigns campaign data for all campaigns
+	 */
+	public function getCampaigns() {
+		$campaigns = array();
+		$sql = 'SELECT id, name FROM campaigns';
+		foreach ( $this->fetchAll( $sql ) as $row ) {
+			$campaigns[$row['id']] = $row['name'];
+		}
+		return $campaigns;
+	}
+
+
+	/*
+	 * @param int $id ID of campaign to update
+	 * @param array $data Camapign data
+	 */
 	public function updateProposal( $id, $data ) {
 		$fields = array(
 			'title', 'description', 'url', 'amount', 'theme', 'notes',
