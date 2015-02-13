@@ -183,6 +183,15 @@ class App {
 			);
 		} );
 
+		$container->singleton( 'campaignsDao', function ( $c ) {
+			$uid = $c->authManager->getUserId();
+			return new \Wikimedia\IEGReview\Dao\Campaigns(
+				$c->settings['db.dsn'],
+				$c->settings['db.user'], $c->settings['db.pass'],
+				$uid, $c->log
+			);
+		} );
+
 		$container->singleton( 'authManager', function ( $c ) {
 			return new \Wikimedia\IEGReview\AuthManager( $c->usersDao );
 		} );
@@ -529,6 +538,24 @@ class App {
 					$page->setMailer( $slim->mailer );
 					$page();
 				} )->name( 'admin_user_post' );
+
+				$slim->get( 'campaigns', function () use ( $slim ) {
+					$page = new Controllers\Admin\Campaigns( $slim );
+					$page->setDao( $slim->campaignsDao );
+					$page();
+				} )->name( 'admin_campaigns' );
+
+				$slim->get( 'campaign/:id', function ( $id ) use ( $slim ) {
+					$page = new Controllers\Admin\Campaign( $slim );
+					$page->setDao( $slim->campaignsDao );
+					$page( $id );
+				} )->name( 'admin_campaign' );
+
+				$slim->post( 'campaign.post', function () use ( $slim ) {
+					$page = new Controllers\Admin\Campaign( $slim );
+					$page->setDao( $slim->campaignsDao );
+					$page();
+				} )->name( 'admin_campaign_post' );
 		} );
 
 		$slim->notFound( function () use ( $slim, $middleware ) {
