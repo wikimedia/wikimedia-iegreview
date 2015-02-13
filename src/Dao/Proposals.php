@@ -72,6 +72,17 @@ class Proposals extends AbstractDao {
 	}
 
 	/*
+	 * @param int $id ID of campaign to fetch
+	 */
+	public function getProposal( $id ) {
+		return $this->fetch(
+			'SELECT * FROM proposals WHERE id = ?',
+			array( $id )
+		);
+	}
+
+
+	/*
 	 * @return Array $campaigns campaign data for all campaigns
 	 */
 	public function getCampaigns() {
@@ -83,13 +94,11 @@ class Proposals extends AbstractDao {
 		return $campaigns;
 	}
 
-	public function getProposal( $id ) {
-		return $this->fetch(
-			'SELECT * FROM proposals WHERE id = ?',
-			array( $id )
-		);
-	}
 
+	/*
+	 * @param int $id ID of campaign to update
+	 * @param array $data Camapign data
+	 */
 	public function updateProposal( $id, $data ) {
 		$fields = array(
 			'title', 'description', 'url', 'amount', 'theme', 'notes',

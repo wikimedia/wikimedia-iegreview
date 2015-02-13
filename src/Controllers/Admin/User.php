@@ -50,7 +50,7 @@ class User extends Controller {
 		} else {
 			$user = $this->dao->getUserInfo( $id );
 		}
-		
+
 		$this->view->set( 'id', $id );
 		$this->view->set( 'u', $user );
 		$this->render( 'admin/user.html' );
