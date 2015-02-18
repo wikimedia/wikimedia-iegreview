@@ -68,6 +68,25 @@ class Campaigns extends AbstractDao {
 	}
 
 
+	/*
+	 * @param int $id Fetches reviewers registered in the system
+	 */
+	public function getReviewers( $id = null ) {
+		if ( $id == null ) {
+			return $this->fetchAll(
+				'SELECT * FROM users WHERE reviewer = 1'
+			);
+		} else {
+			$sql = self::concat(
+				'SELECT * FROM users u',
+				'RIGHT OUTER JOIN campaign_users cu ON u.id = cu.user_id',
+				'WHERE cu.campaign_id = ?'
+			);
+			return $this->fetchAll( $sql, array( $id ) );
+		}
+	}
+
+
 	/**
 	 * @param int $id ID of campaign to end
 	*/
@@ -104,6 +123,70 @@ class Campaigns extends AbstractDao {
 
 
 	/**
+	 * @param integer $id ID of campaign
+	 * @param array $reviewers to be added
+	 */
+	public function addReviewers( $id, $reviewers ) {
+		$created_by = $this->userId ? : null;
+		$cols = array( 'campaign_id', 'user_id', 'added_by' );
+		foreach ( $reviewers as $r ) {
+			$sql = self::concat(
+				'INSERT INTO campaign_users (',
+				implode( ', ', $cols ),
+				') VALUES (',
+				$id, ',', $r, ',', $created_by,
+				')'
+			);
+			$this->insert( $sql );
+		}
+		return true;
+
+	}
+
+
+	/**
+	 * @param integer $id ID of campaign
+	 * @param array $reviewers to be removed
+	 */
+	public function removeReviewers( $id, $reviewers ) {
+		foreach ( $reviewers as $r ) {
+			$sql = self::concat(
+				'DELETE FROM campaign_users WHERE',
+				'campaign_id = :cid',
+				'AND user_id = :uid'
+			);
+			$data = array(
+				'cid' => $id,
+				'uid' => $r
+			);
+			if ( $this->update( $sql, $data ) !== true ) {
+				return false;
+			}
+		}
+		return true;
+	}
+
+
+	/**
+	 * @param integer $id ID of campaign
+	 * @param array $reviewers New set of reviewers for the campaign $id
+	 */
+	public function updateReviewers( $id, $reviewers ) {
+		if( $reviewers['add'] !== null ) {
+			if( Campaigns::addReviewers( $id, $reviewers['add'] ) === false ) {
+				return false;
+			}
+		}
+		if( $reviewers['add'] !== null ) {
+			if( Campaigns::removeReviewers( $id, $reviewers['remove'] ) === false ) {
+				return false;
+			}
+		}
+		return true;
+	}
+
+
+	/**
 	 * @param string $params Campaign data to be updated
 	 * @param int $id Id of campaign to be updated
 	 * @return bool True if update suceeded, false otherwise
@@ -125,6 +208,8 @@ class Campaigns extends AbstractDao {
 
 		try {
 			$this->dbh->beginTransaction();
+			
+			
 			$stmt->execute( $params );
 			$this->dbh->commit();
 			return true;

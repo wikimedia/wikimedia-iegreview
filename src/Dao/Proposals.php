@@ -101,7 +101,7 @@ class Proposals extends AbstractDao {
 	 */
 	public function updateProposal( $id, $data ) {
 		$fields = array(
-			'title', 'description', 'url', 'amount', 'theme', 'notes',
+			'title', 'description', 'url', 'amount','theme', 'notes',
 			'modified_by',
 		);
 		$placeholders = array();
