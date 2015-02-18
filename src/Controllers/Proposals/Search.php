@@ -62,7 +62,7 @@ class Search extends Controller {
 		if ( $this->form->get( 't' ) ||
 			$this->form->get( 'th' ) ||
 			$this->form->get( 'campaign' )
-			) {
+		) {
 			$params = array(
 				'title' => $this->form->get( 't' ),
 				'theme' => $this->form->get( 'th' ),

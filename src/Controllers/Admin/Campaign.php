@@ -24,7 +24,7 @@
 namespace Wikimedia\IEGReview\Controllers\Admin;
 
 use Wikimedia\IEGReview\Controller;
-use Wikimedia\IEGReview\Password;
+use Wikimedia\IEGReview\Arrays;
 
 /**
  * Add a new campaign.
@@ -35,18 +35,28 @@ use Wikimedia\IEGReview\Password;
 class Campaign extends Controller {
 
 	protected function handleGet( $id ) {
+		$reviewers = $this->dao->getReviewers();
 		if ( $id === 'new' ) {
 			$campaign = array(
 				'name' => '',
 				'start_date' => date( 'Y-m-d H:i:s' ),
 				'end_date' => date( 'Y-m-d H:i:s', strtotime( '+30 days' ) ),
 			);
-
 		} else {
 			$campaign = $this->dao->getCampaign( $id );
+			$currentReviewers = $this->dao->getReviewers( $id );
+			foreach ( $reviewers as $key=>$row ) {
+				$reviewers[$key]['val'] = '0';
+				foreach ( $currentReviewers as $rCurrent ) {
+					if ( $row['id'] == $rCurrent['id'] ) {
+						$reviewers[$key]['val'] = '1';
+					}
+				}
+			}
 		}
 		$this->view->set( 'id', $id );
 		$this->view->set( 'campaign', $campaign );
+		$this->view->set( 'rev', $reviewers );
 		$this->render( 'admin/campaign.html' );
 	}
 
@@ -58,6 +68,10 @@ class Campaign extends Controller {
 		// TODO: expectDate instead of expectString
 		$this->form->expectString( 'start_date', array( 'required' => 'true' ) );
 		$this->form->expectString( 'end_date', array( 'required' => true ) );
+
+		// Create expectArray method in Form.php
+		// Filed as T90387
+		$this->form->expectAnything( 'reviewer' );
 
 		if ( $this->form->validate() ) {
 			$params = array(
@@ -76,22 +90,40 @@ class Campaign extends Controller {
 				// to be fixed in a subsequent patch when actual logic for using
 				// start and end dates is implemented
 				$params['status'] = 1;
-
 				$newCampaign = $this->dao->addCampaign( $params );
+
 				if ( $newCampaign !== false ) {
 					$this->flash( 'info',
 						$this->i18nContext->message( 'admin-campaign-create-success' )
 					);
 					$id = $newCampaign;
+					// TODO: Change to form->get() after T90387 is done
+					$reviewers = $this->request->post( 'reviewer' );
+					if ( $reviewers ) {
+						$this->dao->addReviewers( $id, $reviewers );
+					}
 				} else {
 					$this->flash( 'error',
 						$this->i18nContext->message('admin-campaign-create-fail' )
 					);
 				}
+
 			} else {
+
+				// TODO: Change to form->get() after T90387 is done
+				$newReviewers = $this->request->post( 'reviewer' );
+				if ( $newReviewers == null ) {
+					$newReviewers = array();
+				}
+				$currentReviewers = $this->dao->getReviewers( $id );
+				//Convert the query result set to a simple array
+				$oldReviewers = array_map( function( $r ) { return $r['id']; }, $currentReviewers );
+				$diff = Arrays::difference( $oldReviewers, $newReviewers );
+				$this->dao->updateReviewers( $id, $diff );
+
 				if ( $this->dao->updateCampaign( $params, $id ) ) {
 					$this->flash( 'info',
-						$this->i18nContext->message('admin-campaign-update-success' )
+					$this->i18nContext->message('admin-campaign-update-success' )
 					);
 				} else {
 					$this->flash( 'error',
@@ -104,4 +136,6 @@ class Campaign extends Controller {
 	}
 
 }
+
 }
+
