@@ -45,8 +45,10 @@ class Campaign extends Controller {
 		} else {
 			$campaign = $this->dao->getCampaign( $id );
 		}
+		$reviewers = $this->dao->getReviewers();
 		$this->view->set( 'id', $id );
 		$this->view->set( 'campaign', $campaign );
+		$this->view->set( 'rev', $reviewers );
 		$this->render( 'admin/campaign.html' );
 	}
 
@@ -58,6 +60,10 @@ class Campaign extends Controller {
 		// TODO: expectDate instead of expectString
 		$this->form->expectString( 'start_date', array( 'required' => 'true' ) );
 		$this->form->expectString( 'end_date', array( 'required' => true ) );
+
+		if ( $id == 'new' ) {
+			$this->form->expectAnything( 'reviewer' );
+		}
 
 		if ( $this->form->validate() ) {
 			$params = array(
@@ -79,6 +85,8 @@ class Campaign extends Controller {
 						$this->i18nContext->message( 'admin-campaign-create-success' )
 					);
 					$id = $newCampaign;
+					$reviewers = $this->request->post( 'reviewer' );
+					$this->dao->addCampaignReviewers( $id, $reviewers );
 				} else {
 					$this->flash( 'error',
 						$this->i18nContext->message('admin-campaign-create-fail' )
@@ -87,8 +95,8 @@ class Campaign extends Controller {
 			} else {
 				if ( $this->dao->updateCampaign( $params, $id ) ) {
 					$this->flash( 'info',
-						$this->i18nContext->message('admin-campaign-update-success' )
-					);
+					$this->i18nContext->message('admin-campaign-update-success' )
+				);
 				} else {
 					$this->flash( 'error',
 						$this->i18nContext->message('admin-campaign-update-fail' )
@@ -100,4 +108,6 @@ class Campaign extends Controller {
 	}
 
 }
+
 }
+

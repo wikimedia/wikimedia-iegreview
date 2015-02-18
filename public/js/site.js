@@ -63,5 +63,14 @@
             $('html, body').scrollTop(invalid_el);
         }
     });
+
+    /*
+     * Select-all checkbox for reviewer-group on Admin/Add Campaign page
+     * Listen for click on checkbox toggle
+     */
+    $('.select-all').click(function(event) {
+        $( '.reviewer-group input[type="checkbox"]' ).prop('checked', this.checked )
+    });
+
   });
 })( jQuery, document, window );
