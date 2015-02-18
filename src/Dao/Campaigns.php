@@ -68,6 +68,16 @@ class Campaigns extends AbstractDao {
 	}
 
 
+	/*
+	 * @param int $id Fetches reviewers registered in the system
+	 */
+	public function getReviewers() {
+		return $this->fetchAll(
+			'SELECT * FROM users WHERE reviewer = 1'
+		);
+	}
+
+
 	/**
 	 * @param int $id ID of campaign to end
 	*/
@@ -99,6 +109,28 @@ class Campaigns extends AbstractDao {
 			')'
 		);
 		return $this->insert( $sql, $data );
+
+	}
+
+
+	/**
+	 * @param integer $id ID of campaign
+	 * @param 1D-array $reviewers to be added
+	 */
+	public function addCampaignReviewers( $id, $reviewers ) {
+		$created_by = $this->userId ? : null;
+		$cols = array( 'campaign_id', 'user_id', 'added_by' );
+		foreach ( $reviewers as $r ) {
+			$sql = self::concat(
+				'INSERT INTO campaign_users (',
+				implode( ', ', $cols ),
+				') VALUES (',
+				$id, ',', $r, ',', $created_by,
+				')'
+			);
+			$this->insert( $sql );
+		}
+		return true;
 
 	}
 
