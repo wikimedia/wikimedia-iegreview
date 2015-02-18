@@ -56,13 +56,14 @@ class Search extends Controller {
 		$this->view->set( 'o', $this->form->get( 'o' ) );
 		$this->view->set( 'found', null );
 
+
 		$campaignslist = $this->dao->getCampaigns();
 		$this->view->set( 'campaigns', $campaignslist );
 
 		if ( $this->form->get( 't' ) ||
 			$this->form->get( 'th' ) ||
 			$this->form->get( 'campaign' )
-			) {
+		) {
 			$params = array(
 				'title' => $this->form->get( 't' ),
 				'theme' => $this->form->get( 'th' ),
