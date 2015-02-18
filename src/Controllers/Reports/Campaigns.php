@@ -26,10 +26,10 @@ namespace Wikimedia\IEGReview\Controllers\Reports;
 use Wikimedia\IEGReview\Controller;
 
 /**
- * Aggregated scores.
+ * Managing campaign reports - Past campaigns and associated proposals
  *
- * @author Bryan Davis <bd808@wikimedia.org>
- * @copyright © 2014 Bryan Davis, Wikimedia Foundation and contributors.
+ * @author Niharika Kohli <nkohli@wikimedia.org>
+ * @copyright © 2015 Niharika Kohli, Wikimedia Foundation and contributors.
  */
 class Campaigns extends AbstractReport {
 

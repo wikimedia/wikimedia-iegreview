@@ -63,5 +63,6 @@
             $('html, body').scrollTop(invalid_el);
         }
     });
+
   });
 })( jQuery, document, window );
