@@ -105,6 +105,7 @@
 	"admin-campaign-create-fail": "Campaign creation failed. Check logs.",
 	"admin-campaign-update-success": "Campaign updated.",
 	"admin-campaign-update-fail": "Error. Check logs.",
+	"admin-campaign-reviewers": "Campaign reviewers:",
 
 	"page-of-pages": "Page $1 of $2",
 	"no-results": "No results found",
