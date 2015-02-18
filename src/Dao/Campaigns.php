@@ -57,7 +57,7 @@ class Campaigns extends AbstractDao {
 		);
 	}
 
-	/*
+	/**
 	 * @param int $id ID of campaign whose data is to be fetched
 	 */
 	public function getCampaign( $id ) {
@@ -65,6 +65,26 @@ class Campaigns extends AbstractDao {
 			'SELECT * FROM campaigns WHERE id = ?',
 			array( $id )
 		);
+	}
+
+
+	/**
+	 * @param int $id Fetches reviewers registered in the system
+	 * If no parameter is passed, all registered reviewers are returned
+	 */
+	public function getReviewers( $id = null ) {
+		if ( $id == null ) {
+			return $this->fetchAll(
+				'SELECT id, username, email FROM users WHERE reviewer = 1'
+			);
+		} else {
+			$sql = self::concat(
+				'SELECT u.id, u.username, u.email',
+				'FROM users u, campaign_users cu',
+				'WHERE u.id = cu.user_id AND cu.campaign_id = ?'
+			);
+			return $this->fetchAll( $sql, array( $id ) );
+		}
 	}
 
 
@@ -100,6 +120,70 @@ class Campaigns extends AbstractDao {
 		);
 		return $this->insert( $sql, $data );
 
+	}
+
+
+	/**
+	 * @param integer $id ID of campaign
+	 * @param array $reviewers to be added
+	 */
+	private function addReviewers( $id, $reviewers ) {
+		$created_by = $this->userId ? : null;
+		$cols = array( 'campaign_id', 'user_id', 'added_by' );
+		foreach ( $reviewers as $r ) {
+			$sql = self::concat(
+				'INSERT INTO campaign_users (',
+				implode( ', ', $cols ),
+				') VALUES (',
+				$id, ',', $r, ',', $created_by,
+				')'
+			);
+			$this->insert( $sql );
+		}
+		return true;
+
+	}
+
+
+	/**
+	 * @param integer $id ID of campaign
+	 * @param array $reviewers to be removed
+	 */
+	private function removeReviewers( $id, $reviewers ) {
+		foreach ( $reviewers as $r ) {
+			$sql = self::concat(
+				'DELETE FROM campaign_users WHERE',
+				'campaign_id = :cid',
+				'AND user_id = :uid'
+			);
+			$data = array(
+				'cid' => $id,
+				'uid' => $r
+			);
+			if ( $this->update( $sql, $data ) !== true ) {
+				return false;
+			}
+		}
+		return true;
+	}
+
+
+	/**
+	 * @param integer $id ID of campaign
+	 * @param array $reviewers New set of reviewers for the campaign $id
+	 */
+	public function updateReviewers( $id, $reviewers ) {
+		if( $reviewers['add'] !== null ) {
+			if( $this->addReviewers( $id, $reviewers['add'] ) === false ) {
+				return false;
+			}
+		}
+		if( $reviewers['add'] !== null ) {
+			if( $this->removeReviewers( $id, $reviewers['remove'] ) === false ) {
+				return false;
+			}
+		}
+		return true;
 	}
 
 
