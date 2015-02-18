@@ -107,6 +107,7 @@
 	"admin-campaign-update-fail": "Error. Check logs.",
 	"admin-campaign-end-button": "End Campaign",
 	"admin-campaign-end-success": "Campaign succesfully ended",
+	"admin-campaign-reviewers": "Campaign reviewers:",
 
 	"page-of-pages": "Page $1 of $2",
 	"no-results": "No results found",
