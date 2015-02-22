@@ -562,6 +562,12 @@ class App {
 					$page->setDao( $slim->campaignsDao );
 					$page();
 				} )->name( 'admin_campaign_post' );
+
+				$slim->get( 'campaign/end/:id', function ( $id ) use ( $slim ) {
+					$page = new Controllers\Admin\CampaignEnd( $slim );
+					$page->setDao( $slim->campaignsDao );
+					$page( $id );
+				} )->name( 'admin_campaign_end' );
 		} );
 
 		$slim->notFound( function () use ( $slim, $middleware ) {
