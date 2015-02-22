@@ -56,27 +56,6 @@ CREATE TABLE IF NOT EXISTS proposals (
   , CONSTRAINT FOREIGN KEY (modified_by) REFERENCES users(id) ON DELETE SET NULL
 ) ENGINE=InnoDB DEFAULT CHARACTER SET=utf8 ;
 
-CREATE TABLE IF NOT EXISTS reviews (
-    id          INT(11) NOT NULL AUTO_INCREMENT
-  , proposal    INT(11) NOT NULL
-  , reviewer    INT(11)
-  , impact      TINYINT UNSIGNED
-  , impact_note BLOB
-  , innovation  TINYINT UNSIGNED
-  , innovation_note BLOB
-  , ability      TINYINT UNSIGNED
-  , ability_note BLOB
-  , engagement  TINYINT UNSIGNED
-  , engagement_note BLOB
-  , recommendation TINYINT
-  , comments    BLOB
-  , created_at  TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
-  , modified_at TIMESTAMP
-  , PRIMARY KEY (id)
-  , CONSTRAINT FOREIGN KEY (proposal) REFERENCES proposals(id) ON DELETE CASCADE
-  , CONSTRAINT FOREIGN KEY (reviewer) REFERENCES users(id) ON DELETE RESTRICT
-) ENGINE=InnoDB DEFAULT CHARACTER SET=utf8 ;
-
 CREATE TABLE IF NOT EXISTS campaign_users (
     campaign_id     INT(11) NOT NULL
   , user_id         INT(11) NOT NULL
@@ -86,3 +65,28 @@ CREATE TABLE IF NOT EXISTS campaign_users (
   , CONSTRAINT FOREIGN KEY (campaign_id) REFERENCES campaigns(id) ON DELETE CASCADE
   , CONSTRAINT FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARACTER SET=utf8 ;
+
+CREATE TABLE IF NOT EXISTS review_questions (
+    id              INT(11) NOT NULL
+  , campaign        INT(11) NOT NULL
+  , question        VARCHAR(255)
+  , added_by        INT(11)
+  , created_at      TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+  , PRIMARY KEY (id)
+  , CONSTRAINT FOREIGN KEY (campaign) REFERENCES campaigns(id) ON DELETE CASCADE
+)  ENGINE=InnoDB DEFAULT CHARACTER SET=utf8 ;
+
+CREATE TABLE IF NOT EXISTS reviews (
+    id              INT(11) NOT NULL AUTO_INCREMENT
+  , proposal        INT(11) NOT NULL
+  , question        INT(11) NOT NULL
+  , points          INT(11)
+  , comments        VARCHAR(255)
+  , reviewer        INT(11)
+  , created_at      TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+  , PRIMARY KEY (campaign, proposal, question)
+  , CONSTRAINT FOREIGN KEY (proposal) REFERENCES proposals (id) ON DELETE CASCADE
+  , CONSTRAINT FOREIGN KEY (campaign) REFERENCES campaigns(id) ON DELETE CASCADE
+  , CONSTRAINT FOREIGN KEY (question) REFERENCES review_questions(id) ON DELETE CASCADE
+  , CONSTRAINT FOREIGN KEY (added_by) REFERENCES users(id) ON DELETE RESTRICT
+)  ENGINE=InnoDB DEFAULT CHARACTER SET=utf8 ;
