@@ -86,3 +86,25 @@ CREATE TABLE IF NOT EXISTS campaign_users (
   , CONSTRAINT FOREIGN KEY (campaign_id) REFERENCES campaigns(id) ON DELETE CASCADE
   , CONSTRAINT FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARACTER SET=utf8 ;
+
+CREATE TABLE IF NOT EXISTS reviews_new (
+    id              INT(11) NOT NULL
+  , campaign        INT(11) NOT NULL
+  , question        INT(11)
+  , points          INT(11)
+  , comments        VARCHAR(255)
+  , added_by        INT(11)
+  , created_at      TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+  , PRIMARY KEY ( id, campaign )
+  , CONSTRAINT FOREIGN KEY (id) REFERENCES proposals (id) ON DELETE RESTRICT
+  , CONSTRAINT FOREIGN KEY (campaign) REFERENCES campaigns(id) ON DELETE CASCADE
+  , CONSTRAINT FOREIGN KEY (question) REFERENCES review_questions(id) ON DELETE CASCADE
+)  ENGINE=InnoDB DEFAULT CHARACTER SET=utf8 ;
+
+CREATE TABLE IF NOT EXISTS review_questions (
+    id              INT(11) NOT NULL
+  , campaign        INT(11) NOT NULL
+  , question        VARCHAR(255)
+  , added_by        INT(11)
+  , created_at      TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+)  ENGINE=InnoDB DEFAULT CHARACTER SET=utf8 ;
