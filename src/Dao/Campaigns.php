@@ -76,7 +76,7 @@ class Campaigns extends AbstractDao {
 			'UPDATE campaigns SET',
 			'end_date = now()',
 			',status = 0',
-			'WHERE id = :id'
+			'WHERE id = ?'
 		);
 
 		return $this->update( $sql, array( $id ) );
