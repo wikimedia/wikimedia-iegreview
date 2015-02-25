@@ -43,6 +43,7 @@
 	"admin-campaigns-id": "Table column header, ID of campaign.\n{{Identical|ID}}",
 	"admin-campaign-end-button": "Button label",
 	"admin-campaign-end-success": "Message string for succesful campaign end",
+	"admin-new-campaign-in-progress": "Message shown to user when a new campaign creation fails because an exsting one is in progress",
 
 	"change-password": "Navigation menu item, links to password change page.\n{{Identical|Change password}}",
 	"credits": "Credits page heading",
