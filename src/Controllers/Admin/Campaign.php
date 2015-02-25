@@ -66,7 +66,11 @@ class Campaign extends Controller {
 				'end_date' => $this->form->get( 'end_date' ),
 			);
 
-			if ( $id == 'new' ) {
+			if ( $id == 'new' && $this->dao->activeCampaign() ) {
+				$this->flash( 'error',
+					$this->i18nContext->message( 'admin-new-campaign-fail' )
+				);
+			} elseif ( $id == 'new' ) {
 				// This is a temporary fix to make the *just started* campaign active
 				// and bypass the actual start and end date
 				// to be fixed in a subsequent patch when actual logic for using
