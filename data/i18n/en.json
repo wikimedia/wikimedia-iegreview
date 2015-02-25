@@ -105,6 +105,7 @@
 	"admin-campaign-create-fail": "Campaign creation failed. Check logs.",
 	"admin-campaign-update-success": "Campaign updated.",
 	"admin-campaign-update-fail": "Error. Check logs.",
+	"admin-new-campaign-fail": "Cannot create a new campaign if one is already in progress. Please end the current campaign before starting a new one.",
 
 	"page-of-pages": "Page $1 of $2",
 	"no-results": "No results found",
