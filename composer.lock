@@ -4,20 +4,20 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "9121275399ec6b37ad93e4675fae223b",
+    "hash": "43c00330afc9b9d76d39258470e9dd1c",
     "packages": [
         {
             "name": "bd808/monolog-udp2log-handler",
-            "version": "v1.0.0",
+            "version": "v1.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/bd808/udp2log-monolog-handler.git",
-                "reference": "9cef81fda240a651c3b934fb24b9ea48a4824e1b"
+                "reference": "b45bc0d31e194694538ce3e7181bc6d7f54e881c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/bd808/udp2log-monolog-handler/zipball/9cef81fda240a651c3b934fb24b9ea48a4824e1b",
-                "reference": "9cef81fda240a651c3b934fb24b9ea48a4824e1b",
+                "url": "https://api.github.com/repos/bd808/udp2log-monolog-handler/zipball/b45bc0d31e194694538ce3e7181bc6d7f54e881c",
+                "reference": "b45bc0d31e194694538ce3e7181bc6d7f54e881c",
                 "shasum": ""
             },
             "require": {
@@ -52,7 +52,7 @@
                 "monolog",
                 "udp2log"
             ],
-            "time": "2014-09-14 17:15:23"
+            "time": "2015-02-26 05:01:15"
         },
         {
             "name": "monolog/monolog",
@@ -424,21 +424,14 @@
             "time": "2014-09-29 00:38:51"
         }
     ],
-    "packages-dev": [
-
-    ],
-    "aliases": [
-
-    ],
+    "packages-dev": [],
+    "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": [
-
-    ],
+    "stability-flags": [],
     "prefer-stable": false,
+    "prefer-lowest": false,
     "platform": {
         "php": ">=5.3.7"
     },
-    "platform-dev": [
-
-    ]
+    "platform-dev": []
 }

@@ -169,56 +169,6 @@
         ]
     },
     {
-        "name": "bd808/monolog-udp2log-handler",
-        "version": "v1.0.0",
-        "version_normalized": "1.0.0.0",
-        "source": {
-            "type": "git",
-            "url": "https://github.com/bd808/udp2log-monolog-handler.git",
-            "reference": "9cef81fda240a651c3b934fb24b9ea48a4824e1b"
-        },
-        "dist": {
-            "type": "zip",
-            "url": "https://api.github.com/repos/bd808/udp2log-monolog-handler/zipball/9cef81fda240a651c3b934fb24b9ea48a4824e1b",
-            "reference": "9cef81fda240a651c3b934fb24b9ea48a4824e1b",
-            "shasum": ""
-        },
-        "require": {
-            "monolog/monolog": "~1.6",
-            "php": ">=5.3.0"
-        },
-        "require-dev": {
-            "phpunit/phpunit": "~4.0"
-        },
-        "time": "2014-09-14 17:15:23",
-        "type": "library",
-        "installation-source": "dist",
-        "autoload": {
-            "psr-4": {
-                "Monolog\\Handler\\": "src"
-            }
-        },
-        "notification-url": "https://packagist.org/downloads/",
-        "license": [
-            "MIT"
-        ],
-        "authors": [
-            {
-                "name": "Bryan Davis",
-                "homepage": "http://bd808.com",
-                "role": "Developer"
-            }
-        ],
-        "description": "A handler for Monolog that emits udp2log datagrams.",
-        "homepage": "https://github.com/bd808/monolog-udp2log-handler",
-        "keywords": [
-            "log",
-            "mediawiki",
-            "monolog",
-            "udp2log"
-        ]
-    },
-    {
         "name": "phpmailer/phpmailer",
         "version": "v5.2.8",
         "version_normalized": "5.2.8.0",
@@ -430,6 +380,56 @@
             "internationalization",
             "l10n",
             "localization"
+        ]
+    },
+    {
+        "name": "bd808/monolog-udp2log-handler",
+        "version": "v1.0.1",
+        "version_normalized": "1.0.1.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/bd808/udp2log-monolog-handler.git",
+            "reference": "b45bc0d31e194694538ce3e7181bc6d7f54e881c"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/bd808/udp2log-monolog-handler/zipball/b45bc0d31e194694538ce3e7181bc6d7f54e881c",
+            "reference": "b45bc0d31e194694538ce3e7181bc6d7f54e881c",
+            "shasum": ""
+        },
+        "require": {
+            "monolog/monolog": "~1.6",
+            "php": ">=5.3.0"
+        },
+        "require-dev": {
+            "phpunit/phpunit": "~4.0"
+        },
+        "time": "2015-02-26 05:01:15",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "Monolog\\Handler\\": "src"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Bryan Davis",
+                "homepage": "http://bd808.com",
+                "role": "Developer"
+            }
+        ],
+        "description": "A handler for Monolog that emits udp2log datagrams.",
+        "homepage": "https://github.com/bd808/monolog-udp2log-handler",
+        "keywords": [
+            "log",
+            "mediawiki",
+            "monolog",
+            "udp2log"
         ]
     }
 ]
