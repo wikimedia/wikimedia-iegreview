@@ -68,6 +68,10 @@ class Campaign extends Controller {
 		// TODO: expectDate instead of expectString
 		$this->form->expectString( 'start_date', array( 'required' => 'true' ) );
 		$this->form->expectString( 'end_date', array( 'required' => true ) );
+		$this->form->expectAnything( 'ques1' );
+		$this->form->expectAnything( 'ques2' );
+		$this->form->expectAnything( 'ques3' );
+		$this->form->expectAnything( 'ques4' );
 
 		// Create expectArray method in Form.php
 		// Filed as T90387
@@ -78,6 +82,12 @@ class Campaign extends Controller {
 				'name' => $this->form->get( 'name' ),
 				'start_date' => $this->form->get( 'start_date' ),
 				'end_date' => $this->form->get( 'end_date' ),
+			);
+			$questions = array(
+				'ques1' => $this->form->get( 'ques1' ),
+				'ques2' => $this->form->get( 'ques2' ),
+				'ques3' => $this->form->get( 'ques3' ),
+				'ques4' => $this->form->get( 'ques4' ),
 			);
 
 			if ( $id == 'new' && $this->dao->activeCampaign() ) {
@@ -90,7 +100,8 @@ class Campaign extends Controller {
 				// to be fixed in a subsequent patch when actual logic for using
 				// start and end dates is implemented
 				$params['status'] = 1;
-				$newCampaign = $this->dao->addCampaign( $params );
+
+				$newCampaign = $this->dao->addCampaign( $params, $questions );
 
 				if ( $newCampaign !== false ) {
 					$this->flash( 'info',
@@ -121,7 +132,7 @@ class Campaign extends Controller {
 				$diff = Arrays::difference( $oldReviewers, $newReviewers );
 				$this->dao->updateReviewers( $id, $diff );
 
-				if ( $this->dao->updateCampaign( $params, $id ) ) {
+				if ( $this->dao->updateCampaign( $params, $questions, $id ) ) {
 					$this->flash( 'info',
 					$this->i18nContext->message('admin-campaign-update-success' )
 					);
