@@ -53,7 +53,7 @@ class Campaigns extends AbstractDao {
 
 	public function activeCampaign() {
 		return $this->fetch(
-			'SELECT * FROM campaigns WHERE status = 1'
+			'SELECT id FROM campaigns WHERE status = 1'
 		);
 	}
 
@@ -85,8 +85,9 @@ class Campaigns extends AbstractDao {
 
 	/**
 	 * @param array $data Campaign data for a new campaign
+	 * @param array $questions Review questions
 	 */
-	public function addCampaign( array $data ) {
+	public function addCampaign( array $data, array $questions ) {
 		$data['created_by'] = $this->userId ? : null;
 		$cols = array_keys( $data );
 		$params = array_map( function ( $elm ) { return ":{$elm}"; }, $cols );
@@ -98,17 +99,46 @@ class Campaigns extends AbstractDao {
 			implode( ', ', $params ),
 			')'
 		);
-		return $this->insert( $sql, $data );
+		return $this->insert( $sql, $data ) && $this->insertQuestions( $questions );
 
 	}
 
 
 	/**
+	 * @param array $questions Array of questions to be added
+	 */
+	public function insertQuestions( array $questions ) {
+		$campaign = $this->activeCampaign();
+		$created_by = $this->userId ? : null;
+		$cols = array( 'campaign', 'question', 'added_by' );
+
+		foreach ( $questions as $q ) {
+			$sql = self::concat(
+				'INSERT INTO review_questions (',
+				implode( ', ', $cols ),
+				') VALUES (',
+				$campaign, ',', $q, ',', $created_by,
+				')'
+			);
+			$this->insert( $sql );
+		}
+	}
+
+
+	/**
+	 * @param array $questions Array of questions to be updated
+	 */
+	public function updateQuestions( array $questions ) {
+		
+	}
+
+	/**
 	 * @param string $params Campaign data to be updated
+	 * @param array $questions Review questions
 	 * @param int $id Id of campaign to be updated
 	 * @return bool True if update suceeded, false otherwise
 	 */
-	public function updateCampaign( $params, $id ) {
+	public function updateCampaign( $params, $questions, $id ) {
 		$fields = array( 'name', 'start_date', 'end_date' );
 		$placeholders = array();
 		foreach ( $fields as $field ) {

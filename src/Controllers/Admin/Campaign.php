@@ -58,12 +58,22 @@ class Campaign extends Controller {
 		// TODO: expectDate instead of expectString
 		$this->form->expectString( 'start_date', array( 'required' => 'true' ) );
 		$this->form->expectString( 'end_date', array( 'required' => true ) );
+		$this->form->expectAnything( 'ques1' );
+		$this->form->expectAnything( 'ques2' );
+		$this->form->expectAnything( 'ques3' );
+		$this->form->expectAnything( 'ques4' );
 
 		if ( $this->form->validate() ) {
 			$params = array(
 				'name' => $this->form->get( 'name' ),
 				'start_date' => $this->form->get( 'start_date' ),
 				'end_date' => $this->form->get( 'end_date' ),
+			);
+			$questions = array(
+				'ques1' => $this->form->get( 'ques1' ),
+				'ques2' => $this->form->get( 'ques2' ),
+				'ques3' => $this->form->get( 'ques3' ),
+				'ques4' => $this->form->get( 'ques4' ),
 			);
 
 			if ( $id == 'new' ) {
@@ -73,7 +83,7 @@ class Campaign extends Controller {
 				// start and end dates is implemented
 				$params['status'] = 1;
 
-				$newCampaign = $this->dao->addCampaign( $params );
+				$newCampaign = $this->dao->addCampaign( $params, $questions );
 				if ( $newCampaign !== false ) {
 					$this->flash( 'info',
 						$this->i18nContext->message( 'admin-campaign-create-success' )
@@ -85,7 +95,7 @@ class Campaign extends Controller {
 					);
 				}
 			} else {
-				if ( $this->dao->updateCampaign( $params, $id ) ) {
+				if ( $this->dao->updateCampaign( $params, $questions, $id ) ) {
 					$this->flash( 'info',
 						$this->i18nContext->message('admin-campaign-update-success' )
 					);
