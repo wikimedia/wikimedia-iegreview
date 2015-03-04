@@ -45,6 +45,8 @@
 	"admin-campaign-end-success": "Message string for succesful campaign end",
 	"admin-new-campaign-in-progress": "Message shown to user when a new campaign creation fails because an exsting one is in progress",
 	"admin-campaign-reviewers": "Input label, followed by a checkbox group",
+	"admin-campaign-question": "Input label, followed by multi-line textarea",
+	"admin-campaign-question-placeholder": "Placeholder text for a textarea",
 
 	"change-password": "Navigation menu item, links to password change page.\n{{Identical|Change password}}",
 	"credits": "Credits page heading",
