@@ -247,7 +247,6 @@ class App {
 			$log->pushHandler( $handler );
 			return $log;
 		} );
-	}
 
 
 	/**
