@@ -109,6 +109,8 @@
 	"admin-campaign-end-success": "Campaign succesfully ended",
 	"admin-new-campaign-in-progress": "Cannot create a new campaign if one is already in progress. Please end the current campaign before starting a new one.",
 	"admin-campaign-reviewers": "Campaign reviewers:",
+	"admin-campaign-question": "Question $1:",
+	"admin-campaign-question-placeholder": "Add question text here",
 
 	"page-of-pages": "Page $1 of $2",
 	"no-results": "No results found",
