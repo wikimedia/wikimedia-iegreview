@@ -42,6 +42,7 @@ class Campaign extends Controller {
 				'start_date' => date( 'Y-m-d H:i:s' ),
 				'end_date' => date( 'Y-m-d H:i:s', strtotime( '+30 days' ) ),
 			);
+			$questions = array_fill(1, 4, '');
 		} else {
 			$campaign = $this->dao->getCampaign( $id );
 			$currentReviewers = $this->dao->getReviewers( $id );
@@ -53,10 +54,12 @@ class Campaign extends Controller {
 					}
 				}
 			}
+			$questions = $this->dao->getQuestions( $id );
 		}
 		$this->view->set( 'id', $id );
 		$this->view->set( 'campaign', $campaign );
 		$this->view->set( 'rev', $reviewers );
+		$this->view->set( 'ques', $questions );
 		$this->render( 'admin/campaign.html' );
 	}
 
@@ -72,6 +75,7 @@ class Campaign extends Controller {
 		// Create expectArray method in Form.php
 		// Filed as T90387
 		$this->form->expectAnything( 'reviewer' );
+		$this->form->expectAnything( 'questions' );
 
 		if ( $this->form->validate() ) {
 			$params = array(
@@ -79,6 +83,8 @@ class Campaign extends Controller {
 				'start_date' => $this->form->get( 'start_date' ),
 				'end_date' => $this->form->get( 'end_date' ),
 			);
+
+			$questions = $this->request->post( 'questions' );
 
 			if ( $id == 'new' && $this->dao->activeCampaign() ) {
 				$this->flash( 'error',
@@ -90,6 +96,7 @@ class Campaign extends Controller {
 				// to be fixed in a subsequent patch when actual logic for using
 				// start and end dates is implemented
 				$params['status'] = 1;
+
 				$newCampaign = $this->dao->addCampaign( $params );
 
 				if ( $newCampaign !== false ) {
@@ -102,6 +109,10 @@ class Campaign extends Controller {
 					if ( $reviewers !== null ) {
 						$diff = Arrays::difference( array(), $reviewers );
 						$this->dao->updateReviewers( $id, $diff );
+					}
+
+					if ( $questions !== null ) {
+						$this->dao->insertQuestions( $id, $questions );
 					}
 				} else {
 					$this->flash( 'error',
@@ -120,7 +131,9 @@ class Campaign extends Controller {
 				//Convert the query result set to a simple array
 				$oldReviewers = array_map( function( $r ) { return $r['id']; }, $currentReviewers );
 				$diff = Arrays::difference( $oldReviewers, $newReviewers );
+				// TODO: Check return value and add error message
 				$this->dao->updateReviewers( $id, $diff );
+				$this->dao->updateQuestions( $id, $questions );
 
 				if ( $this->dao->updateCampaign( $params, $id ) ) {
 					$this->flash( 'info',
@@ -134,9 +147,9 @@ class Campaign extends Controller {
 			}
 
 		$this->redirect( $this->urlFor( 'admin_campaign', array( 'id' => $id ) ) );
-	}
+		}
 
-}
+	}
 
 }
 

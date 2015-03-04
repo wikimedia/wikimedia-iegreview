@@ -120,7 +120,6 @@ class Campaigns extends AbstractDao {
 			')'
 		);
 		return $this->insert( $sql, $data );
-
 	}
 
 
@@ -234,6 +233,84 @@ class Campaigns extends AbstractDao {
 			) );
 			return false;
 		}
+
+	}
+
+
+	/**
+	 * Fetches all questions associated with a given campaign
+	 * @param integer $campaign ID of campaign whose questions are to be fetched
+	 */
+	public function getQuestions( $campaign ) {
+		return $this->fetchAll(
+			'SELECT id, question FROM review_questions WHERE campaign = ?',
+			array( $campaign )
+		);
+	}
+
+
+	/**
+	 * Inserts new questions into the campaign_questions table
+	 * @param integer $campaign Campaign id
+	 * @param array $questions Array of questions to be added
+	 */
+	public function insertQuestions( $campaign, array $questions ) {
+		$created_by = $this->userId ? : null;
+		$cols = array( 'campaign', 'question', 'created_by' );
+		$params = array_map( function ( $elm ) { return ":{$elm}"; }, $cols );
+		foreach ( $questions as $q ) {
+			$sql = self::concat(
+				'INSERT INTO review_questions (',
+				implode( ', ', $cols ),
+				') VALUES (',
+				implode( ', ', $params ),
+				')'
+			);
+			$data = array(
+				'campaign' => $campaign,
+				'question' => $q,
+				'created_by' => $created_by
+			);
+			$this->insert( $sql, $data );
+		}
+		return true;
+	}
+
+
+	/**
+	 * This function drops all existing questions for a campaign in the
+	 * campaign_questions table and asks insertQuestions() to insert the new ones
+	 * @param integer $campaign Campaign ID
+	 * @param array $questions Array of questions to be updated
+	 */
+	public function updateQuestions( $campaign, array $questions ) {
+		$sql = self::concat(
+			'DELETE FROM review_questions',
+			'WHERE campaign = :campaign'
+		);
+		$params = array();
+		$params['campaign'] = $campaign;
+		$stmt = $this->dbh->prepare( $sql );
+
+		try {
+			$this->dbh->beginTransaction();
+			$stmt->execute( $params );
+			$this->dbh->commit();
+			$result = true;
+
+		} catch ( PDOException $e) {
+			$this->dbh->rollback();
+			$this->logger->error( 'Failed to update campaign', array(
+				'method' => __METHOD__,
+				'exception' => $e,
+				'sql' => $sql,
+				'params' => $params,
+			) );
+			$result = false;
+		}
+
+		return $result && $this->insertQuestions( $campaign, $questions );
+
 	}
 
 
