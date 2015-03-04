@@ -53,7 +53,7 @@ class Campaigns extends AbstractDao {
 
 	public function activeCampaign() {
 		return $this->fetch(
-			'SELECT * FROM campaigns WHERE status = 1'
+			'SELECT id FROM campaigns WHERE status = 1'
 		);
 	}
 
@@ -105,9 +105,10 @@ class Campaigns extends AbstractDao {
 
 	/**
 	 * @param array $data Campaign data for a new campaign
+	 * @param array $questions Review questions
 	 * @return int Id of the newly inserted campaign
 	 */
-	public function addCampaign( array $data ) {
+	public function addCampaign( array $data, array $questions ) {
 		$data['created_by'] = $this->userId ? : null;
 		$cols = array_keys( $data );
 		$params = array_map( function ( $elm ) { return ":{$elm}"; }, $cols );
@@ -119,8 +120,50 @@ class Campaigns extends AbstractDao {
 			implode( ', ', $params ),
 			')'
 		);
-		return $this->insert( $sql, $data );
+		$result = $this->insert( $sql, $data );
+		return $result && $this->insertQuestions( $result, $questions );
+	}
 
+
+	/**
+	 * @param string $params Campaign data to be updated
+	 * @param array $questions Review questions
+	 * @param int $id Id of campaign to be updated
+	 * @return bool True if update suceeded, false otherwise
+	 */
+	public function updateCampaign( $params, $questions, $id ) {
+		$fields = array( 'name', 'start_date', 'end_date' );
+		$placeholders = array();
+		foreach ( $fields as $field ) {
+			$placeholders[] = "{$field} = :{$field}";
+		}
+
+		$sql = self::concat(
+			'UPDATE campaigns SET',
+			implode( ', ', $placeholders ),
+			'WHERE id = :id'
+		);
+		$params['id'] = $id;
+		$stmt = $this->dbh->prepare( $sql );
+
+		try {
+			$this->dbh->beginTransaction();
+			$stmt->execute( $params );
+			$this->dbh->commit();
+			$result = true;
+
+		} catch ( PDOException $e) {
+			$this->dbh->rollback();
+			$this->logger->error( 'Failed to update campaign', array(
+				'method' => __METHOD__,
+				'exception' => $e,
+				'sql' => $sql,
+				'params' => $params,
+			) );
+			$result = false;
+		}
+
+		return $result && $this->updateQuestions( $id, $questions );
 	}
 
 
@@ -199,30 +242,67 @@ class Campaigns extends AbstractDao {
 
 
 	/**
-	 * @param string $params Campaign data to be updated
-	 * @param int $id Id of campaign to be updated
-	 * @return bool True if update suceeded, false otherwise
+	 * Fetches all questions associated with a given campaign
+	 * @param integer $id ID of campaign whose questions are to be fetched
 	 */
-	public function updateCampaign( $params, $id ) {
-		$fields = array( 'name', 'start_date', 'end_date' );
-		$placeholders = array();
-		foreach ( $fields as $field ) {
-			$placeholders[] = "{$field} = :{$field}";
-		}
-
-		$sql = self::concat(
-			'UPDATE campaigns SET',
-			implode( ', ', $placeholders ),
-			'WHERE id = :id'
+	public function getQuestions( $id ) {
+		return $this->fetchAll(
+			'SELECT id, question FROM review_questions WHERE campaign = ?',
+			array( $id )
 		);
-		$params['id'] = $id;
+	}
+
+
+	/**
+	 * Inserts new questions into the campaign_questions table
+	 * @param integer $campaign Campaign id
+	 * @param array $questions Array of questions to be added
+	 */
+	public function insertQuestions( $campaign, array $questions ) {
+		$added_by = $this->userId ? : null;
+		$cols = array( 'campaign', 'question', 'added_by' );
+		$params = array_map( function ( $elm ) { return ":{$elm}"; }, $cols );
+
+		foreach ( $questions as $q ) {
+			$sql = self::concat(
+				'INSERT INTO review_questions (',
+				implode( ', ', $cols ),
+				') VALUES (',
+				implode( ', ', $params ),
+				')'
+			);
+			$data = array(
+				'campaign' => $campaign,
+				'question' => $q,
+				'added_by' => $added_by
+			);
+			if ( $this->insert( $sql, $data ) == false ) {
+				return false;
+			}
+		}
+		return true;
+	}
+
+
+	/**
+	 * This function drops all existing questions for a campaign in the
+	 * campaign_questions table and asks insertQuestions() to insert the new ones
+	 * @param integer $campaign Campaign ID
+	 * @param array $questions Array of questions to be updated
+	 */
+	public function updateQuestions( $campaign, array $questions ) {
+		$sql = self::concat(
+			'DELETE * FROM campaign_questions',
+			'WHERE campaign = :campaign'
+		);
+		$params['campaign'] = $campaign;
 		$stmt = $this->dbh->prepare( $sql );
 
 		try {
 			$this->dbh->beginTransaction();
 			$stmt->execute( $params );
 			$this->dbh->commit();
-			return true;
+			$result = true;
 
 		} catch ( PDOException $e) {
 			$this->dbh->rollback();
@@ -232,8 +312,11 @@ class Campaigns extends AbstractDao {
 				'sql' => $sql,
 				'params' => $params,
 			) );
-			return false;
+			$result = false;
 		}
+
+		return $result && $this->insertQuestions( $campaign, $questions );
+
 	}
 
 

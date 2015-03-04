@@ -42,6 +42,7 @@ class Campaign extends Controller {
 				'start_date' => date( 'Y-m-d H:i:s' ),
 				'end_date' => date( 'Y-m-d H:i:s', strtotime( '+30 days' ) ),
 			);
+			$questions = array_fill(1, 4, '');
 		} else {
 			$campaign = $this->dao->getCampaign( $id );
 			$currentReviewers = $this->dao->getReviewers( $id );
@@ -53,10 +54,12 @@ class Campaign extends Controller {
 					}
 				}
 			}
+			$questions = $this->dao->getQuestions( $id );
 		}
 		$this->view->set( 'id', $id );
 		$this->view->set( 'campaign', $campaign );
 		$this->view->set( 'rev', $reviewers );
+		$this->view->set( 'ques', $questions );
 		$this->render( 'admin/campaign.html' );
 	}
 
@@ -72,6 +75,7 @@ class Campaign extends Controller {
 		// Create expectArray method in Form.php
 		// Filed as T90387
 		$this->form->expectAnything( 'reviewer' );
+		$this->form->expectAnything( 'questions' );
 
 		if ( $this->form->validate() ) {
 			$params = array(
@@ -79,6 +83,7 @@ class Campaign extends Controller {
 				'start_date' => $this->form->get( 'start_date' ),
 				'end_date' => $this->form->get( 'end_date' ),
 			);
+			$questions = $this->request->post( 'questions' );
 
 			if ( $id == 'new' && $this->dao->activeCampaign() ) {
 				$this->flash( 'error',
@@ -90,7 +95,8 @@ class Campaign extends Controller {
 				// to be fixed in a subsequent patch when actual logic for using
 				// start and end dates is implemented
 				$params['status'] = 1;
-				$newCampaign = $this->dao->addCampaign( $params );
+
+				$newCampaign = $this->dao->addCampaign( $params, $questions );
 
 				if ( $newCampaign !== false ) {
 					$this->flash( 'info',
@@ -121,7 +127,7 @@ class Campaign extends Controller {
 				$diff = Arrays::difference( $oldReviewers, $newReviewers );
 				$this->dao->updateReviewers( $id, $diff );
 
-				if ( $this->dao->updateCampaign( $params, $id ) ) {
+				if ( $this->dao->updateCampaign( $params, $questions, $id ) ) {
 					$this->flash( 'info',
 					$this->i18nContext->message('admin-campaign-update-success' )
 					);

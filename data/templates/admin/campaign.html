@@ -50,10 +50,19 @@
     </div>
   </div>
 
+{% for qid, qvalue in ques %}
+  <div class="form-group">
+    <label for="questions[]" class="col-sm-2 control-label">Question {{ loop.index }}:</label>
+      <div class="col-sm-10">
+          <textarea class="form-control" rows=10 name="questions[]" id="{{ qid }}" placeholder="Add question text here" value=""></textarea>
+      </div>
+  </div>
+{% endfor %}
+
     <label for="reviewers" class="col-sm-2 control-label">
       {{ 'admin-campaign-reviewers'|message }}
     </label>
-    <div class="col-md-6 reviewer-group">
+    <div class="col-md-6 reviewer-group form-group">
     <table class="table table-responsive table-condensed table-bordered">
         <thead>
           <tr>
