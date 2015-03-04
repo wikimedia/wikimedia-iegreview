@@ -247,6 +247,15 @@ class App {
 			$log->pushHandler( $handler );
 			return $log;
 		} );
+
+//		$this->slim->currentCampaign = 'Bar';//function ( $c ) {
+//			return $c->campaignsDao->activeCampaign();
+//		};
+
+		$container->singleton( 'campaignInProgress', function ( $c ) {
+			return $c->campaignsDao->activeCampaign();
+		} );
+
 	}
 
 
