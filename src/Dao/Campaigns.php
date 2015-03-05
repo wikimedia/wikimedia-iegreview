@@ -147,7 +147,7 @@ class Campaigns extends AbstractDao {
 				'user_id' => $r,
 				'added_by' => $added_by
 			);
-			$this->insert( $sql, $data2 );
+			$this->insert( $sql, $data );
 		}
 		return true;
 
