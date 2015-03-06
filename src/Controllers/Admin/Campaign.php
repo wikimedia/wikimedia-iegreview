@@ -99,8 +99,9 @@ class Campaign extends Controller {
 					$id = $newCampaign;
 					// TODO: Change to form->get() after T90387 is done
 					$reviewers = $this->request->post( 'reviewer' );
-					if ( $reviewers ) {
-						$this->dao->addReviewers( $id, $reviewers );
+					if ( $reviewers !== null ) {
+						$diff = Arrays::difference( array(), $reviewers );
+						$this->dao->updateReviewers( $id, $diff );
 					}
 				} else {
 					$this->flash( 'error',
