@@ -88,7 +88,7 @@ CREATE TABLE IF NOT EXISTS campaign_users (
 ) ENGINE=InnoDB DEFAULT CHARACTER SET=utf8 ;
 
 CREATE TABLE IF NOT EXISTS review_questions (
-    id              INT(11) NOT NULL
+    id              INT(11) NOT NULL AUTO_INCREMENT
   , campaign        INT(11) NOT NULL
   , question        BLOB
   , created_by      INT(11)
