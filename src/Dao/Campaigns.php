@@ -129,7 +129,7 @@ class Campaigns extends AbstractDao {
 	 * @param array $reviewers to be added
 	 * @return bool true/false depending on success of the operation
 	 */
-	private function addReviewers( $id, array $reviewers ) {
+	public function addReviewers( $id, array $reviewers ) {
 		$added_by = $this->userId ? : null;
 		$cols = array( 'campaign_id', 'user_id', 'added_by' );
 		$params = array_map( function ( $elm ) { return ":{$elm}"; }, $cols );
@@ -159,7 +159,7 @@ class Campaigns extends AbstractDao {
 	 * @param array $reviewers to be removed
 	 * @return bool true/false depending on success of the operation
 	 */
-	private function removeReviewers( $id, array $reviewers ) {
+	public function removeReviewers( $id, array $reviewers ) {
 		foreach ( $reviewers as $r ) {
 			$sql = self::concat(
 				'DELETE FROM campaign_users WHERE',
