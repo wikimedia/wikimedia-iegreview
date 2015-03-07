@@ -225,6 +225,12 @@ class App {
 			);
 		} );
 
+		// Fetch ID of currently active campaign
+		$container->singleton( 'activeCampaign', function ( $c ) {
+			$campaign = $c->campaignsDao->activeCampaign();
+			return $campaign['id'];
+		} );
+
 		// Replace default logger with monolog
 		$container->singleton( 'log', function ( $c ) {
 			// Convert string level to Monolog integer value

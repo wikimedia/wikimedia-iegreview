@@ -99,6 +99,7 @@ class Edit extends Controller {
 				'amount' => $this->form->get( 'amount' ),
 				'theme' => $this->form->get( 'theme' ),
 				'notes' => $this->form->get( 'notes' ),
+				'campaign' => $this->activeCampaign
 			);
 
 			if ( is_numeric( $id ) ) {
