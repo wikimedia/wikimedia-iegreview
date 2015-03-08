@@ -18,5 +18,18 @@
   "config": {
     "autoloader-suffix": "_iegreview",
     "preferred-install": "dist"
+  },
+  "require-dev": {
+    "jakub-onderka/php-parallel-lint": "0.8.*",
+    "phpunit/phpunit": "4.4.*",
+    "squizlabs/php_codesniffer": "2.1.*",
+    "mediawiki/mediawiki-codesniffer": "0.1.0"
+  },
+  "scripts": {
+    "test": [
+        "parallel-lint . --exclude vendor",
+        "phpunit $PHPUNIT_ARGS",
+        "phpcs $PHPCS_ARGS --report-full --report-summary --encoding=utf-8 --extensions=php --standard=vendor/mediawiki/mediawiki-codesniffer/MediaWiki --ignore=vendor -v ."
+      ]
   }
 }

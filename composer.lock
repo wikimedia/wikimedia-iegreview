@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "126af064ccbf7bb32fd066bf6c547288",
+    "hash": "50118e3095052e9e78863b3cf6436be3",
     "packages": [
         {
             "name": "bd808/monolog-udp2log-handler",
@@ -424,7 +424,7 @@
             "time": "2014-09-29 00:38:51"
         }
     ],
-    "packages-dev": [],
+    "packages-dev": null,
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": [],
