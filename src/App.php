@@ -72,7 +72,7 @@ class App {
 			'parsoid.cache' => Config::getStr( 'CACHE_DIR',
 				"{$this->deployDir}/data/cache"
 			),
-		));
+		) );
 
 		$slim = $this->slim;
 
@@ -121,11 +121,10 @@ class App {
 		$this->configureRoutes();
 	}
 
-
 	/**
 	 * Main entry point for all requests.
 	 */
-	public function run () {
+	public function run() {
 		session_name( '_s' );
 		session_cache_limiter( false );
 		ini_set( 'session.cookie_httponly', true );
@@ -133,7 +132,6 @@ class App {
 		register_shutdown_function( 'session_write_close' );
 		$this->slim->run();
 	}
-
 
 	/**
 	 * Configure inversion of control/dependency injection container.
@@ -249,7 +247,6 @@ class App {
 		} );
 	}
 
-
 	/**
 	 * Configure view behavior.
 	 */
@@ -280,7 +277,6 @@ class App {
 			'i18nCtx' => $this->slim->i18nContext,
 		) );
 	}
-
 
 	/**
 	 * Configure routes to be handled by application.
@@ -385,7 +381,7 @@ class App {
 
 			'require-viewcampaign' => function ( $route ) use ( $slim ) {
 				$user = $slim->authManager->getUserId();
-				$campaign = $route->getParam('campaign');
+				$campaign = $route->getParam( 'campaign' );
 				$campaigninfo = $slim->campaignsDao->getCampaign( $campaign );
 				$name = $campaigninfo['name'];
 				$slim->view->set( 'campaignname', $name );
@@ -673,7 +669,6 @@ class App {
 		} );
 	}
 
-
 	/**
 	 * Add a redirect route to the app.
 	 * @param \Slim\Slim $slim App
@@ -689,7 +684,6 @@ class App {
 			$slim->redirect( $slim->urlFor( $to ) );
 		} )->name( $routeName );
 	}
-
 
 	/**
 	 * Add a static template route to the app.

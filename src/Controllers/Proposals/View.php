@@ -38,7 +38,6 @@ class View extends Controller {
 	 */
 	protected $reviewsDao;
 
-
 	/**
 	 * @var \Wikimedia\IEGReview\Dao\AbstractDao $dao
 	 */
@@ -66,7 +65,7 @@ class View extends Controller {
 			$review = $this->reviewsDao->reviewByUser( $id );
 			$myReview = array();
 			if ( $review ) {
-				foreach( $review as $r ) {
+				foreach ( $review as $r ) {
 					$myReview[$r['question']] = $r;
 				}
 			}

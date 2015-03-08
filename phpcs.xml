@@ -1,0 +1,17 @@
+<?xml version = "1.0"?>
+<ruleset>
+	<!--rule ref="MediaWiki"/-->
+	<file>.</file>
+	<exclude-pattern>*/vendor/*</exclude-pattern>
+
+	<arg name="encoding" value="utf-8"/>
+	<arg name="extensions" value="php"/>
+	<arg name="report" value="full"/>
+	<arg name="report" value="summary"/>
+	<arg value="sp"/>
+
+	<rule ref="vendor/mediawiki/mediawiki-codesniffer/MediaWiki"/>
+	<rule ref="Generic.Arrays.DisallowLongArraySyntax.Found">
+		<severity>0</severity>
+	</rule>
+</ruleset>

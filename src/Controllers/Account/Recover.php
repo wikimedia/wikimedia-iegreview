@@ -37,7 +37,6 @@ class Recover extends Controller {
 		$this->render( 'account/recover.html' );
 	}
 
-
 	protected function handlePost() {
 		$this->form->requireEmail( 'email' );
 

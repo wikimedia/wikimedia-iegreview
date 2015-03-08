@@ -42,7 +42,6 @@ class ArrayTest extends \PHPUnit_Framework_TestCase {
 		$this->assertEquals( $toRemove, $expectedRemove );
 	}
 
-
 	public function differenceProvider() {
 		return array(
 			array(
@@ -83,7 +82,7 @@ class ArrayTest extends \PHPUnit_Framework_TestCase {
 			),
 			array(
 				array( 'Hello world' ),
-				array( 'Test string'),
+				array( 'Test string' ),
 				array( 'Test string' ),
 				array( 'Hello world' )
 			),

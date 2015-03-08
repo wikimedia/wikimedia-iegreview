@@ -56,7 +56,6 @@ class ConfigTest extends \PHPUnit_Framework_TestCase {
 		$this->assertEquals( $expect, $_SERVER[$var] );
 	}
 
-
 	public function testGetStrDefault() {
 		$name = 'CONFIG_TEST_VALUE_NOT_SET';
 		putenv( $name );
@@ -74,4 +73,4 @@ class ConfigTest extends \PHPUnit_Framework_TestCase {
 		$this->assertSame( false, Config::getDate( $name ) );
 	}
 
-} //end ConfigTest
+} // end ConfigTest

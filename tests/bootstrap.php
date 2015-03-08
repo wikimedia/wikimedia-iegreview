@@ -24,10 +24,10 @@
 $loader = require __DIR__ . '/../vendor/autoload.php';
 $loader->addPsr4( 'Wikimedia\\IEGReview\\', __DIR__ );
 
-date_default_timezone_set('UTC');
+date_default_timezone_set( 'UTC' );
 
 // Twelve-Factor App configuration
 // populate $_ENV from .env if present
-if (is_readable(__DIR__ . '/../.env.test')) {
-	\Wikimedia\IEGReview\Config::load( __DIR__ . '/../.env.test'  );
-} //end if .env
+if ( is_readable( __DIR__ . '/../.env.test' ) ) {
+	\Wikimedia\IEGReview\Config::load( __DIR__ . '/../.env.test' );
+} // end if .env

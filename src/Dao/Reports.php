@@ -36,7 +36,6 @@ class Reports extends AbstractDao {
 	 */
 	protected $userId;
 
-
 	/**
 	 * @param string $dsn PDO data source name
 	 * @param string $user Database user
@@ -71,7 +70,8 @@ class Reports extends AbstractDao {
 		$params = array_merge( $defaults, $params );
 
 		$questionIds = array_map(
-			function ( $elm ) { return "q{$elm['id']}"; }, $questions
+			function ( $elm ) { return "q{$elm['id']}";
+	  }, $questions
 		);
 		$validSorts = array_merge(
 			array( 'id', 'title', 'amount', 'theme', 'rcnt', 'pcnt' ),
@@ -152,7 +152,6 @@ class Reports extends AbstractDao {
 		return $this->fetchAllWithFound( $sql, $crit );
 	}
 
-
 	/**
 	 * @param int $campaign Active campaign ID
 	 * @param array $questions
@@ -199,7 +198,6 @@ class Reports extends AbstractDao {
 		return $results;
 	}
 
-
 	/**
 	 * @param array $params
 	 * @return object StdClass with rows and found memebers
@@ -236,7 +234,7 @@ class Reports extends AbstractDao {
 		$sql = self::concat(
 			'SELECT c.id, c.name, c.start_date, c.end_date, c.status',
 			'FROM campaigns c',
-			'WHERE status = 0', //Only expired campaigns shown in this view
+			'WHERE status = 0', // Only expired campaigns shown in this view
 			"ORDER BY {$sortby} {$order}, id {$order}",
 			$limit, $offset
 		);

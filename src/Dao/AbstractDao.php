@@ -45,7 +45,6 @@ abstract class AbstractDao {
 	 */
 	protected $logger;
 
-
 	/**
 	 * @param string $dsn PDO data source name
 	 * @param string $user Database user
@@ -62,7 +61,6 @@ abstract class AbstractDao {
 			)
 		);
 	}
-
 
 	/**
 	 * Bind values to a prepared statement.
@@ -113,7 +111,6 @@ abstract class AbstractDao {
 		}
 	}
 
-
 	/**
 	 * Prepare and execute an SQL statement and return the first row of results.
 	 *
@@ -127,7 +124,6 @@ abstract class AbstractDao {
 		$stmt->execute();
 		return $stmt->fetch();
 	}
-
 
 	/**
 	 * Prepare and execute an SQL statement and return all results.
@@ -143,7 +139,6 @@ abstract class AbstractDao {
 		$stmt->execute();
 		return $stmt->fetchAll();
 	}
-
 
 	/**
 	 * Prepare and execute an SQL statement and return all results plus the
@@ -167,7 +162,6 @@ abstract class AbstractDao {
 		return $ret;
 	}
 
-
 	/**
 	 * Prepare and execute an SQL statement in a transaction.
 	 *
@@ -183,7 +177,7 @@ abstract class AbstractDao {
 			$this->dbh->commit();
 			return true;
 
-		} catch ( PDOException $e) {
+		} catch ( PDOException $e ) {
 			$this->dbh->rollback();
 			$this->logger->error( 'Update failed.', array(
 				'method' => __METHOD__,
@@ -194,7 +188,6 @@ abstract class AbstractDao {
 			return false;
 		}
 	}
-
 
 	/**
 	 * Prepare and execute an SQL statement in a transaction.
@@ -212,7 +205,7 @@ abstract class AbstractDao {
 			$this->dbh->commit();
 			return $rowid;
 
-		} catch ( PDOException $e) {
+		} catch ( PDOException $e ) {
 			$this->dbh->rollback();
 			$this->logger->error( 'Insert failed.', array(
 				'method' => __METHOD__,
@@ -223,7 +216,6 @@ abstract class AbstractDao {
 			return false;
 		}
 	}
-
 
 	/**
 	 * Construct a where clause.
@@ -237,7 +229,6 @@ abstract class AbstractDao {
 		}
 		return '';
 	}
-
 
 	/**
 	 * Create a string by joining all arguments with spaces.
@@ -271,4 +262,4 @@ abstract class AbstractDao {
 			return ":{$elm}";
 		}, $list );
 	}
-} //end AbstractDao
+} // end AbstractDao

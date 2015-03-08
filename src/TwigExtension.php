@@ -47,7 +47,7 @@ class TwigExtension extends \Twig_Extension {
 
 	public function getFunctions() {
 		return array(
-			new \Twig_SimpleFunction('qsMerge', array($this, 'qsMerge')),
+			new \Twig_SimpleFunction( 'qsMerge', array( $this, 'qsMerge' ) ),
 		);
 	}
 

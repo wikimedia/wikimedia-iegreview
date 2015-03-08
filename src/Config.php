@@ -38,10 +38,9 @@ class Config {
 	 */
 	public static function getBool( $name, $default = false ) {
 		$var = getenv( $name );
-		$val = filter_var( $var, \FILTER_VALIDATE_BOOLEAN, \FILTER_NULL_ON_FAILURE  );
+		$val = filter_var( $var, \FILTER_VALIDATE_BOOLEAN, \FILTER_NULL_ON_FAILURE );
 		return ( $val === null ) ? $default : $val;
 	}
-
 
 	/**
 	 * Get a string value
@@ -60,7 +59,6 @@ class Config {
 		return ( $var === false ) ? $default : $var;
 	}
 
-
 	/**
 	 * Get a date value
 	 * @param string $name Setting name
@@ -69,7 +67,6 @@ class Config {
 	public static function getDate( $name ) {
 		return strtotime( self::getStr( $name ) );
 	}
-
 
 	/**
 	 * Load configuration data from file
@@ -95,7 +92,7 @@ class Config {
 
 				// Also store in process env vars
 				putenv( "{$key}={$value}" );
-		} //end foreach settings
+		} // end foreach settings
 	}
 
-} //end Config
+} // end Config
