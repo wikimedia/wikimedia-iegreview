@@ -36,7 +36,6 @@ class User extends Controller {
 
 	protected $campaignsDao;
 
-
 	public function setCampaignsDao( $dao ) {
 		$this->campaignsDao = $dao;
 	}
@@ -63,7 +62,6 @@ class User extends Controller {
 		$this->view->set( 'listcampaigns', $this->campaignsDao->getUserCampaigns() );
 		$this->render( 'admin/user.html' );
 	}
-
 
 	protected function handlePost() {
 		$id = $this->request->post( 'id' );

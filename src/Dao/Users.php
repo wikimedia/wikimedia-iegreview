@@ -159,7 +159,7 @@ class Users extends AbstractDao {
 			$this->dbh->commit();
 			return true;
 
-		} catch ( PDOException $e) {
+		} catch ( PDOException $e ) {
 			$this->dbh->rollback();
 			$this->logger->error( 'Failed to update user', array(
 				'method' => __METHOD__,
@@ -201,7 +201,7 @@ class Users extends AbstractDao {
 			$this->updatePasswordResetHash( $id, null );
 			return true;
 
-		} catch ( PDOException $e) {
+		} catch ( PDOException $e ) {
 			$this->dbh->rollback();
 			$this->logger->error( 'Failed to update password for user', array(
 				'method' => __METHOD__,
@@ -283,7 +283,7 @@ class Users extends AbstractDao {
 			) );
 			$ret = true;
 
-		} catch ( PDOException $e) {
+		} catch ( PDOException $e ) {
 			$this->dbh->rollback();
 			$this->logger->error(
 				'Failed to update reset_hash for user',

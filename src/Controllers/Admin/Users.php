@@ -35,7 +35,6 @@ class Users extends Controller {
 
 	protected $campaignsDao;
 
-
 	public function setCampaignsDao( $dao ) {
 		$this->campaignsDao = $dao;
 	}

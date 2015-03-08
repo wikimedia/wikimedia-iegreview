@@ -66,4 +66,4 @@ class CsrfMiddleware extends \Slim\Middleware {
 		$this->next->call();
 	}
 
-} //end CsrfMiddleware
+} // end CsrfMiddleware

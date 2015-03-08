@@ -36,7 +36,6 @@ class Proposals extends AbstractDao {
 	 */
 	protected $userId;
 
-
 	/**
 	 * @param string $dsn PDO data source name
 	 * @param string $user Database user
@@ -82,7 +81,6 @@ class Proposals extends AbstractDao {
 		);
 	}
 
-
 	/*
 	 * @return Array $campaigns campaign data for all campaigns
 	 */
@@ -94,7 +92,6 @@ class Proposals extends AbstractDao {
 		}
 		return $campaigns;
 	}
-
 
 	/*
 	 * @param int $id ID of proposal to update

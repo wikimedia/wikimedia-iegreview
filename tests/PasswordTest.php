@@ -71,4 +71,4 @@ class PasswordTest extends \PHPUnit_Framework_TestCase {
 		$this->assertTrue( Password::hashEquals( 'a', 'a' ) );
 	}
 
-} //end PasswordTest
+} // end PasswordTest

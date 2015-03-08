@@ -46,7 +46,6 @@ class Reset extends Controller {
 		}
 	}
 
-
 	protected function handlePost( $id, $token ) {
 		$this->form->requireString( 'newpw1' );
 		$this->form->requireString( 'newpw2' );

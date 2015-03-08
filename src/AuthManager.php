@@ -42,14 +42,12 @@ class AuthManager {
 	 */
 	protected $dao;
 
-
 	/**
 	 * @param UsersDao $dao DAO
 	 */
 	public function __construct( UsersDao $dao = null ) {
 		$this->dao = $dao ?: new UsersDao();
 	}
-
 
 	/**
 	 * Get the current user's information
@@ -64,7 +62,6 @@ class AuthManager {
 		}
 	}
 
-
 	/**
 	 * Get the current user's Id.
 	 * @return int|bool Numeric user id or false if not available
@@ -74,7 +71,6 @@ class AuthManager {
 		return $user ? $user['id'] : false;
 	}
 
-
 	/**
 	 * Store the user's information.
 	 * @param array $user User information
@@ -82,7 +78,6 @@ class AuthManager {
 	public function setUser( $user ) {
 		$_SESSION[self::USER_SESSION_KEY] = $user;
 	}
-
 
 	/**
 	 * Is the user authenticated?
@@ -92,7 +87,6 @@ class AuthManager {
 		return $this->getUser() !== false;
 	}
 
-
 	/**
 	 * Is the user anonymous?
 	 * @return bool True if the user is not authenticated, false otherwise
@@ -100,7 +94,6 @@ class AuthManager {
 	public function isAnonymous() {
 		return $this->getUser() === false;
 	}
-
 
 	/**
 	 * Is the user an administrator?
@@ -112,7 +105,6 @@ class AuthManager {
 		return $user ? (bool)$user['isadmin'] : false;
 	}
 
-
 	/**
 	 * Is the user a reviewer?
 	 * @return bool True if the user is authorized to perfom review tasks, false
@@ -122,7 +114,6 @@ class AuthManager {
 		$user = $this->getUser();
 		return $user ? (bool)$user['reviewer'] : false;
 	}
-
 
 	/**
 	 * Is the user allowed to read reports?
@@ -154,7 +145,7 @@ class AuthManager {
 			}
 
 			// generate new session id
-			session_regenerate_id(true);
+			session_regenerate_id( true );
 
 			// store user info in session
 			$this->setUser( $user );
@@ -165,7 +156,6 @@ class AuthManager {
 			return false;
 		}
 	}
-
 
 	/**
 	 * Remove authentication.
@@ -188,7 +178,7 @@ class AuthManager {
 		// destroy local session storage
 		session_destroy();
 		// generate new session id
-		session_regenerate_id(true);
+		session_regenerate_id( true );
 	}
 
-} //end AuthManager
+} // end AuthManager

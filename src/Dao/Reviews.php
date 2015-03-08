@@ -36,7 +36,6 @@ class Reviews extends AbstractDao {
 	 */
 	protected $userId;
 
-
 	/**
 	 * @param string $dsn PDO data source name
 	 * @param string $user Database user
@@ -50,7 +49,6 @@ class Reviews extends AbstractDao {
 		parent::__construct( $dsn, $user, $pass, $logger );
 		$this->userId = $uid;
 	}
-
 
 	/**
 	 * Fetch the review data for the current user and given proposal.
@@ -78,7 +76,6 @@ class Reviews extends AbstractDao {
 		) );
 	}
 
-
 	/**
 	 * Create a review or update an existing one
 	 *
@@ -99,22 +96,21 @@ class Reviews extends AbstractDao {
 				') ON DUPLICATE KEY UPDATE',
 				'points = :points, comments = :comments'
 			);
-		foreach( $points as $id => $value ) {
+		foreach ( $points as $id => $value ) {
 			$values = array(
 				'points' => $value,
-				'comments' => isset($comments[$id]) ? $comments[$id] : '',
+				'comments' => isset( $comments[$id] ) ? $comments[$id] : '',
 				'proposal' => $data['proposal'],
 				'question' => $id,
 				'reviewer' => $reviewer
 			);
 			$ret = $this->insert( $sql, $values );
-			if( $ret === false ) {
+			if ( $ret === false ) {
 				return false;
 			}
 		}
 		return true;
 	}
-
 
 	public function getReview( $id ) {
 		return $this->fetch(

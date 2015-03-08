@@ -31,7 +31,7 @@ namespace Wikimedia\IEGReview;
  */
 class FormTest extends \PHPUnit_Framework_TestCase {
 
-	public function testRequired () {
+	public function testRequired() {
 		$form = new Form();
 		$form->requireString( 'foo' );
 
@@ -42,7 +42,7 @@ class FormTest extends \PHPUnit_Framework_TestCase {
 		$this->assertContains( 'foo', $form->getErrors() );
 	}
 
-	public function testDefaultWhenEmpty () {
+	public function testDefaultWhenEmpty() {
 		$form = new Form();
 		$form->expectString( 'foo', array( 'default' => 'bar' ) );
 
@@ -54,7 +54,7 @@ class FormTest extends \PHPUnit_Framework_TestCase {
 		$this->assertNotContains( 'foo', $form->getErrors() );
 	}
 
-	public function testNotInArray () {
+	public function testNotInArray() {
 		$form = new Form();
 		$form->requireInArray( 'foo', array( 'bar' ) );
 
@@ -65,7 +65,7 @@ class FormTest extends \PHPUnit_Framework_TestCase {
 		$this->assertContains( 'foo', $form->getErrors() );
 	}
 
-	public function testInArray () {
+	public function testInArray() {
 		$_POST['foo'] = 'bar';
 		$form = new Form();
 		$form->requireInArray( 'foo', array( 'bar' ) );
@@ -77,7 +77,7 @@ class FormTest extends \PHPUnit_Framework_TestCase {
 		$this->assertNotContains( 'foo', $form->getErrors() );
 	}
 
-	public function testNotInArrayNotRequired () {
+	public function testNotInArrayNotRequired() {
 		unset( $_POST['foo'] );
 		$form = new Form();
 		$form->expectInArray( 'foo', array( 'bar' ) );
@@ -89,7 +89,7 @@ class FormTest extends \PHPUnit_Framework_TestCase {
 		$this->assertNotContains( 'foo', $form->getErrors() );
 	}
 
-	public function testMultipleInputs () {
+	public function testMultipleInputs() {
 		$data = array(
 			'bool' => false,
 			'true' => true,
@@ -118,12 +118,12 @@ class FormTest extends \PHPUnit_Framework_TestCase {
 		$this->assertSame( $data, $form->getValues() );
 	}
 
-	public function testArrayValues () {
+	public function testArrayValues() {
 		$data = array(
 			'bool' => array( true, false ),
 			'float' => array( 1.23, 4.56 ),
 			'int' => array( 123, 456 ),
-			'str' => array( 'one', 'two', 'three'),
+			'str' => array( 'one', 'two', 'three' ),
 		);
 		$form = new Form();
 		$form->requireBoolArray( 'bool' );
@@ -135,7 +135,7 @@ class FormTest extends \PHPUnit_Framework_TestCase {
 		$this->assertSame( $data, $form->getValues() );
 	}
 
-	public function testArrayValueErrors () {
+	public function testArrayValueErrors() {
 		$data = array(
 			'int' => array( 123, 456, 'xyzzy', '678' ),
 		);
@@ -148,7 +148,7 @@ class FormTest extends \PHPUnit_Framework_TestCase {
 		$this->assertContains( 'int[2]', $form->getErrors() );
 	}
 
-	public function testEncodeBasic () {
+	public function testEncodeBasic() {
 		$input = array(
 			'foo' => 1,
 			'bar' => 'this=that',
@@ -158,7 +158,7 @@ class FormTest extends \PHPUnit_Framework_TestCase {
 		$this->assertEquals( 'foo=1&bar=this%3Dthat&baz=tom+%26+jerry', $output );
 	}
 
-	public function testEncodeArray () {
+	public function testEncodeArray() {
 		$input = array(
 			'foo' => array( 'a', 'b', 'c' ),
 			'bar[]' => array( 1, 2, 3 ),
@@ -168,7 +168,7 @@ class FormTest extends \PHPUnit_Framework_TestCase {
 			'foo=a&foo=b&foo=c&bar%5B%5D=1&bar%5B%5D=2&bar%5B%5D=3', $output );
 	}
 
-	public function testQsMerge () {
+	public function testQsMerge() {
 		$_GET['foo'] = 1;
 		$_GET['bar'] = 'this=that';
 		$_GET['baz'] = 'tom & jerry';
@@ -180,7 +180,7 @@ class FormTest extends \PHPUnit_Framework_TestCase {
 		$this->assertEquals( 'foo=2&bar=this%3Dthat&baz=tom+%26+jerry&xyzzy=grue', $output );
 	}
 
-	public function testQsRemove () {
+	public function testQsRemove() {
 		$_GET['foo'] = 1;
 		$_GET['bar'] = 'this=that';
 		$_GET['baz'] = 'tom & jerry';

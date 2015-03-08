@@ -35,7 +35,6 @@ class ChangePassword extends Controller {
 
 	protected $campaignsDao;
 
-
 	public function setCampaignsDao( $dao ) {
 		$this->campaignsDao = $dao;
 	}
@@ -45,7 +44,6 @@ class ChangePassword extends Controller {
 		$this->view->set( 'listcampaigns', $this->campaignsDao->getUserCampaigns() );
 		$this->render( 'user/changePassword.html' );
 	}
-
 
 	protected function handlePost() {
 		$this->form->requireString( 'oldpw' );
@@ -72,7 +70,7 @@ class ChangePassword extends Controller {
 				}
 			}
 		} else {
-			//FIXME: actually pass form errors back to view
+			// FIXME: actually pass form errors back to view
 			$this->flash( 'error', 'Invalid input.' );
 		}
 

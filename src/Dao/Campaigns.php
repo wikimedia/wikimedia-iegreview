@@ -36,7 +36,6 @@ class Campaigns extends AbstractDao {
 	 */
 	protected $userId;
 
-
 	/**
 	 * @param string $dsn PDO data source name
 	 * @param string $user Database user
@@ -51,7 +50,6 @@ class Campaigns extends AbstractDao {
 		$this->userId = $uid;
 	}
 
-
 	/**
 	 * Get campaign data for given campaign ID
 	 * @param int $id ID of campaign whose data is to be fetched
@@ -63,7 +61,6 @@ class Campaigns extends AbstractDao {
 		);
 	}
 
-
 	/**
 	 * Get all data for all campaigns
 	 */
@@ -72,7 +69,6 @@ class Campaigns extends AbstractDao {
 			'SELECT * FROM campaigns ORDER BY status DESC, id ASC'
 		);
 	}
-
 
 	/**
 	 * Checks if a given user is a reviewer for the given campaign
@@ -89,7 +85,6 @@ class Campaigns extends AbstractDao {
 		return false;
 	}
 
-
 	/**
 	 * Get total proposal count for a given campaign
 	 * @param int $campaign Campaign ID
@@ -103,7 +98,6 @@ class Campaigns extends AbstractDao {
 		);
 		return $this->fetch( $sql, array( $campaign ) );
 	}
-
 
 	/**
 	 * Return all campaigns the current user has been approved to access
@@ -136,7 +130,6 @@ class Campaigns extends AbstractDao {
 			return $this->fetchAll( $sql, array( $id ) );
 		}
 	}
-
 
 	/**
 	 * Get stats on reviewers from a given campaign
@@ -204,7 +197,6 @@ class Campaigns extends AbstractDao {
 		return $result;
 	}
 
-
 	/**
 	 * Fetch reviews by given user for given campaign
 	 * @param int $user User ID
@@ -254,7 +246,6 @@ class Campaigns extends AbstractDao {
 		return $this->fetchAll( $sql, $crit );
 	}
 
-
 	/**
 	 * @param int $id ID of campaign to end
 	*/
@@ -268,7 +259,6 @@ class Campaigns extends AbstractDao {
 
 		return $this->update( $sql, array( $id ) );
 	}
-
 
 	/**
 	 * @param array $data Campaign data for a new campaign
@@ -288,7 +278,6 @@ class Campaigns extends AbstractDao {
 		);
 		return $this->insert( $sql, $data );
 	}
-
 
 	/**
 	 * @param integer $id ID of campaign
@@ -319,7 +308,6 @@ class Campaigns extends AbstractDao {
 
 	}
 
-
 	/**
 	 * @param integer $id ID of campaign
 	 * @param array $reviewers to be removed
@@ -343,7 +331,6 @@ class Campaigns extends AbstractDao {
 		return true;
 	}
 
-
 	/**
 	 * @param integer $id ID of campaign
 	 * @param array $reviewers New set of reviewers for the campaign $id
@@ -362,7 +349,6 @@ class Campaigns extends AbstractDao {
 		}
 		return true;
 	}
-
 
 	/**
 	 * @param string $params Campaign data to be updated
@@ -390,7 +376,7 @@ class Campaigns extends AbstractDao {
 			$this->dbh->commit();
 			return true;
 
-		} catch ( PDOException $e) {
+		} catch ( PDOException $e ) {
 			$this->dbh->rollback();
 			$this->logger->error( 'Failed to update campaign', array(
 				'method' => __METHOD__,
@@ -402,7 +388,6 @@ class Campaigns extends AbstractDao {
 		}
 
 	}
-
 
 	/**
 	 * Fetches all questions associated with a given campaign
@@ -420,7 +405,6 @@ class Campaigns extends AbstractDao {
 		);
 	}
 
-
 	/**
 	 * Fetch the wikitext template for given campaign ID
 	 */
@@ -430,7 +414,6 @@ class Campaigns extends AbstractDao {
 			array( $campaign )
 		);
 	}
-
 
 	/**
 	 * Inserts new questions into the campaign_questions table
@@ -478,7 +461,6 @@ class Campaigns extends AbstractDao {
 		return true;
 	}
 
-
 	/**
 	 * Update questions associated with a campaign
 	 * @param integer $campaign Campaign ID
@@ -513,7 +495,6 @@ class Campaigns extends AbstractDao {
 		}
 
 	}
-
 
 	public function search( array $params ) {
 		$defaults = array(

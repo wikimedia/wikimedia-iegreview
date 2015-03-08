@@ -38,14 +38,12 @@ class Review extends Controller {
 	 */
 	protected $campaignsDao;
 
-
 	/**
 	 * Set campaigns DAO variable
 	 */
 	public function setCampaignsDao( $dao ) {
 		$this->campaignsDao = $dao;
 	}
-
 
 	protected function handlePost( $campaign, $id ) {
 		$this->form->requireInt( 'proposal' );

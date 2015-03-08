@@ -62,7 +62,7 @@ plate macro
 	 * Subclasses should call parent::setupForm() before adding their own
 	 * additions.
 	 */
-	protected function setupForm () {
+	protected function setupForm() {
 		$this->form->expectInt( 'items',
 			array( 'min_range' => 1, 'max_range' => 250, 'default' => 50 )
 		);

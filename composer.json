@@ -12,6 +12,7 @@
   },
   "require-dev": {
     "jakub-onderka/php-parallel-lint": "0.9.*",
+    "mediawiki/mediawiki-codesniffer": "0.6.0",
     "phpunit/phpunit": "~4.8"
   },
   "autoload": {
@@ -24,9 +25,13 @@
     "preferred-install": "dist"
   },
   "scripts": {
+    "lint": "parallel-lint . --exclude vendor",
+    "phpcs": "phpcs $PHPCS_ARGS",
+    "fix": "phpcbf",
     "test": [
-      "parallel-lint . --exclude vendor",
-      "phpunit $PHPUNIT_ARGS"
+      "composer lint",
+      "phpunit $PHPUNIT_ARGS",
+      "composer phpcs"
     ]
   }
 }

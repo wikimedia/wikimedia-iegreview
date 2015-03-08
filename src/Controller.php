@@ -53,32 +53,26 @@ class Controller {
 	 */
 	protected $mailer;
 
-
 	public function __construct( \Slim\Slim $slim = null ) {
 		$this->slim = $slim ?: \Slim\Slim::getInstance();
 		$this->form = new Form( $this->slim->log );
 	}
 
-
 	public function setDao( $dao ) {
 		$this->dao = $dao;
 	}
-
 
 	public function setForm( $form ) {
 		$this->form = $form;
 	}
 
-
 	public function setMailer( $mailer ) {
 		$this->mailer = $mailer;
 	}
 
-
 	protected function handle() {
 		$this->slim->pass();
 	}
-
 
 	public function __invoke() {
 		$argv = func_get_args();
@@ -91,7 +85,6 @@ class Controller {
 		}
 	}
 
-
 	public function __call( $name, $args ) {
 		if ( method_exists( $this->slim, $name ) ) {
 			return call_user_func_array( array( $this->slim, $name ), $args );
@@ -102,7 +95,6 @@ class Controller {
 			E_USER_ERROR
 		);
 	}
-
 
 	public function __get( $name ) {
 		return $this->slim->{$name};
@@ -137,4 +129,4 @@ class Controller {
 		return array( $pageCount, $first, $last );
 	}
 
-} //end Controller
+} // end Controller

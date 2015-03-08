@@ -39,7 +39,6 @@ class ManageAccount extends Controller {
 		$this->render( 'user/manageAccount.html' );
 	}
 
-
 	protected function handlePost() {
 		$this->form->requireString( 'username' );
 		$this->form->expectEmail( 'email' );

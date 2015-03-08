@@ -125,7 +125,7 @@ class Form {
 
 	public function expectTrue( $name, $options = null ) {
 		$options = ( is_array( $options ) ) ? $options : array();
-		$options['validate'] = function ($v) {
+		$options['validate'] = function ( $v ) {
 			return (bool)$v;
 		};
 		return $this->expectBool( $name, $options );
@@ -378,7 +378,7 @@ class Form {
 	 * Stub method that can be extended by subclasses to add additional
 	 * validation logic.
 	 */
-	protected function customValidationHook () {
+	protected function customValidationHook() {
 	}
 
 	public function get( $name ) {
@@ -424,7 +424,7 @@ class Form {
 		}
 
 		return implode( '&', $payload );
-	} //end urlEncode
+	} // end urlEncode
 
 	/**
 	 * Merge parameters into current query string.

@@ -72,7 +72,6 @@ class Campaign extends Controller {
 </div>
 ENDTWIG;
 
-
 	protected function handleGet( $id ) {
 		$reviewers = $this->dao->getReviewers();
 		if ( $id === 'new' ) {
@@ -113,7 +112,6 @@ ENDTWIG;
 		$this->render( 'admin/campaign.html' );
 	}
 
-
 	protected function handlePost() {
 		$id = $this->request->post( 'id' );
 
@@ -133,7 +131,7 @@ ENDTWIG;
 				$twig = $this->view->getInstance();
 				try {
 					$twig->parse( $twig->tokenize( $value ) );
-				} catch( \Twig_Error_Syntax $e ) {
+				} catch ( \Twig_Error_Syntax $e ) {
 					$this->log->error( 'Invalid template submitted', array(
 						'template' => $value,
 						'exception' => $e,
@@ -187,7 +185,7 @@ ENDTWIG;
 					}
 				} else {
 					$this->flash( 'error',
-						$this->i18nContext->message('admin-campaign-create-fail' )
+						$this->i18nContext->message( 'admin-campaign-create-fail' )
 					);
 				}
 
@@ -198,7 +196,7 @@ ENDTWIG;
 					$newReviewers = array();
 				}
 				$currentReviewers = $this->dao->getReviewers( $id );
-				//Convert the query result set to a simple array
+				// Convert the query result set to a simple array
 				$oldReviewers = array_map( function( $r ) {
 					return $r['id'];
 				}, $currentReviewers );
@@ -211,11 +209,11 @@ ENDTWIG;
 
 				if ( $this->dao->updateCampaign( $params, $id ) ) {
 					$this->flash( 'info',
-					$this->i18nContext->message('admin-campaign-update-success' )
+					$this->i18nContext->message( 'admin-campaign-update-success' )
 					);
 				} else {
 					$this->flash( 'error',
-						$this->i18nContext->message('admin-campaign-update-fail' )
+						$this->i18nContext->message( 'admin-campaign-update-fail' )
 					);
 				}
 			}

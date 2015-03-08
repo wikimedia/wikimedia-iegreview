@@ -35,11 +35,9 @@ class Wikitext extends Controller {
 
 	protected $campaignsDao;
 
-
 	public function setCampaignsDao( $dao ) {
 		$this->campaignsDao = $dao;
 	}
-
 
 	protected function getQuestions( $campaign ) {
 		static $questions = null;
@@ -48,7 +46,6 @@ class Wikitext extends Controller {
 		}
 		return $questions;
 	}
-
 
 	protected function handleGet( $campaign ) {
 		$this->form->expectString( 'th' );
@@ -65,8 +62,8 @@ class Wikitext extends Controller {
 		// template.
 		// FIXME: find a better way to associate questions and the wikitext
 		$questions = array();
-		foreach( $this->getQuestions( $campaign ) as $q ) {
-			if( $q['type'] === 'score' ) {
+		foreach ( $this->getQuestions( $campaign ) as $q ) {
+			if ( $q['type'] === 'score' ) {
 				$questions[] = "q{$q['id']}";
 			}
 		}
