@@ -33,7 +33,7 @@ class FormTest extends \PHPUnit_Framework_TestCase {
 
 	public function testRequired () {
 		$form = new Form();
-		$form->expectString( 'foo', array( 'required' => true ) );
+		$form->requireString( 'foo' );
 
 		$this->assertFalse( $form->validate(), 'Form should be invalid' );
 		$vals = $form->getValues();
@@ -56,7 +56,7 @@ class FormTest extends \PHPUnit_Framework_TestCase {
 
 	public function testNotInArray () {
 		$form = new Form();
-		$form->expectInArray( 'foo', array( 'bar' ), array( 'required' => true ) );
+		$form->requireInArray( 'foo', array( 'bar' ) );
 
 		$this->assertFalse( $form->validate(), 'Form should be invalid' );
 		$vals = $form->getValues();
@@ -68,7 +68,7 @@ class FormTest extends \PHPUnit_Framework_TestCase {
 	public function testInArray () {
 		$_POST['foo'] = 'bar';
 		$form = new Form();
-		$form->expectInArray( 'foo', array( 'bar' ), array( 'required' => true ) );
+		$form->requireInArray( 'foo', array( 'bar' ) );
 
 		$this->assertTrue( $form->validate(), 'Form should be valid' );
 		$vals = $form->getValues();
@@ -87,6 +87,65 @@ class FormTest extends \PHPUnit_Framework_TestCase {
 		$this->assertArrayHasKey( 'foo', $vals );
 		$this->assertEquals( '', $vals['foo'] );
 		$this->assertNotContains( 'foo', $form->getErrors() );
+	}
+
+	public function testMultipleInputs () {
+		$data = array(
+			'bool' => false,
+			'true' => true,
+			'email' => 'user!user2+route@example.wiki',
+			'float' => 1.23,
+			'int' => 123,
+			'ipv4' => '127.0.0.1',
+			'ipv6' => '::1',
+			'regex' => 'abc',
+			'url' => 'proto://host.tld/path',
+			'str' => 'one two three',
+		);
+		$form = new Form();
+		$form->requireBool( 'bool' );
+		$form->requireTrue( 'true' );
+		$form->requireEmail( 'email' );
+		$form->requireFloat( 'float' );
+		$form->requireInt( 'int' );
+		$form->requireIp( 'ipv4' );
+		$form->requireIp( 'ipv6' );
+		$form->requireRegex( 'regex', '/^ABC$/i' );
+		$form->requireUrl( 'url' );
+		$form->requireString( 'str' );
+
+		$this->assertTrue( $form->validate( $data ), 'Form should be valid' );
+		$this->assertSame( $data, $form->getValues() );
+	}
+
+	public function testArrayValues () {
+		$data = array(
+			'bool' => array( true, false ),
+			'float' => array( 1.23, 4.56 ),
+			'int' => array( 123, 456 ),
+			'str' => array( 'one', 'two', 'three'),
+		);
+		$form = new Form();
+		$form->requireBoolArray( 'bool' );
+		$form->requireFloatArray( 'float' );
+		$form->requireIntArray( 'int' );
+		$form->requireStringArray( 'str' );
+
+		$this->assertTrue( $form->validate( $data ), 'Form should be valid' );
+		$this->assertSame( $data, $form->getValues() );
+	}
+
+	public function testArrayValueErrors () {
+		$data = array(
+			'int' => array( 123, 456, 'xyzzy', '678' ),
+		);
+		$form = new Form();
+		$form->requireIntArray( 'int' );
+		$this->assertFalse( $form->validate( $data ), 'Form should not be valid' );
+		$vals = $form->getValues();
+		$this->assertArrayHasKey( 'int', $vals );
+		$this->assertSame( array( 123, 456, 3 => 678 ), $vals['int'] );
+		$this->assertContains( 'int[2]', $form->getErrors() );
 	}
 
 	public function testEncodeBasic () {
