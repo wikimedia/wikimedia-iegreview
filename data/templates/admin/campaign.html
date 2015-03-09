@@ -51,7 +51,7 @@
   </div>
 
 {% for row in ques %}
-  <div class="form-group">
+  <div class="form-group {{ "questions[#{row.id}]" in errors ? 'has-error' }}">
     <label for="questions[{{ row.id }}]" class="col-sm-2 control-label">
       {{ 'admin-campaign-question'|message( loop.index ) }}
     </label>

@@ -73,15 +73,13 @@ class Campaign extends Controller {
 	protected function handlePost() {
 		$id = $this->request->post( 'id' );
 
-		$this->form->expectString( 'name', array( 'required' => true ) );
-		// TODO: expectDate instead of expectString
-		$this->form->expectString( 'start_date', array( 'required' => 'true' ) );
-		$this->form->expectString( 'end_date', array( 'required' => true ) );
+		$this->form->requireString( 'name' );
+		// TODO: requireDate instead of requireString
+		$this->form->requireString( 'start_date' );
+		$this->form->requireString( 'end_date' );
 
-		// Create expectArray method in Form.php
-		// Filed as T90387
-		$this->form->expectAnything( 'reviewer' );
-		$this->form->expectAnything( 'questions' );
+		$this->form->expectIntArray( 'reviewer' );
+		$this->form->requireStringArray( 'questions' );
 
 		if ( $this->form->validate() ) {
 			$params = array(
@@ -90,8 +88,7 @@ class Campaign extends Controller {
 				'end_date' => $this->form->get( 'end_date' ),
 			);
 
-			// TODO: Change to form->get() after T90387 is done
-			$questions = $this->request->post( 'questions' );
+			$questions = $this->form->get( 'questions' );
 
 			if ( $id == 'new' && $this->dao->activeCampaign() ) {
 				$this->flash( 'error',
@@ -110,8 +107,7 @@ class Campaign extends Controller {
 						$this->i18nContext->message( 'admin-campaign-create-success' )
 					);
 					$id = $newCampaign;
-					// TODO: Change to form->get() after T90387 is done
-					$reviewers = $this->request->post( 'reviewer' );
+					$reviewers = $this->form->get( 'reviewer' );
 					if ( $reviewers !== null ) {
 						$diff = Arrays::difference( array(), $reviewers );
 						$this->dao->updateReviewers( $id, $diff );
@@ -128,8 +124,7 @@ class Campaign extends Controller {
 
 			} else {
 
-				// TODO: Change to form->get() after T90387 is done
-				$newReviewers = $this->request->post( 'reviewer' );
+				$newReviewers = $this->form->get( 'reviewer' );
 				if ( $newReviewers == null ) {
 					$newReviewers = array();
 				}
@@ -152,8 +147,13 @@ class Campaign extends Controller {
 				}
 			}
 
-		$this->redirect( $this->urlFor( 'admin_campaign', array( 'id' => $id ) ) );
+		} else {
+			$this->flash( 'error', 'Invalid submission.' );
+			$this->flash( 'form_errors', $this->form->getErrors() );
+			// TODO: pass inputs to GET view (see Admin\User)
 		}
+
+		$this->redirect( $this->urlFor( 'admin_campaign', array( 'id' => $id ) ) );
 
 	}
 
