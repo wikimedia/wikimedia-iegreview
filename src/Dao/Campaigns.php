@@ -323,7 +323,7 @@ class Campaigns extends AbstractDao {
 		$crit = array();
 
 		$validSorts = array(
-			'id', 'name'
+			'id', 'name', 'status'
 		);
 		$sortby = in_array( $params['sort'], $validSorts ) ?
 			$params['sort'] : $defaults['sort'];
