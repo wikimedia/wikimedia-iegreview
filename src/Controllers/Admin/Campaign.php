@@ -49,6 +49,11 @@ class Campaign extends Controller {
 					'question' => '',
 				);
 			}
+			if ( is_numeric( $this->activeCampaign ) ) {
+				$this->flashNow( 'error',
+					$this->i18nContext->message( 'admin-new-campaign-in-progress' )
+				);
+			}
 		} else {
 			$campaign = $this->dao->getCampaign( $id );
 			$currentReviewers = $this->dao->getReviewers( $id );

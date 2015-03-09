@@ -101,6 +101,7 @@
 	"admin-campaigns-start": "Start date",
 	"admin-campaigns-end": "End date",
 	"admin-campaigns-id": "ID",
+	"admin-campaigns-active": "Active?",
 	"admin-campaign-create-success": "Campaign created succesfully.",
 	"admin-campaign-create-fail": "Campaign creation failed. Check logs.",
 	"admin-campaign-update-success": "Campaign updated.",

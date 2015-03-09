@@ -41,7 +41,7 @@
 
   {% if isadmin|default(false) %}
   <div class="form-group">
-    <a class="btn btn-default" href="{{ urlFor( 'admin_campaign', { 'id':'new' } ) }}">
+    <a class="btn btn-sm btn-default" href="{{ urlFor( 'admin_campaign', { 'id':'new' } ) }}">
       <i class="glyphicon glyphicon-plus"></i>
       {{ 'admin-campaigns-add'|message }}
     </a>
@@ -57,6 +57,7 @@
     {{ _self.sortHeader( 'admin-campaigns-name', 'name', ctx ) }}
     {{ _self.sortHeader( 'admin-campaigns-start', 'start', ctx ) }}
     {{ _self.sortHeader( 'admin-campaigns-end', 'end', ctx ) }}
+    {{ _self.sortHeader( 'admin-campaigns-active', 'status', ctx ) }}
   </tr>
   {% for row in records %}
   <tr class="{{ cycle( [ 'oddrow', 'evenrow' ], loop.index ) }}">
@@ -64,6 +65,7 @@
     <td><a href="{{ urlFor( 'admin_campaign', { 'id':row.id} ) }}">{{ row.name }}</a></td>
     <td>{{ row.start_date }}</td>
     <td>{{ row.end_date }}</td>
+    <td>{{ _self.showBool( row.status ) }}</td>
   </tr>
   {% else %}
   <tr><td colspan="8">{{ 'no-results'|message }}</td></tr>
