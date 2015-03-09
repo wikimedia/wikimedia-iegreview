@@ -41,6 +41,7 @@
 	"admin-campaigns-start": "Input label, followed by textbox",
 	"admin-campaigns-end": "Input label, followed by textbox",
 	"admin-campaigns-id": "Table column header, ID of campaign.\n{{Identical|ID}}",
+	"admin-campaigns-active": "Table column header",
 	"admin-campaign-end-button": "Button label",
 	"admin-campaign-end-success": "Message string for succesful campaign end",
 	"admin-new-campaign-in-progress": "Message shown to user when a new campaign creation fails because an exsting one is in progress",
