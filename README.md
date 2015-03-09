@@ -1,7 +1,7 @@
-Wikimedia IEG Grant Review
-==========================
+Wikimedia Grants Review
+=======================
 
-Review IEG grant applications.
+Review grant applications.
 
 System Requirements
 -------------------
@@ -62,6 +62,7 @@ settings will be injected into the application environment.
 Authors
 -------
 * Bryan Davis, Wikimedia Foundation
+* Niharika Kohli, Wikimedia Foundation
 
 Based on code developed for the Wikimania Scaholarships application.
 
