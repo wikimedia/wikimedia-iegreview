@@ -261,4 +261,15 @@ abstract class AbstractDao {
 		return implode( ' ', $args );
 	}
 
+	/**
+	 * Create a list of bind parameters from a list of strings.
+	 *
+	 * @param array $list List of strings to convert to bind parameters
+	 * @return array List of bind parameters (eg ':field1)
+	 */
+	protected static function makeBindParams( array $list ) {
+		return array_map( function ( $elm ) {
+			return ":{$elm}";
+		}, $list );
+	}
 } //end AbstractDao

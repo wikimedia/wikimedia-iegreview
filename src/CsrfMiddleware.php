@@ -23,7 +23,6 @@
 
 namespace Wikimedia\IEGReview;
 
-
 /**
  * Middleware to manage Cross Site Request Forgery (CSRF) mitigation.
  *

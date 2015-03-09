@@ -88,7 +88,7 @@ class Reviews extends AbstractDao {
 	public function createReview( array $data ) {
 		$data['reviewer'] = $this->userId ?: null;
 		$cols = array_keys( $data );
-		$params = array_map( function ( $elm ) { return ":{$elm}"; }, $cols );
+		$params = self::makeBindParams( $cols );
 		$sql = self::concat(
 			'INSERT INTO reviews (',
 			implode( ',', $cols ),

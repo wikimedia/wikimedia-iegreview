@@ -110,7 +110,7 @@ class Campaigns extends AbstractDao {
 	public function addCampaign( array $data ) {
 		$data['created_by'] = $this->userId ? : null;
 		$cols = array_keys( $data );
-		$params = array_map( function ( $elm ) { return ":{$elm}"; }, $cols );
+		$params = self::makeBindParams( $cols );
 
 		$sql = self::concat(
 			'INSERT INTO campaigns (',
@@ -131,7 +131,7 @@ class Campaigns extends AbstractDao {
 	private function addReviewers( $id, array $reviewers ) {
 		$added_by = $this->userId ? : null;
 		$cols = array( 'campaign_id', 'user_id', 'added_by' );
-		$params = array_map( function ( $elm ) { return ":{$elm}"; }, $cols );
+		$params = self::makeBindParams( $cols );
 
 		foreach ( $reviewers as $r ) {
 			$sql = self::concat(
@@ -183,13 +183,13 @@ class Campaigns extends AbstractDao {
 	 * @return bool true/false depending on success of the operation
 	 */
 	public function updateReviewers( $id, array $reviewers ) {
-		if( $reviewers['add'] ) {
-			if( $this->addReviewers( $id, $reviewers['add'] ) === false ) {
+		if ( $reviewers['add'] ) {
+			if ( $this->addReviewers( $id, $reviewers['add'] ) === false ) {
 				return false;
 			}
 		}
-		if( $reviewers['remove'] ) {
-			if( $this->removeReviewers( $id, $reviewers['remove'] ) === false ) {
+		if ( $reviewers['remove'] ) {
+			if ( $this->removeReviewers( $id, $reviewers['remove'] ) === false ) {
 				return false;
 			}
 		}
@@ -262,7 +262,8 @@ class Campaigns extends AbstractDao {
 	public function insertQuestions( $campaign, array $questions ) {
 		$created_by = $this->userId ? : null;
 		$cols = array( 'campaign', 'question', 'created_by' );
-		$params = array_map( function ( $elm ) { return ":{$elm}"; }, $cols );
+		$params = self::makeBindParams( $cols );
+
 		foreach ( $questions as $id => $ques ) {
 			$sql = self::concat(
 				'INSERT INTO review_questions (',
@@ -296,7 +297,7 @@ class Campaigns extends AbstractDao {
 			'modified_by = :modified_by',
 			'WHERE id = :id'
 		);
-		foreach( $questions as $id => $ques ) {
+		foreach ( $questions as $id => $ques ) {
 			$data = array(
 				'id' => $id,
 				'question' => $ques,

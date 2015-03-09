@@ -32,7 +32,7 @@ class Settings extends AbstractDao {
 	/**
 	 * @return array Settings from DB
 	 */
-	public function getSettings(){
+	public function getSettings() {
 		$settings = array();
 		$records = $this->fetchAll( 'SELECT setting_name,value FROM settings' );
 		foreach ( $records as $idx => $row ) {

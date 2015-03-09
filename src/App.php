@@ -387,35 +387,37 @@ class App {
 		$slim->group( '/',
 			$middleware['inject-user'],
 			function () use ( $slim, $middleware ) {
+				$slim->get( '', function () use ( $slim ) {
+					$slim->flashKeep();
+					$slim->redirect( $slim->urlFor( 'index' ) );
+				} )->name( 'home' );
 
-			$slim->get( '', function () use ( $slim ) {
-				$slim->flashKeep();
-				$slim->redirect( $slim->urlFor( 'index' ) );
-			} )->name( 'home' );
+				App::template( $slim, 'index' );
+				App::template( $slim, 'credits' );
+				App::template( $slim, 'privacy' );
 
-			App::template( $slim, 'index' );
-			App::template( $slim, 'credits' );
-			App::template( $slim, 'privacy' );
+				$slim->get( 'login', $middleware['must-revalidate'],
+					function () use ( $slim ) {
+						$page = new Controllers\Login( $slim );
+						$page();
+					}
+				)->name( 'login' );
 
-			$slim->get( 'login', $middleware['must-revalidate'],
-				function () use ( $slim ) {
-					$page = new Controllers\Login( $slim );
-					$page();
-			} )->name( 'login' );
+				$slim->post( 'login.post', $middleware['must-revalidate'],
+					function () use ( $slim ) {
+						$page = new Controllers\Login( $slim );
+						$page();
+					}
+				)->name( 'login_post' );
 
-			$slim->post( 'login.post', $middleware['must-revalidate'],
-				function () use ( $slim ) {
-					$page = new Controllers\Login( $slim );
-					$page();
-			} )->name( 'login_post' );
-
-			$slim->get( 'logout', $middleware['must-revalidate'],
-				function () use ( $slim ) {
-					$slim->authManager->logout();
-					$slim->redirect( $slim->urlFor( 'home' ) );
-			} )->name( 'logout' );
-
-		} );
+				$slim->get( 'logout', $middleware['must-revalidate'],
+					function () use ( $slim ) {
+						$slim->authManager->logout();
+						$slim->redirect( $slim->urlFor( 'home' ) );
+					}
+				)->name( 'logout' );
+			}
+		);
 
 		// Routes for authenticated users
 		$slim->group( '/user/',
@@ -438,7 +440,8 @@ class App {
 					$page->setDao( $slim->usersDao );
 					$page();
 				} )->name( 'user_changepassword_post' );
-		} );
+			}
+		);
 
 		// Routes for proposals
 		$slim->group( '/proposals/',
@@ -487,7 +490,8 @@ class App {
 					$page->setReviewsDao( $slim->reviewsDao );
 					$page( $id );
 				} )->name( 'proposals_view' );
-		} );
+			}
+		);
 
 		// Routes for reports
 		$slim->group( '/reports/',
@@ -518,7 +522,8 @@ class App {
 					$page->setDao( $slim->reportsDao );
 					$page();
 				} )->name( 'reports_campaigns' );
-		} );
+			}
+		);
 
 		$slim->group( '/admin/',
 			$middleware['must-revalidate'],
@@ -568,7 +573,8 @@ class App {
 					$page->setDao( $slim->campaignsDao );
 					$page( $id );
 				} )->name( 'admin_campaign_end' );
-		} );
+			}
+		);
 
 		$slim->notFound( function () use ( $slim, $middleware ) {
 			$slim->render( '404.html' );
