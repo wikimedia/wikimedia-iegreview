@@ -23,7 +23,6 @@
 
 namespace Wikimedia\IEGReview;
 
-
 /**
  * Middleware to add headers to the response.
  *

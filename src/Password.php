@@ -147,7 +147,9 @@ class Password {
 		} // end if openssl_random_pseudo_bytes
 
 		if ( is_readable( '/dev/urandom' ) ) {
+			// @codingStandardsIgnoreStart : Silencing errors is discouraged
 			$fh = @fopen( '/dev/urandom', 'rb' );
+			// @codingStandardsIgnoreEnd
 			if ( false !== $fh ) {
 				$bytes = '';
 				$have = 0;
@@ -199,7 +201,9 @@ class Password {
 	}
 
 
+	// @codingStandardsIgnoreStart : Line exceeds 100 characters
 	const CHARSET_PRINTABLE = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!"#$%&\'()*+,-./:;<=>?@[\]^_`{|}~';
+	// @codingStandardsIgnoreEnd
 	const CHARSET_UPPER = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
 	const CHARSET_LOWER = 'abcdefghijklmnopqrstuvwxyz';
 	const CHARSET_DIGIT = '0123456789';
@@ -230,7 +234,7 @@ class Password {
 		$random = self::getBytes( $len, true );
 		$password = '';
 
-		foreach( range( 0, $len - 1 ) as $i ) {
+		foreach ( range( 0, $len - 1 ) as $i ) {
 			$password .= $cs[ ord( $random[$i] ) % $csLen ];
 		}
 

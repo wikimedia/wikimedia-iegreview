@@ -135,7 +135,9 @@ class Campaign extends Controller {
 				}
 				$currentReviewers = $this->dao->getReviewers( $id );
 				//Convert the query result set to a simple array
-				$oldReviewers = array_map( function( $r ) { return $r['id']; }, $currentReviewers );
+				$oldReviewers = array_map( function( $r ) {
+					return $r['id'];
+				}, $currentReviewers );
 				$diff = Arrays::difference( $oldReviewers, $newReviewers );
 				// TODO: Check return value and add error message
 				$this->dao->updateReviewers( $id, $diff );

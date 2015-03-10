@@ -60,7 +60,7 @@ class Proposals extends AbstractDao {
 	public function createProposal( array $data ) {
 		$data['created_by'] = $this->userId ?: null;
 		$cols = array_keys( $data );
-		$params = array_map( function ( $elm ) { return ":{$elm}"; }, $cols );
+		$params = self::makeBindParams( $cols );
 		$sql = self::concat(
 			'INSERT INTO proposals (',
 			implode( ',', $cols ),
@@ -184,7 +184,7 @@ class Proposals extends AbstractDao {
 			'COALESCE(mc.myreviews, 0) as myreviews',
 		);
 
-		switch( $params['type'] ) {
+		switch ( $params['type'] ) {
 			case 'unreviewed':
 				$where[] = 'reviews IS NULL';
 				break;

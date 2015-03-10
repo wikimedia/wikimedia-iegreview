@@ -71,7 +71,7 @@ class Queue extends Controller {
 		list( $pageCount, $first, $last ) = $this->pagination(
 			$ret->found, $this->form->get( 'p' ), $this->form->get( 'items' )
 		);
-		$this->view->set( 'pages' , $pageCount );
+		$this->view->set( 'pages', $pageCount );
 		$this->view->set( 'left', $first );
 		$this->view->set( 'right', $last );
 
