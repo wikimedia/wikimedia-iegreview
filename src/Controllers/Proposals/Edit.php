@@ -45,19 +45,16 @@ class Edit extends Controller {
 			),
 			$defaults
 		);
-		$this->form->expectString( 'title', array(
-			'required' => true,
+		$this->form->requireString( 'title', array(
 			'default' => $defaults['title'],
 		) );
-		$this->form->expectUrl( 'url', array(
-			'required' => true,
+		$this->form->requireUrl( 'url', array(
 			'default' => $defaults['url'],
 		) );
 		// TODO: themes from db?
-		$this->form->expectInArray( 'theme',
+		$this->form->requireInArray( 'theme',
 			array( 'online', 'offline', 'tool', 'research' ),
 			array(
-				'required' => true,
 				'default' => $defaults['theme'],
 			) );
 		$this->form->expectInt( 'amount', array(

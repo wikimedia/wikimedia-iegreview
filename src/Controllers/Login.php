@@ -45,8 +45,8 @@ class Login extends Controller {
 			$next = filter_var( $next, \FILTER_VALIDATE_URL, \FILTER_FLAG_PATH_REQUIRED );
 		}
 
-		$this->form->expectString( 'username', array( 'required' => true ) );
-		$this->form->expectString( 'password', array( 'required' => true ) );
+		$this->form->requireString( 'username' );
+		$this->form->requireString( 'password' );
 
 		if ( $this->form->validate() ) {
 			$authed = $this->authManager->authenticate(

@@ -34,17 +34,16 @@ use Wikimedia\IEGReview\Controller;
 class Review extends Controller {
 
 	protected function handlePost( $id ) {
-		$required = array( 'required' => true );
-		$this->form->expectInt( 'proposal', $required );
-		$this->form->expectInt( 'impact', $required );
+		$this->form->requireInt( 'proposal' );
+		$this->form->requireInt( 'impact' );
 		$this->form->expectString( 'impact_note' );
-		$this->form->expectInt( 'innovation', $required );
+		$this->form->requireInt( 'innovation' );
 		$this->form->expectString( 'innovation_note' );
-		$this->form->expectInt( 'ability', $required );
+		$this->form->requireInt( 'ability' );
 		$this->form->expectString( 'ability_note' );
-		$this->form->expectInt( 'engagement', $required );
+		$this->form->requireInt( 'engagement' );
 		$this->form->expectString( 'engagement_note' );
-		$this->form->expectInt( 'recommendation', $required );
+		$this->form->requireInt( 'recommendation' );
 		$this->form->expectString( 'comments' );
 
 		if ( $this->form->validate() ) {
