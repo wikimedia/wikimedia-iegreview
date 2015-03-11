@@ -84,7 +84,7 @@ class Campaign extends Controller {
 		$this->form->requireString( 'end_date' );
 
 		$this->form->expectIntArray( 'reviewer' );
-		$this->form->requireStringArray( 'questions' );
+		$this->form->expectStringArray( 'questions' );
 
 		if ( $this->form->validate() ) {
 			$params = array(
@@ -98,6 +98,10 @@ class Campaign extends Controller {
 			if ( $id == 'new' && $this->dao->activeCampaign() ) {
 				$this->flash( 'error',
 					$this->i18nContext->message( 'admin-new-campaign-in-progress' )
+				);
+			} elseif ( count( $questions ) < 1 ) {
+				$this->flash( 'error',
+					$this->i18nContext->message( 'admin-campaign-one-question-minimum' )
 				);
 			} elseif ( $id == 'new' ) {
 				// This is a temporary fix to make the *just started* campaign

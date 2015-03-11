@@ -112,6 +112,7 @@
 	"admin-campaign-reviewers": "Campaign reviewers:",
 	"admin-campaign-question": "Question $1:",
 	"admin-campaign-question-placeholder": "Add question text here",
+	"admin-campaign-one-question-minimum": "At least one question string is required",
 
 	"page-of-pages": "Page $1 of $2",
 	"no-results": "No results found",

@@ -48,6 +48,7 @@
 	"admin-campaign-reviewers": "Input label, followed by a checkbox group",
 	"admin-campaign-question": "Input label, followed by multi-line textarea. Parameters:\n* $1 - question number",
 	"admin-campaign-question-placeholder": "Placeholder text for a textarea",
+	"admin-campaign-one-question-minimum": "Message shown to user when they have left all question fields empty",
 
 	"change-password": "Navigation menu item, links to password change page.\n{{Identical|Change password}}",
 	"credits": "Credits page heading",
