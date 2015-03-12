@@ -190,6 +190,7 @@
 	"review-recommendation-rank": "Input label, followed by radio buttons.",
 	"review-submit": "Form submit button label",
 	"reviews-notes": "Section header",
+	"review-mandatory-question": "Form radio list label",
 	"save-password": "Password change form submit button label.\n{{Identical|Save password}}",
 	"summary-list-mean": "Table column header.",
 	"summary-list-median": "Table column header.",
