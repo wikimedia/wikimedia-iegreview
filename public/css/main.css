@@ -125,3 +125,10 @@ a.sortable.sorted-desc {
 .nowrap {
   white-space:nowrap;
 }
+
+#review-body pre {
+  font-family: inherit;
+  background: inherit;
+  border: none;
+  font-size: inherit;
+}
