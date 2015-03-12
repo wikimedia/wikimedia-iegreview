@@ -38,13 +38,25 @@ class View extends Controller {
 	 */
 	protected $reviewsDao;
 
+
+	/**
+	 * @var \Wikimedia\IEGReview\Dao\AbstractDao $dao
+	 */
+	protected $campaignsDao;
+
 	public function setReviewsDao( $dao ) {
 		$this->reviewsDao = $dao;
 	}
 
+	public function setCampaignsDao( $dao ) {
+		$this->campaignsDao = $dao;
+	}
+
 	protected function handleGet( $id ) {
 		$proposal = $this->dao->getProposal( $id );
+		$questions = $this->campaignsDao->getQuestions( $this->activeCampaign );
 		$this->view->setData( 'proposal', $proposal );
+		$this->view->setData( 'questions', $questions );
 
 		if ( $this->authManager->isReviewer() ) {
 			$myReview = $this->reviewsDao->reviewByUser( $id );
