@@ -163,6 +163,7 @@
 	"review-recommendation-instructions": "Imagine your grantmaking budget is $80,000 total. Is this one of the projects you would fund?",
 	"review-recommendation-rank": "Would you recommend this proposal?",
 	"review-recommendation-note": "Do you have any other comments about this proposal?",
+	"review-mandatory-question": "This is a required question.",
 	"review-submit": "Submit review",
 	"review-edit-save": "Review saved.",
 	"review-edit-save-error": "Failed to save changes.",

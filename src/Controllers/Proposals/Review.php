@@ -35,33 +35,17 @@ class Review extends Controller {
 
 	protected function handlePost( $id ) {
 		$this->form->requireInt( 'proposal' );
-		$this->form->requireInt( 'impact' );
-		$this->form->expectString( 'impact_note' );
-		$this->form->requireInt( 'innovation' );
-		$this->form->expectString( 'innovation_note' );
-		$this->form->requireInt( 'ability' );
-		$this->form->expectString( 'ability_note' );
-		$this->form->requireInt( 'engagement' );
-		$this->form->expectString( 'engagement_note' );
-		$this->form->requireInt( 'recommendation' );
-		$this->form->expectString( 'comments' );
+		$this->form->requireIntArray( 'points' );
+		$this->form->expectStringArray( 'notes' );
 
 		if ( $this->form->validate() ) {
 			$review = array(
 				'proposal' => $this->form->get( 'proposal' ),
-				'impact' => $this->form->get( 'impact' ),
-				'impact_note' => $this->form->get( 'impact_note' ),
-				'innovation' => $this->form->get( 'innovation' ),
-				'innovation_note' => $this->form->get( 'innovation_note' ),
-				'ability' => $this->form->get( 'ability' ),
-				'ability_note' => $this->form->get( 'ability_note' ),
-				'engagement' => $this->form->get( 'engagement' ),
-				'engagement_note' => $this->form->get( 'engagement_note' ),
-				'recommendation' => $this->form->get( 'recommendation' ),
-				'comments' => $this->form->get( 'comments' ),
+				'points' => $this->form->get( 'points' ),
+				'notes' => $this->form->get( 'notes' ),
 			);
 
-			$ok = $this->dao->saveReview( $review );
+			$ok = $this->dao->insertOrUpdateReview( $review );
 
 			if ( $ok ) {
 				$this->flash( 'info', $this->msg( 'review-edit-save' ) );
@@ -73,6 +57,8 @@ class Review extends Controller {
 			}
 
 		} else {
+			$this->flash( 'error', 'Invalid submission.' );
+			$this->flash( 'form_errors', $this->form->getErrors() );
 			// TODO: save input to be shown in get screen
 		}
 		$this->redirect(

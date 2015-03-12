@@ -244,11 +244,7 @@ class Campaigns extends AbstractDao {
 	public function getQuestions( $campaign ) {
 		return $this->fetchAll(
 			self::concat(
-<<<<<<< HEAD
 				'SELECT *',
-=======
-				'SELECT id, question_body',
->>>>>>> Update campaigns DAO to use question_body instead of question
 				'FROM review_questions',
 				'WHERE campaign = ?',
 				'ORDER BY id'
@@ -269,7 +265,6 @@ class Campaigns extends AbstractDao {
 		array $questionTitles, array $questionFooters, array $questionTypes ) {
 
 		$created_by = $this->userId ? : null;
-<<<<<<< HEAD
 		$cols = array(
 			'campaign',
 			'question_title',
@@ -278,9 +273,6 @@ class Campaigns extends AbstractDao {
 			'type',
 			'created_by'
 		);
-=======
-		$cols = array( 'campaign', 'question_body', 'created_by' );
->>>>>>> Update campaigns DAO to use question_body instead of question
 		$params = self::makeBindParams( $cols );
 
 		foreach ( $questions as $id => $ques ) {
@@ -292,18 +284,12 @@ class Campaigns extends AbstractDao {
 				')'
 			);
 			$data = array(
-<<<<<<< HEAD
 				'campaign'        => $campaign,
 				'question_title'  => $questionTitles[$id],
 				'question_body'   => $ques,
 				'question_footer' => $questionFooters[$id],
 				'type'            => $questionTypes[$id],
 				'created_by'      => $created_by
-=======
-				'campaign' => $campaign,
-				'question_body' => $ques,
-				'created_by' => $created_by
->>>>>>> Update campaigns DAO to use question_body instead of question
 			);
 			$this->insert( $sql, $data );
 		}
