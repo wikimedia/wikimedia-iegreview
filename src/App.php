@@ -494,6 +494,7 @@ class App {
 					$page = new Controllers\Proposals\View( $slim );
 					$page->setDao( $slim->proposalsDao );
 					$page->setReviewsDao( $slim->reviewsDao );
+					$page->setCampaignsDao( $slim->campaignsDao );
 					$page( $id );
 				} )->name( 'proposals_view' );
 			}
