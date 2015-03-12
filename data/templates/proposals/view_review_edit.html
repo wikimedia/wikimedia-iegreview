@@ -3,17 +3,21 @@
 {% import _self as local %}
 {% set ctx = _context %}
 
-{% macro criteria( review, name, ctx ) %}
+{% macro criteria( review, ques, name, ctx ) %}
 {% set msgprefix = "review-#{name}" %}
 {% set opts = [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ] %}
 {% set r = review[name] %}
 <section class="panel panel-default">
   <div class="panel-heading">
-    <h4 class="panel-title"><a href="//meta.wikimedia.org/wiki/Grants:IEG/Committee/Workroom#review-rubric" target="_blank">{{ msgprefix|message }}</a></h4>
+    <h4 class="panel-title">
+<!--        <a href="//meta.wikimedia.org/wiki/Grants:IEG/Committee/Workroom#review-rubric" target="_blank">-->
+{{ msgprefix|message }}
+<!--    </a>-->
+      </h4>
   </div>
   <div class="panel-body">
-    {{ "#{msgprefix}-instructions"|message|raw|wikitext }}
-    {{ ctx.forms.radioList( ctx, "#{msgprefix}-rank", name, {
+      {{ ques.question }}
+      {{ ctx.forms.radioList( ctx, "#{msgprefix}-rank", "points[#{ques.id}]", {
         1:'review-rank-1',
         2:'review-rank-2',
         3:'review-rank-3',
@@ -27,7 +31,8 @@
       }, { 'required':true, 'value':r } ) }}
     <div class="form-group">
       <label for="{{ "#{name}_note" }}" class="control-label">{{ "#{msgprefix}-note"|message }}</label>
-      <textarea name="{{ "#{name}_note" }}" class="form-control">{{ review["#{name}_note"] }}</textarea>
+<!--      <textarea name="{{ "#{name}_note" }}" class="form-control">{{ review["#{name}_note"] }}</textarea>-->
+      <textarea name="notes[{{ ques.id }}]" class="form-control">{{ review["#{name}_note"] }}</textarea>
     </div>
   </div>
 </section>
@@ -47,10 +52,11 @@
       <form method="post" action="{{ urlFor( 'proposals_review_post', { 'id': proposal.id } ) }}">
         <input type="hidden" name="{{ csrf_param }}" value="{{ csrf_token }}" />
         <input type="hidden" name="proposal" value="{{ proposal.id }}" />
-        {{ local.criteria( myreview, 'impact', ctx ) }}
-        {{ local.criteria( myreview, 'innovation', ctx ) }}
-        {{ local.criteria( myreview, 'ability', ctx ) }}
-        {{ local.criteria( myreview, 'engagement', ctx ) }}
+
+          {% for q in questions %}
+            {{ local.criteria( myreview, q, 'impact', ctx ) }}
+          {% endfor %}
+
         <section class="panel panel-default">
           <div class="panel-heading">
             <h4 class="panel-title">{{ 'review-recommendation'|message }}</h4>

@@ -51,6 +51,7 @@ class Reviews extends AbstractDao {
 		$this->userId = $uid;
 	}
 
+
 	public function saveReview( array $data ) {
 		$review = $this->reviewByUser( $data['proposal'] );
 		if ( $review ) {
@@ -58,6 +59,34 @@ class Reviews extends AbstractDao {
 		} else {
 			return $this->createReview( $data );
 		}
+	}
+
+	public function insertOrUpdateReview( array $data ) {
+		$comments = $data['notes'];
+		$points = $data['points'];
+		$reviewer = $this->userId;
+		$cols = array( 'proposal', 'question', 'reviewer', 'points', 'comments' );
+		$params = self::makeBindParams( $cols );
+
+		foreach( $comments as $id => $value ) {
+			$sql = self::concat(
+				'INSERT INTO review_answers(',
+				implode( ', ', $cols ),
+				') VALUES (',
+				implode( ', ', $params ),
+				') ON DUPLICATE KEY UPDATE',
+				'points = :points, comments = :comments'
+			);
+			$values = array(
+				'points' => $points[$id],
+				'comments' => $value,
+				'proposal' => $data['proposal'],
+				'question' => $id,
+				'reviewer' => $reviewer
+			);
+			$this->insert( $sql, $values );
+		}
+		return true;
 	}
 
 	/**
@@ -69,7 +98,7 @@ class Reviews extends AbstractDao {
 	public function reviewByUser( $proposal ) {
 		$sql = self::concat(
 			'SELECT *',
-			'FROM reviews',
+			'FROM review_answers',
 			'WHERE proposal = :proposal',
 			'AND reviewer = :reviewer'
 		);
@@ -122,6 +151,13 @@ class Reviews extends AbstractDao {
 
 		return $this->update( $sql, $data );
 	}
+
+	/*
+	public function insertOrUpdateReview( array $data ) {
+		$sql = self::concat(
+			'INSERT INTO review_answers',
+			''
+	}*/
 
 	public function getReview( $id ) {
 		return $this->fetch(
