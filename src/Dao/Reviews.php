@@ -51,6 +51,7 @@ class Reviews extends AbstractDao {
 		$this->userId = $uid;
 	}
 
+
 	public function saveReview( array $data ) {
 		$review = $this->reviewByUser( $data['proposal'] );
 		if ( $review ) {
@@ -60,6 +61,34 @@ class Reviews extends AbstractDao {
 		}
 	}
 
+	public function insertOrUpdateReview( array $data ) {
+		$comments = $data['notes'];
+		$points = $data['points'];
+		$reviewer = $this->userId;
+		$cols = array( 'proposal', 'question', 'reviewer', 'points', 'comments' );
+		$params = self::makeBindParams( $cols );
+
+		foreach( $comments as $id => $value ) {
+			$sql = self::concat(
+				'INSERT INTO review_answers(',
+				implode( ', ', $cols ),
+				') VALUES (',
+				implode( ', ', $params ),
+				') ON DUPLICATE KEY UPDATE',
+				'points = :points, comments = :comments'
+			);
+			$values = array(
+				'points' => $points[$id],
+				'comments' => $value,
+				'proposal' => $data['proposal'],
+				'question' => $id,
+				'reviewer' => $reviewer
+			);
+			$this->insert( $sql, $values );
+		}
+		return true;
+	}
+
 	/**
 	 * Find the review id for the current user and given proposal.
 	 *
@@ -67,13 +96,21 @@ class Reviews extends AbstractDao {
 	 * @return int|bool Review id or false if not found
 	 */
 	public function reviewByUser( $proposal ) {
+		$fields = array(
+			'ra.points',
+			'ra.comments',
+			'rq.question',
+			'rq.id'
+		);
 		$sql = self::concat(
-			'SELECT *',
-			'FROM reviews',
+			'SELECT',
+			implode( ',', $fields ),
+			'FROM review_answers ra',
+			'LEFT OUTER JOIN review_questions rq ON ra.question = rq.id',
 			'WHERE proposal = :proposal',
 			'AND reviewer = :reviewer'
 		);
-		return $this->fetch( $sql, array(
+		return $this->fetchAll( $sql, array(
 			'proposal' => $proposal,
 			'reviewer' => $this->userId
 		) );
@@ -122,6 +159,7 @@ class Reviews extends AbstractDao {
 
 		return $this->update( $sql, $data );
 	}
+
 
 	public function getReview( $id ) {
 		return $this->fetch(
