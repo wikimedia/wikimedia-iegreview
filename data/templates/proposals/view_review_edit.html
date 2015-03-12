@@ -3,34 +3,18 @@
 {% import _self as local %}
 {% set ctx = _context %}
 
-{% macro criteria( review, name, ctx ) %}
-{% set msgprefix = "review-#{name}" %}
-{% set opts = [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ] %}
-{% set r = review[name] %}
-<section class="panel panel-default">
-  <div class="panel-heading">
-    <h4 class="panel-title"><a href="//meta.wikimedia.org/wiki/Grants:IEG/Committee/Workroom#review-rubric" target="_blank">{{ msgprefix|message }}</a></h4>
-  </div>
-  <div class="panel-body">
-    {{ "#{msgprefix}-instructions"|message|raw|wikitext }}
-    {{ ctx.forms.radioList( ctx, "#{msgprefix}-rank", name, {
-        1:'review-rank-1',
-        2:'review-rank-2',
-        3:'review-rank-3',
-        4:'review-rank-4',
-        5:'review-rank-5',
-        6:'review-rank-6',
-        7:'review-rank-7',
-        8:'review-rank-8',
-        9:'review-rank-9',
-        10:'review-rank-10'
-      }, { 'required':true, 'value':r } ) }}
-    <div class="form-group">
-      <label for="{{ "#{name}_note" }}" class="control-label">{{ "#{msgprefix}-note"|message }}</label>
-      <textarea name="{{ "#{name}_note" }}" class="form-control">{{ review["#{name}_note"] }}</textarea>
-    </div>
-  </div>
-</section>
+{% macro radioList( ctx, name, options, opts = {} ) %}
+{% set value = opts.value ?: ctx.form.get( name ) %}
+{{ ctx.forms.div( ctx, '', name, opts ) }}
+<div class="form-inline">
+  {% for val,label in options %}
+  <label class="control-label">
+    <input type="radio" id="{{ name }}-{{ val }}" name="{{ name }}" value="{{ val }}" {{ value == val ? 'checked="checked"' }} {{ opts.required ? 'required' }}/>
+    {{ label|message }}
+  </label>&nbsp;
+  {% endfor %}
+</div>
+{{ ctx.forms.endElement( ctx, name, mesg ) }}
 {% endmacro %}
 
 {% spaceless %}
@@ -47,25 +31,46 @@
       <form method="post" action="{{ urlFor( 'proposals_review_post', { 'id': proposal.id } ) }}">
         <input type="hidden" name="{{ csrf_param }}" value="{{ csrf_token }}" />
         <input type="hidden" name="proposal" value="{{ proposal.id }}" />
-        {{ local.criteria( myreview, 'impact', ctx ) }}
-        {{ local.criteria( myreview, 'innovation', ctx ) }}
-        {{ local.criteria( myreview, 'ability', ctx ) }}
-        {{ local.criteria( myreview, 'engagement', ctx ) }}
-        <section class="panel panel-default">
+
+        {% for q in questions %}
+          <section class="panel panel-default">
           <div class="panel-heading">
-            <h4 class="panel-title">{{ 'review-recommendation'|message }}</h4>
+              <h4 class="panel-title">
+                  {{ q.question_title|wikitext }}
+              </h4>
           </div>
           <div class="panel-body">
-            {{ 'review-recommendation-instructions'|message|raw|wikitext }}
-            <div class="form-group">
-                {{ forms.radioList( ctx, 'review-recommendation-rank', 'recommendation', { '2':'form-yes', '1':'form-conditional', '0':'form-neutral', '-1':'form-no' }, { 'required':true, 'value':myreview.recommendation } ) }}
-            </div>
-            <div class="form-group">
-              <label for="comments" class="control-label">{{ 'review-recommendation-note'|message }}</label>
-              <textarea name="comments" class="form-control">{{ myreview['comments'] }}</textarea>
+            {{ q.question_body|wikitext }}
+            {% if q.type == 'score' %}
+              {{ local.radioList( ctx, "points[#{q.id}]", {
+                1:'review-rank-1', 2:'review-rank-2',
+                3:'review-rank-3', 4:'review-rank-4',
+                5:'review-rank-5', 6:'review-rank-6',
+                7:'review-rank-7', 8:'review-rank-8',
+                9:'review-rank-9', 10:'review-rank-10'
+              }, { 'required':true,
+                 'value': myreview[q.id].points ?: '5',
+               } )
+              }}
+            {% elseif q.type == 'recommend' %}
+              {{ local.radioList( ctx, 'review-mandatory-question', "points[#{q.id}]", {
+                '2':'form-yes',
+                '1':'form-conditional',
+                '0':'form-neutral',
+                '-1':'form-no'
+            }, { 'required':true,
+                 'value': myreview[q.id].points in ['-1', '0', '1', '2'] ? myreview[q.id].points : '0'
+               } )
+              }}
+            {% endif %}
+          <div class="form-group">
+            <label for= "notes[{{ q.id }}]" class="control-label">{{ q.question_footer }}</label>
+              <textarea name="notes[{{ q.id }}]" class="form-control">{{ myreview[q.id].comments }}</textarea>
             </div>
           </div>
-        </section>
+          </section>
+          {% endfor %}
+
         <div class="panel-footer text-right">
           <button type="submit" class="btn btn-primary" id="submit" name="submit">
             <i class="glyphicon glyphicon-ok"></i> {{ 'review-submit'|message }}
