@@ -38,25 +38,39 @@ class View extends Controller {
 	 */
 	protected $reviewsDao;
 
+
+	/**
+	 * @var \Wikimedia\IEGReview\Dao\AbstractDao $dao
+	 */
+	protected $campaignsDao;
+
 	public function setReviewsDao( $dao ) {
 		$this->reviewsDao = $dao;
 	}
 
+	public function setCampaignsDao( $dao ) {
+		$this->campaignsDao = $dao;
+	}
+
 	protected function handleGet( $id ) {
 		$proposal = $this->dao->getProposal( $id );
+		$questions = $this->campaignsDao->getQuestions( $this->activeCampaign );
 		$this->view->setData( 'proposal', $proposal );
+		$this->view->setData( 'questions', $questions );
 
 		if ( $this->authManager->isReviewer() ) {
-			$myReview = $this->reviewsDao->reviewByUser( $id );
-			if ( $myReview ) {
-				$this->view->setData( 'myreview', $myReview );
-			} else {
-				$this->view->setData( 'myreview', array() );
+			$review = $this->reviewsDao->reviewByUser( $id );
+			$myReview = array();
+			if ( $review ) {
+				foreach( $review as $r ) {
+					$myReview[$r['question']] = $r;
+				}
 			}
+			$this->view->setData( 'myreview', $myReview );
 
 			// Reviewers can only see reviews after they have reviewed
 			// the proposal themselves or if they are also an admin
-			if ( $myReview || $this->authManager->isAdmin() ) {
+			if ( $review || $this->authManager->isAdmin() ) {
 				$this->addReviewsToView( $id );
 			}
 		} else {
