@@ -27,7 +27,7 @@ namespace Wikimedia\IEGReview\Dao;
  * Data access object for reviews.
  *
  * @author Bryan Davis <bd808@wikimedia.org>
- * @copyright © 2014 Bryan Davis, Wikimedia Foundation and contributors.
+ * @copyright © 2014 Bryan Davis, Niharika Kohli, Wikimedia Foundation and contributors.
  */
 class Reviews extends AbstractDao {
 
@@ -51,6 +51,7 @@ class Reviews extends AbstractDao {
 		$this->userId = $uid;
 	}
 
+
 	public function saveReview( array $data ) {
 		$review = $this->reviewByUser( $data['proposal'] );
 		if ( $review ) {
@@ -61,67 +62,66 @@ class Reviews extends AbstractDao {
 	}
 
 	/**
-	 * Find the review id for the current user and given proposal.
+	 * Fetch the review data for the current user and given proposal.
 	 *
 	 * @param int $proposal
-	 * @return int|bool Review id or false if not found
+	 * @return array Review data for all questions; false if not found
 	 */
 	public function reviewByUser( $proposal ) {
+		$fields = array(
+			'ra.points',
+			'ra.comments',
+			'rq.question',
+			'rq.id'
+		);
 		$sql = self::concat(
-			'SELECT *',
-			'FROM reviews',
+			'SELECT',
+			implode( ',', $fields ),
+			'FROM review_answers ra',
+			'LEFT OUTER JOIN review_questions rq ON ra.question = rq.id',
 			'WHERE proposal = :proposal',
 			'AND reviewer = :reviewer'
 		);
-		return $this->fetch( $sql, array(
+		return $this->fetchAll( $sql, array(
 			'proposal' => $proposal,
 			'reviewer' => $this->userId
 		) );
 	}
 
+
 	/**
-	 * Save a new review.
+	 * Create a review or update an existing one
 	 *
 	 * @param array $data Review data
-	 * @return int|bool False if insert fails, proposal id otherwise
 	 */
-	public function createReview( array $data ) {
-		$data['reviewer'] = $this->userId ?: null;
-		$cols = array_keys( $data );
+	public function insertOrUpdateReview( array $data ) {
+		$comments = $data['notes'];
+		$points = $data['points'];
+		$reviewer = $this->userId;
+		$cols = array( 'proposal', 'question', 'reviewer', 'points', 'comments' );
 		$params = self::makeBindParams( $cols );
-		$sql = self::concat(
-			'INSERT INTO reviews (',
-			implode( ',', $cols ),
-			') VALUES (',
-			implode( ',', $params ),
-			')'
-		);
-		return $this->insert( $sql, $data );
+
+		foreach( $points as $id => $value ) {
+			$sql = self::concat(
+				'INSERT INTO review_answers(',
+				implode( ', ', $cols ),
+				') VALUES (',
+				implode( ', ', $params ),
+				') ON DUPLICATE KEY UPDATE',
+				'points = :points, comments = :comments'
+			);
+			$values = array(
+				'points' => $value,
+				'comments' => isset($comments[$id]) ? $comments[$id] : '',
+				'proposal' => $data['proposal'],
+				'question' => $id,
+				'reviewer' => $reviewer
+			);
+			$this->insert( $sql, $values );
+		}
+		return true;
 	}
 
-	public function updateReview( $id, $data ) {
-		$fields = array_keys( $data );
-		unset( $fields[array_search('proposal', $fields)] );
-		$placeholders = array_map(
-			function ( $elm ) {
-				return "{$elm} = :{$elm}";
-			},
-			$fields
-		);
-
-		$sql = self::concat(
-			'UPDATE reviews SET',
-			implode( ', ', $placeholders ),
-			', modified_at = now()',
-			'WHERE id = :id',
-			'AND reviewer = :reviewer',
-			'AND proposal = :proposal'
-		);
-		$data['id'] = $id;
-		$data['reviewer'] = $this->userId;
-
-		return $this->update( $sql, $data );
-	}
 
 	public function getReview( $id ) {
 		return $this->fetch(
