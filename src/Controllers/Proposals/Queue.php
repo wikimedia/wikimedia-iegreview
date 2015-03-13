@@ -61,6 +61,7 @@ class Queue extends Controller {
 			'page' => $this->form->get( 'p' ),
 			'sort' => $this->form->get( 's' ),
 			'order' => $this->form->get( 'o' ),
+			'campaign' => $this->activeCampaign
 		);
 
 		$ret = $this->dao->search( $params );
