@@ -244,7 +244,7 @@ class Campaigns extends AbstractDao {
 	public function getQuestions( $campaign ) {
 		return $this->fetchAll(
 			self::concat(
-				'SELECT id, question',
+				'SELECT id, question_body',
 				'FROM review_questions',
 				'WHERE campaign = ?',
 				'ORDER BY id'
@@ -261,7 +261,7 @@ class Campaigns extends AbstractDao {
 	 */
 	public function insertQuestions( $campaign, array $questions ) {
 		$created_by = $this->userId ? : null;
-		$cols = array( 'campaign', 'question', 'created_by' );
+		$cols = array( 'campaign', 'question_body', 'created_by' );
 		$params = self::makeBindParams( $cols );
 
 		foreach ( $questions as $id => $ques ) {
@@ -274,7 +274,7 @@ class Campaigns extends AbstractDao {
 			);
 			$data = array(
 				'campaign' => $campaign,
-				'question' => $ques,
+				'question_body' => $ques,
 				'created_by' => $created_by
 			);
 			$this->insert( $sql, $data );
@@ -292,7 +292,7 @@ class Campaigns extends AbstractDao {
 		$modified_by = $this->userId ? : null;
 		$sql = self::concat(
 			'UPDATE review_questions',
-			'SET question = :question,',
+			'SET question_body = :question,',
 			'modified_at = :modified_at,',
 			'modified_by = :modified_by',
 			'WHERE id = :id'

@@ -67,7 +67,7 @@
       {{ 'admin-campaign-question'|message( loop.index ) }}
     </label>
     <div class="col-sm-10">
-      <textarea class="form-control" rows="2" name="questions[{{ row.id }}]" placeholder="{{ 'admin-campaign-question-placeholder'|message }}">{{ row.question }}</textarea>
+      <textarea class="form-control" rows="2" name="questions[{{ row.id }}]" placeholder="{{ 'admin-campaign-question-placeholder'|message }}">{{ row.question_body }}</textarea>
     </div>
   </div>
 {% endfor %}
