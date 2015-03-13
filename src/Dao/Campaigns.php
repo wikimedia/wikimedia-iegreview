@@ -244,7 +244,11 @@ class Campaigns extends AbstractDao {
 	public function getQuestions( $campaign ) {
 		return $this->fetchAll(
 			self::concat(
-				'SELECT id, question',
+<<<<<<< HEAD
+				'SELECT *',
+=======
+				'SELECT id, question_body',
+>>>>>>> Update campaigns DAO to use question_body instead of question
 				'FROM review_questions',
 				'WHERE campaign = ?',
 				'ORDER BY id'
@@ -258,10 +262,25 @@ class Campaigns extends AbstractDao {
 	 * Inserts new questions into the campaign_questions table
 	 * @param integer $campaign Campaign id
 	 * @param array $questions Array of questions to be added
+	 * @param array $questionTitles Array of question titles
+	 * @param array $questionFooters Array of question footers
 	 */
-	public function insertQuestions( $campaign, array $questions ) {
+	public function insertQuestions( $campaign, array $questions,
+		array $questionTitles, array $questionFooters, array $questionTypes ) {
+
 		$created_by = $this->userId ? : null;
-		$cols = array( 'campaign', 'question', 'created_by' );
+<<<<<<< HEAD
+		$cols = array(
+			'campaign',
+			'question_title',
+			'question_body',
+			'question_footer',
+			'type',
+			'created_by'
+		);
+=======
+		$cols = array( 'campaign', 'question_body', 'created_by' );
+>>>>>>> Update campaigns DAO to use question_body instead of question
 		$params = self::makeBindParams( $cols );
 
 		foreach ( $questions as $id => $ques ) {
@@ -273,9 +292,18 @@ class Campaigns extends AbstractDao {
 				')'
 			);
 			$data = array(
+<<<<<<< HEAD
+				'campaign'        => $campaign,
+				'question_title'  => $questionTitles[$id],
+				'question_body'   => $ques,
+				'question_footer' => $questionFooters[$id],
+				'type'            => $questionTypes[$id],
+				'created_by'      => $created_by
+=======
 				'campaign' => $campaign,
-				'question' => $ques,
+				'question_body' => $ques,
 				'created_by' => $created_by
+>>>>>>> Update campaigns DAO to use question_body instead of question
 			);
 			$this->insert( $sql, $data );
 		}
@@ -287,22 +315,29 @@ class Campaigns extends AbstractDao {
 	 * Update questions associated with a campaign
 	 * @param integer $campaign Campaign ID
 	 * @param array $questions Associative array of id=>question(s) to be updated
+	 * @param array $questionTitles Array of question titles
+	 * @param array $questionFooters Array of question footers
 	 */
-	public function updateQuestions( $campaign, array $questions ) {
+	public function updateQuestions( $campaign, array $questions,
+		array $questionTitles, array $questionFooters ) {
 		$modified_by = $this->userId ? : null;
 		$sql = self::concat(
 			'UPDATE review_questions',
-			'SET question = :question,',
+			'SET question_body = :qbody,',
+			'question_title = :qtitle,',
+			'question_footer = :qfooter,',
 			'modified_at = :modified_at,',
 			'modified_by = :modified_by',
 			'WHERE id = :id'
 		);
 		foreach ( $questions as $id => $ques ) {
 			$data = array(
-				'id' => $id,
-				'question' => $ques,
-				'modified_by' => $modified_by,
-				'modified_at' => date( 'Y-m-d H:i:s' )
+				'id'         => $id,
+				'qtitle'     => $questionTitles[$id],
+				'qbody'      => $ques,
+				'qfooter'    => $questionFooters[$id],
+				'modified_by'=> $modified_by,
+				'modified_at'=> date( 'Y-m-d H:i:s' )
 			);
 			$this->update( $sql, $data );
 		}
