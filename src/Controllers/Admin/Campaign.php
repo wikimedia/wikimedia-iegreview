@@ -43,10 +43,12 @@ class Campaign extends Controller {
 				'end_date' => date( 'Y-m-d H:i:s', strtotime( '+30 days' ) ),
 			);
 			$questions = array();
-			for ( $idx = 0; $idx < 4; $idx ++ ) {
+			for ( $idx = 0; $idx < 5; $idx ++ ) {
 				$questions[$idx] = array(
 					'id' => $idx,
-					'question' => '',
+					'question_title' => '',
+					'question_body' => '',
+					'question_footer' => ''
 				);
 			}
 			if ( is_numeric( $this->activeCampaign ) ) {
@@ -85,6 +87,8 @@ class Campaign extends Controller {
 
 		$this->form->expectIntArray( 'reviewer' );
 		$this->form->requireStringArray( 'questions' );
+		$this->form->requireStringArray( 'qtitles' );
+		$this->form->requireStringArray( 'qfooters' );
 
 		if ( $this->form->validate() ) {
 			$params = array(
@@ -94,6 +98,8 @@ class Campaign extends Controller {
 			);
 
 			$questions = $this->form->get( 'questions' );
+			$questionTitles = $this->form->get( 'qtitles' );
+			$questionFooters = $this->form->get( 'qfooters' );
 
 			if ( $id == 'new' && $this->dao->activeCampaign() ) {
 				$this->flash( 'error',
@@ -119,7 +125,9 @@ class Campaign extends Controller {
 					}
 
 					if ( $questions !== null ) {
-						$this->dao->insertQuestions( $id, $questions );
+						$this->dao->insertQuestions(
+							$id, $questions, $questionTitles, $questionFooters
+						);
 					}
 				} else {
 					$this->flash( 'error',
@@ -141,7 +149,7 @@ class Campaign extends Controller {
 				$diff = Arrays::difference( $oldReviewers, $newReviewers );
 				// TODO: Check return value and add error message
 				$this->dao->updateReviewers( $id, $diff );
-				$this->dao->updateQuestions( $id, $questions );
+				$this->dao->updateQuestions( $id, $questions, $questionTitles, $questionFooters );
 
 				if ( $this->dao->updateCampaign( $params, $id ) ) {
 					$this->flash( 'info',

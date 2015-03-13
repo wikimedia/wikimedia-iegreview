@@ -244,7 +244,7 @@ class Campaigns extends AbstractDao {
 	public function getQuestions( $campaign ) {
 		return $this->fetchAll(
 			self::concat(
-				'SELECT id, question',
+				'SELECT *',
 				'FROM review_questions',
 				'WHERE campaign = ?',
 				'ORDER BY id'
@@ -258,12 +258,24 @@ class Campaigns extends AbstractDao {
 	 * Inserts new questions into the campaign_questions table
 	 * @param integer $campaign Campaign id
 	 * @param array $questions Array of questions to be added
+	 * @param array $questionTitles Array of question titles
+	 * @param array $questionFooters Array of question footers
 	 */
-	public function insertQuestions( $campaign, array $questions ) {
+	public function insertQuestions( $campaign, array $questions,
+		array $questionTitles, array $questionFooters ) {
+
 		$created_by = $this->userId ? : null;
-		$cols = array( 'campaign', 'question', 'created_by' );
+		$cols = array(
+			'campaign',
+			'question_title',
+			'question_body',
+			'question_footer',
+			'type',
+			'created_by'
+		);
 		$params = self::makeBindParams( $cols );
 
+		$index = 1;
 		foreach ( $questions as $id => $ques ) {
 			$sql = self::concat(
 				'INSERT INTO review_questions (',
@@ -273,11 +285,15 @@ class Campaigns extends AbstractDao {
 				')'
 			);
 			$data = array(
-				'campaign' => $campaign,
-				'question' => $ques,
-				'created_by' => $created_by
+				'campaign'        => $campaign,
+				'question_title'  => $questionTitles[$id],
+				'question_body'   => $ques,
+				'question_footer' => $questionFooters[$id],
+				'type'            => $index == 5 ? 'recommend':'score',
+				'created_by'      => $created_by
 			);
 			$this->insert( $sql, $data );
+			$index++;
 		}
 		return true;
 	}
@@ -287,12 +303,17 @@ class Campaigns extends AbstractDao {
 	 * Update questions associated with a campaign
 	 * @param integer $campaign Campaign ID
 	 * @param array $questions Associative array of id=>question(s) to be updated
+	 * @param array $questionTitles Array of question titles
+	 * @param array $questionFooters Array of question footers
 	 */
-	public function updateQuestions( $campaign, array $questions ) {
+	public function updateQuestions( $campaign, array $questions,
+		array $questionTitles, array $questionFooters ) {
 		$modified_by = $this->userId ? : null;
 		$sql = self::concat(
 			'UPDATE review_questions',
-			'SET question = :question,',
+			'SET question_body = :question_body,',
+			'question_title = :question_title',
+			'question_footer = :question_footer',
 			'modified_at = :modified_at,',
 			'modified_by = :modified_by',
 			'WHERE id = :id'
@@ -300,9 +321,11 @@ class Campaigns extends AbstractDao {
 		foreach ( $questions as $id => $ques ) {
 			$data = array(
 				'id' => $id,
-				'question' => $ques,
-				'modified_by' => $modified_by,
-				'modified_at' => date( 'Y-m-d H:i:s' )
+				'question_title'  => $questionTitles[$id],
+				'question_body'   => $ques,
+				'question_footer' => $questionFooters[$id],
+				'modified_by'     => $modified_by,
+				'modified_at'     => date( 'Y-m-d H:i:s' )
 			);
 			$this->update( $sql, $data );
 		}
