@@ -69,6 +69,22 @@ class Campaigns extends AbstractDao {
 
 
 	/**
+	 * Checks if a given user is a reviewer for the given campaign
+	 * @param int $campaign Campaign ID
+	 * @param int $user User ID
+	 */
+	public function isReviewer( $campaign, $user ) {
+		$reviewers = $this->getReviewers( $campaign );
+		foreach ( $reviewers as $r ) {
+			if ( $r['id'] == $user ) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+
+	/**
 	 * @param int $id Fetches reviewers registered in the system
 	 * If no parameter is passed, all registered reviewers are returned
 	 */

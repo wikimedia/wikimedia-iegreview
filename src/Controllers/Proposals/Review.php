@@ -33,6 +33,20 @@ use Wikimedia\IEGReview\Controller;
  */
 class Review extends Controller {
 
+	/**
+	 * @var \Wikimedia\IEGReview\Dao\AbstractDao $dao
+	 */
+	protected $campaignsDao;
+
+
+	/**
+	 * Set campaigns DAO variable
+	 */
+	public function setCampaignsDao( $dao ) {
+		$this->campaignsDao = $dao;
+	}
+
+
 	protected function handlePost( $id ) {
 		$this->form->requireInt( 'proposal' );
 		$this->form->requireIntArray( 'points' );
@@ -45,17 +59,17 @@ class Review extends Controller {
 				'notes' => $this->form->get( 'notes' ),
 			);
 
-			$ok = $this->dao->insertOrUpdateReview( $review );
-
-			if ( $ok ) {
-				$this->flash( 'info', $this->msg( 'review-edit-save' ) );
-			} else {
-				$this->flash( 'error',
-					$this->msg( 'review-edit-save-error' )
-				);
-				// TODO: save input to be shown in get screen
+			$userId = $this->authManager->getUserId();
+			if ( $this->campaignsDao->isReviewer( $this->activeCampaign, $userId) ) {
+				$ok = $this->dao->insertOrUpdateReview( $review );
+				if ( $ok ) {
+					$this->flash( 'info', $this->msg( 'review-edit-save' ) );
+				} else {
+					$this->flash( 'error',
+						$this->msg( 'review-edit-save-error' )
+					);
+				}
 			}
-
 		} else {
 			$this->flash( 'error',
 				$this->msg( 'review-edit-submission-error' )
