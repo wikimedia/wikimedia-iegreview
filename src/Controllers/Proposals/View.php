@@ -58,7 +58,17 @@ class View extends Controller {
 		$this->view->setData( 'proposal', $proposal );
 		$this->view->setData( 'questions', $questions );
 
-		if ( $this->authManager->isReviewer() ) {
+		$reviewers = $this->campaignsDao->getReviewers( $this->activeCampaign );
+		$userId = $this->authManager->getUserId();
+		$isReviewer = false;
+		foreach( $reviewers as $r ) {
+			if( $r['id'] == $userId ) {
+				$isReviewer = true;
+				break;
+			}
+		}
+
+		if ( $isReviewer ) {
 			$review = $this->reviewsDao->reviewByUser( $id );
 			$myReview = array();
 			if ( $review ) {
