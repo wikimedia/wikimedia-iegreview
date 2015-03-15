@@ -487,6 +487,7 @@ class App {
 				$slim->post( ':id/review', function ( $id ) use ( $slim ) {
 					$page = new Controllers\Proposals\Review( $slim );
 					$page->setDao( $slim->reviewsDao );
+					$page->setCampaignsDao( $slim->campaignsDao );
 					$page( $id );
 				} )->name( 'proposals_review_post' );
 
