@@ -75,7 +75,7 @@ class Campaigns extends AbstractDao {
 	public function getReviewers( $id = null ) {
 		if ( $id == null ) {
 			return $this->fetchAll(
-				'SELECT id, username, email FROM users WHERE reviewer = 1'
+				'SELECT id, username, email FROM users where reviewer = 1'
 			);
 		} else {
 			$sql = self::concat(
