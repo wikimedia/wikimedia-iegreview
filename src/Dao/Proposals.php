@@ -96,13 +96,13 @@ class Proposals extends AbstractDao {
 
 
 	/*
-	 * @param int $id ID of campaign to update
-	 * @param array $data Camapign data
+	 * @param int $id ID of proposal to update
+	 * @param array $data Proposal data
 	 */
 	public function updateProposal( $id, $data ) {
 		$fields = array(
 			'title', 'description', 'url', 'amount', 'theme', 'notes',
-			'modified_by',
+			'campaign', 'modified_by',
 		);
 		$placeholders = array();
 		foreach ( $fields as $field ) {
