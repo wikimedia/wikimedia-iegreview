@@ -75,7 +75,7 @@ class Campaigns extends AbstractDao {
 	public function getReviewers( $id = null ) {
 		if ( $id == null ) {
 			return $this->fetchAll(
-				'SELECT id, username, email FROM users WHERE reviewer = 1'
+				'SELECT id, username, email FROM users'
 			);
 		} else {
 			$sql = self::concat(
@@ -148,7 +148,7 @@ class Campaigns extends AbstractDao {
 			);
 			$this->insert( $sql, $data );
 		}
-		return true;
+		return $this->updateAppReviewers( $id );;
 
 	}
 
@@ -193,7 +193,7 @@ class Campaigns extends AbstractDao {
 				return false;
 			}
 		}
-		return true;
+		return $this->updateAppReviewers( $id );
 	}
 
 
@@ -372,6 +372,34 @@ class Campaigns extends AbstractDao {
 			$limit, $offset
 		);
 		return $this->fetchAllWithFound( $sql, $crit );
+	}
+
+
+	/**
+	 * Update reviewers in the app itself
+	 * @param int $id ID of campaign whose reviewers have to be updated
+	 * @return bool true if operation succeeds, false otherwise
+	 */
+	public function updateAppReviewers( $id ) {
+		$campaignReviewers = $this->getReviewers( $id );
+		$allReviewers = $this->getReviewers();
+		$sql = self::concat(
+			'UPDATE users',
+			'SET reviewer = :reviewer',
+			'WHERE id = :id'
+		);
+
+		$data = array();
+		foreach( $allReviewers as $r ) {
+			$data['id'] = $r['id'];
+			if( in_array( $r, $campaignReviewers ) ) {
+				$data['reviewer'] = 1;
+				$this->update( $sql, $data );
+			} else {
+				$data['reviewer'] = 0;
+				$this->update( $sql, $data );
+			}
+		}
 	}
 
 }
