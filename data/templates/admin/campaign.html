@@ -70,7 +70,7 @@
       <input type="text" class="form-control" name="qtitles[{{ row.id }}]" value="{{ row.question_title }}" placeholder="Add question title here" required>
     </div>
     <div class="col-sm-10 col-sm-offset-2">
-      <textarea class="form-control" rows="2" name="questions[{{ row.id }}]" placeholder="{{ 'admin-campaign-question-placeholder'|message }}">{{ row.question_body }}</textarea>
+      <textarea class="form-control" rows="6" name="questions[{{ row.id }}]" placeholder="{{ 'admin-campaign-question-placeholder'|message }}">{{ row.question_body }}</textarea>
     </div>
     <div class="col-sm-10 col-sm-offset-2">
       <input type="text" class="form-control" name="qfooters[{{ row.id }}]" value="{{ row.question_footer }}" placeholder="Add question footer string here" required>
