@@ -169,7 +169,27 @@ class Campaign extends Controller {
 		} else {
 			$this->flash( 'error', 'Invalid submission.' );
 			$this->flash( 'form_errors', $this->form->getErrors() );
-			// TODO: pass inputs to GET view (see Admin\User)
+
+			$id = $this->request->post( 'id' );
+			$questions = $this->form->get( 'questions' );
+			$questionTitles = $this->form->get( 'qtitles' );
+			$questionFooters = $this->form->get( 'qfooters' );
+			$quesDefaults = array();
+			if( $id == 'new' ) {
+				for ( $idx = 0; $idx < 5; $idx ++ ) {
+					$quesDefaults[$idx] = array(
+						'id' => $idx,
+						'question_title' =>
+							isset( $questionTitles[$idx] ) ? $questionTitles[$idx] : '',
+						'question_body' =>
+							isset( $questions[$idx] ) ? $questions[$idx] : '',
+						'question_footer' =>
+							isset( $questionFooters[$idx] ) ? $questionFooters[$idx] : '',
+					);
+				}
+			}
+			$this->flash( 'form_defaults', $quesDefaults );
+			$this->render( 'admin/campaign.html' );
 		}
 
 		$this->redirect( $this->urlFor( 'admin_campaign', array( 'id' => $id ) ) );
