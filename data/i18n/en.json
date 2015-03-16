@@ -5,8 +5,8 @@
 			"Niharika Kohli"
 		]
 	},
-	"header-title": "IEG grant review",
-	"logo-alt": "IEG grant review",
+	"header-title": "Grants review",
+	"logo-alt": "Grants review",
 
 	"nav-language": "Language:",
 
@@ -24,18 +24,18 @@
 	"nav-account": "My Account",
 	"nav-campaigns": "Manage campaigns",
 
-	"new-account-subject": "New IEG review account",
-	"new-account-email": "A new IEG review account has been created for you.\n\nYour login info is:\n\nusername: $1\npassword: $2\n\nYou may login at: $3\n\nYou may change your password at: $4\n\nSincerely,\nIndividual Engagement Grants team",
+	"new-account-subject": "New grants review account",
+	"new-account-email": "A new grants review account has been created for you.\n\nYour login info is:\n\nusername: $1\npassword: $2\n\nYou may login at: $3\n\nYou may change your password at: $4\n\nSincerely,\nGrants review administrators",
 
-	"index-page": "Welcome to the IEG grant review application.",
+	"index-page": "Welcome to the Wikimedia grants review application.",
 
 	"credits": "Credits & licensing",
-	"credits-page-license": "The Wikimedia IEG grant review software is open source and <a href=\"//git.wikimedia.org/log/wikimedia%2Fiegreview\">available</a> under the <a href=\"http://www.gnu.org/copyleft/gpl.html\">GNU General Public License 3.0</a>.",
+	"credits-page-license": "The Wikimedia grants review software is open source and <a href=\"//git.wikimedia.org/log/wikimedia%2Fiegreview\">available</a> under the <a href=\"http://www.gnu.org/copyleft/gpl.html\">GNU General Public License 3.0</a>.",
 	"credits-page-scholarships": "The application is based on code developed for the <a href=\"https://git.wikimedia.org/log/wikimedia%2Fwikimania-scholarships\">Wikimania Scholarships application</a>.",
 	"credits-page-logo": "The <a href=\"https://commons.wikimedia.org/wiki/File%3AIEG_glasses_lightblue.png\">glasses logo</a> is by Wikimedia Commons user Heatherawalls and used under the Creative Commons CC0 1.0 Universal Public Domain Dedication license.",
 
 	"privacy": "Privacy",
-	"privacy-page": "All personal information will be held strictly confidential by the members of the Individual Engagement Grants committee and the <a href=\"http://wikimediafoundation.org\">Wikimedia Foundation</a>, in accordance to the Wikimedia Foundation <a href=\"http://wikimediafoundation.org/wiki/Privacy_policy\">privacy policy</a>.",
+	"privacy-page": "All personal information will be held strictly confidential by the grants reviewers and the <a href=\"http://wikimediafoundation.org\">Wikimedia Foundation</a>, in accordance to the Wikimedia Foundation <a href=\"http://wikimediafoundation.org/wiki/Privacy_policy\">privacy policy</a>.",
 
 	"footer-credits": "credits",
 	"footer-privacy": "privacy",
@@ -226,7 +226,7 @@
 	"theme-tool": "Tools",
 	"theme-research": "Research",
 
-	"proposals-queue-intro": "Welcome, IEG reviewer! Here are the round 2 2014 proposals you haven’t reviewed yet. Please select a proposal to start scoring.",
+	"proposals-queue-intro": "Welcome, reviewer! Here are the proposals you haven’t reviewed yet. Please select a proposal to start scoring.",
 	"proposals-queue-type": "Type",
 	"proposals-queue-type-empty": "Select queue",
 	"proposals-queue-type-myqueue": "My unreviewed",
