@@ -175,7 +175,7 @@ class Campaign extends Controller {
 			$questionTitles = $this->form->get( 'qtitles' );
 			$questionFooters = $this->form->get( 'qfooters' );
 			$quesDefaults = array();
-			if( $id == 'new' ) {
+			if ( $id == 'new' ) {
 				for ( $idx = 0; $idx < 5; $idx ++ ) {
 					$quesDefaults[$idx] = array(
 						'id' => $idx,
@@ -186,6 +186,22 @@ class Campaign extends Controller {
 						'question_footer' =>
 							isset( $questionFooters[$idx] ) ? $questionFooters[$idx] : '',
 					);
+				}
+			} else {
+				$prevQuestions = $this->dao->getQuestions( $id );
+				foreach ( $prevQuestions as $q ) {
+					$idx = $q['id'];
+					$quesDefaults[$idx] = array(
+						'id' => $idx,
+						'question_title' =>
+							isset( $questionTitles[$idx] ) ?
+								$questionTitles[$idx] : $q['question_title'],
+						'question_body' =>
+							isset( $questions[$idx] ) ? $questions[$idx] : $q['question_body'],
+						'question_footer' =>
+							isset( $questionFooters[$idx] ) ?
+								$questionFooters[$idx] : $q['question_footer'],
+						);
 				}
 			}
 			$this->flash( 'form_defaults', $quesDefaults );
