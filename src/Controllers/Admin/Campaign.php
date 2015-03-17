@@ -187,6 +187,20 @@ class Campaign extends Controller {
 							isset( $questionFooters[$idx] ) ? $questionFooters[$idx] : '',
 					);
 				}
+			} else {
+				$prevQuestions = $this->dao->getQuestions( $id );
+				foreach( $prevQuestions as $q ) {
+					$idx = $q['id'];
+					$quesDefaults[$idx] = array(
+						'id' => $idx,
+						'question_title' =>
+							isset( $questionTitles[$idx] ) ? $questionTitles[$idx] : '',
+						'question_body' =>
+							isset( $questions[$idx] ) ? $questions[$idx] : '',
+						'question_footer' =>
+							isset( $questionFooters[$idx] ) ? $questionFooters[$idx] : '',
+						);
+				}
 			}
 			$this->flash( 'form_defaults', $quesDefaults );
 		}
