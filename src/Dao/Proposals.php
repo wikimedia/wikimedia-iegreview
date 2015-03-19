@@ -131,7 +131,7 @@ class Proposals extends AbstractDao {
 			'title' => null,
 			'theme' => null,
 			'campaign' => null,
-			'sort' => 'id',
+			'sort' => 'title',
 			'order' => 'asc',
 			'items' => 20,
 			'page' => 0,
@@ -196,14 +196,14 @@ class Proposals extends AbstractDao {
 		}
 
 		$reviewCountSql = self::concat(
-			'SELECT proposal, count(*) as reviews',
-			'FROM reviews',
+			'SELECT proposal, count(DISTINCT proposal, reviewer) as reviews',
+			'FROM review_answers',
 			'GROUP BY proposal'
 		);
 
 		$myReviewCountSql = self::concat(
-			'SELECT proposal, count(*) as myreviews',
-			'FROM reviews',
+			'SELECT proposal, count(DISTINCT proposal, reviewer) as myreviews',
+			'FROM review_answers',
 			'WHERE reviewer = :int_userid',
 			'GROUP BY proposal'
 		);
