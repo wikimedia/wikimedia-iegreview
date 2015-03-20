@@ -1,0 +1,148 @@
+{% extends 'reports/base.html' %}
+{##
+ # Common report display template.
+ # Expects this data:
+ # - columns : Array of report column descriptions
+ # - report : stdclass/array with "rows" and "found" members
+ # - items : number of results per page
+ # - p : current page number
+ # - s : sort column
+ # - o : sort order
+ #}
+
+{% set route = app.router.getCurrentRoute.getName %}
+{% set suffix = route|split( '_' )|last %}
+{% set ctx = _context %}
+
+{% macro sortHeader( label, column, ctx, format ) %}
+{% set sorted = ctx.s == column %}
+{% if sorted %}
+  {% set o = ctx.o == 'desc' ? 'desc' : 'asc' %}
+  {% set nextO = o == 'asc' ? 'desc' : 'asc' %}
+{% else %}
+  {% set nextO = 'asc' %}
+{% endif %}
+{% if format == 'number' or format == 'usd' %}
+  {% set class = 'text-right' %}
+{% elseif format == 'message' %}
+  {% set class = 'text-center' %}
+{% else %}
+  {% set class = '' %}
+{% endif %}
+<th><a class="sortable {{ sorted ? "sorted-#{o}" : 'unsorted' }} {{ class }}" href="{{ urlFor( ctx.route ) }}?{{ qsMerge( { 's':column, 'o':nextO } ) }}">{{ label|message }}</a></th>
+{% endmacro %}
+
+{% macro computations( reportrows ) %}
+{% set proposals = [] %}
+{% set questions = [] %}
+{% for r in reportrows %}
+  {% if r.id not in proposals %}
+    {% set proposals = proposals|merge( [ r.id ] ) %}
+  {% endif %}
+  {% if r.qid not in questions %}
+    {% set questions = questions|merge( [ r.qid ] )|sort %}
+  {% endif %}
+{% endfor %}
+{% for p in proposals|sort %}
+  {% set q1 = 0 %}
+  {% set q2 = 0 %}
+  {% set q3 = 0 %}
+  {% set q4 = 0 %}
+  {% set recom = 0 %}
+  {% set conditional = 0 %}
+  {% set count = 0 %}
+  {% set title = '' %}
+  {% set amount = 0 %}
+  {% for r in reportrows %}
+    {% if r.type == 'score' and r.qid == questions[0] and r.id == p %}
+      {% set q1 = q1 + r.points %}
+      {% set count = count + 1 %}
+      {% set amount = r.amount %}
+      {% set title = r.title %}
+    {% elseif r.type == 'score' and r.qid == questions[1] and r.id == p %}
+      {% set q2 = q2 + r.points %}
+      {% set count = count + 1 %}
+    {% elseif r.type == 'score' and r.qid == questions[2] and r.id == p %}
+      {% set q3 = q3 + r.points %}
+      {% set count = count + 1 %}
+    {% elseif r.type == 'score' and r.qid == questions[3] and r.id == p %}
+      {% set q4 = q4 + r.points %}
+      {% set count = count + 1 %}
+    {% elseif r.type == 'recommend' and r.id == p %}
+      {% if r.points == '2' %}
+        {% set recom = recom + 1 %}
+      {% elseif r.points == '1' %}
+        {% set conditional = conditional + 1 %}
+      {% endif %}
+      {% set count = count + 1 %}
+    {% endif %}
+  {% endfor %}
+{% set numreviewers = count / questions|length %}
+{% set vals = [ recom, conditional, numreviewers, ( recom/numreviewers * 100 )|number_format( 2 ) ] %}
+<tr>
+  <td>{{ p }}</td>
+  <td><a href="{{ urlFor( 'proposals_view', { 'id': p } ) }}">{{ title }}</a></td>
+  <td class="text-right nowrap">{{ amount }} {{ 'currency-usd'|message }}</td>
+  <td class="text-right">{{ ( q1 / numreviewers )|number_format( 2 ) }}</td>
+  <td class="text-right">{{ ( q2 / numreviewers )|number_format( 2 ) }}</td>
+  <td class="text-right">{{ ( q3 / numreviewers )|number_format( 2 ) }}</td>
+  <td class="text-right">{{ ( q4 / numreviewers )|number_format( 2 ) }}</td>
+  <td class="text-center">{{ 'report-format-recommend'|message( vals ) }}</td>
+</tr>
+{% endfor %}
+{% endmacro %}
+
+{% block subtitle %}{{ ( 'nav-reports-' ~ suffix )|message }}{% endblock %}
+
+{% block content %}
+{% spaceless %}
+<ol class="breadcrumb">
+  <li>{{ 'nav-reports'|message }}</li>
+  <li><a href="{{ urlFor( route ) }}">{{ ( 'nav-reports-' ~ suffix )|message }}</a></li>
+</ol>
+
+<table class="table table-striped table-hover table-condensed table-responsive">
+  <thead>
+    <tr>
+      {% for msg,col in columns %}
+        {% if col.sortable %}
+          {{ _self.sortHeader( msg, col.sortcolumn, ctx, col.format ) }}
+        {% else %}
+          <th class="text-right">{{ msg|message }}</th>
+        {% endif %}
+      {% endfor %}
+    </tr>
+  </thead>
+  <tbody>
+    {{ _self.computations( report.rows, columns ) }}
+  </tbody>
+</table>
+
+{% if report.found != report.rows|length  %}
+<div class="row">
+  <div class="col-md-3">
+    <p class="text-right">{{ 'page-of-pages'|message(  p + 1, pages ) }}</p>
+  </div>
+  <div class="col-md-9">
+    <ul class="pagination">
+      {% if p > 0 %}
+      <li><a href="{{ urlFor( route ) }}?{{ qsMerge( { 'p':(p - 1) } ) }}" id="prev">&laquo;</a></li>
+      {% else %}
+      <li class="disabled"><span>&laquo;</span></li>
+      {% endif %}
+      {% if left > 0 %}<li class="disabled"><span>&hellip;</span></li>{% endif %}
+      {% for i in left .. right %}
+      <li class="{{ i == p ? 'active' }}"><a href="{{ urlFor( route ) }}?{{ qsMerge( { 'p':i } ) }}" id="prev">{{ i + 1 }}</a></li>
+      {% endfor %}
+      {% if right < pages - 1 %}<li class="disabled"><span>&hellip;</span></li>{% endif %}
+      {% if p + 1 < pages %}
+      <li><a href="{{ urlFor( route ) }}?{{ qsMerge( { 'p':(p + 1) } ) }}" >&raquo;</a></li>
+      {% else %}
+      <li class="disabled"><span>&raquo;</span></li>
+      {% endif %}
+    </ul>
+  </div>
+</div>
+{% endif %}
+{% endspaceless %}
+{% endblock content %}
