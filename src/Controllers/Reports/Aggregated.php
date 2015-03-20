@@ -57,34 +57,6 @@ class Aggregated extends AbstractReport {
 				'sortable' => true,
 				'sortcolumn' => 'amount',
 			),
-			'report-aggregated-impact' => array(
-				'column' => 'impact',
-				'format' => 'number',
-				'precision' => 2,
-				'sortable' => true,
-				'sortcolumn' => 'impact',
-			),
-			'report-aggregated-innovation' => array(
-				'column' => 'innovation',
-				'format' => 'number',
-				'precision' => 2,
-				'sortable' => true,
-				'sortcolumn' => 'innovation',
-			),
-			'report-aggregated-ability' => array(
-				'column' => 'ability',
-				'format' => 'number',
-				'precision' => 2,
-				'sortable' => true,
-				'sortcolumn' => 'ability',
-			),
-			'report-aggregated-engagement' => array(
-				'column' => 'engagement',
-				'format' => 'number',
-				'precision' => 2,
-				'sortable' => true,
-				'sortcolumn' => 'engagement',
-			),
 			'report-aggregated-recommend' => array(
 				'format' => 'message',
 				'message' => 'report-format-recommend',
@@ -115,6 +87,6 @@ class Aggregated extends AbstractReport {
 			'items' => $this->form->get( 'items' ),
 			'page' => $this->form->get( 'p' ),
 		);
-		return $this->dao->aggregatedScores( $params );
+		return $this->dao->aggregatedScores( $this->activeCampaign, $params );
 	}
 }
