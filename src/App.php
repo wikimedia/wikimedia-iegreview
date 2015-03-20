@@ -516,6 +516,7 @@ class App {
 				$slim->get( 'aggregated', function () use ( $slim ) {
 					$page = new Controllers\Reports\Aggregated( $slim );
 					$page->setDao( $slim->reportsDao );
+					$page->setCampaignsDao( $slim->campaignsDao );
 					$page();
 				} )->name( 'reports_aggregated' );
 

@@ -75,6 +75,9 @@
     <div class="col-sm-10 col-sm-offset-2 {{ "qfooters[#{row.id}]" in errors ? 'has-error' }}">
       <input type="text" class="form-control" name="qfooters[{{ row.id }}]" value="{{ row.question_footer }}" placeholder="Add question footer string here" required>
     </div>
+    <div class="col-sm-10 col-sm-offset-2 {{ "qreporthead[#{row.id}]" in errors ? 'has-error' }}">
+      <input type="text" class="form-control" name="qreporthead[{{ row.id }}]" value="{{ row.report_head }}" placeholder="Report column header" required>
+    </div>
   </div>
 {% endfor %}
 
