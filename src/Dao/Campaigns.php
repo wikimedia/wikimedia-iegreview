@@ -278,7 +278,9 @@ class Campaigns extends AbstractDao {
 	 * @param array $questionFooters Array of question footers
 	 */
 	public function insertQuestions( $campaign, array $questions,
-		array $questionTitles, array $questionFooters, array $questionTypes ) {
+		array $questionTitles, array $questionFooters, array $questionTypes,
+		array $questionReportHeads
+	) {
 
 		$created_by = $this->userId ? : null;
 		$cols = array(
@@ -286,6 +288,7 @@ class Campaigns extends AbstractDao {
 			'question_title',
 			'question_body',
 			'question_footer',
+			'report_head',
 			'type',
 			'created_by'
 		);
@@ -304,6 +307,7 @@ class Campaigns extends AbstractDao {
 				'question_title'  => $questionTitles[$id],
 				'question_body'   => $ques,
 				'question_footer' => $questionFooters[$id],
+				'report_head'     => $questionReportHeads[$id],
 				'type'            => $questionTypes[$id],
 				'created_by'      => $created_by
 			);
@@ -321,13 +325,14 @@ class Campaigns extends AbstractDao {
 	 * @param array $questionFooters Array of question footers
 	 */
 	public function updateQuestions( $campaign, array $questions,
-		array $questionTitles, array $questionFooters ) {
+		array $questionTitles, array $questionFooters, array $questionReportHeads ) {
 		$modified_by = $this->userId ? : null;
 		$sql = self::concat(
 			'UPDATE review_questions',
 			'SET question_body = :qbody,',
 			'question_title = :qtitle,',
 			'question_footer = :qfooter,',
+			'report_head = :report_head,',
 			'modified_at = :modified_at,',
 			'modified_by = :modified_by',
 			'WHERE id = :id'
@@ -338,6 +343,7 @@ class Campaigns extends AbstractDao {
 				'qtitle'     => $questionTitles[$id],
 				'qbody'      => $ques,
 				'qfooter'    => $questionFooters[$id],
+				'report_head'=> $questionReportHeads[$id],
 				'modified_by'=> $modified_by,
 				'modified_at'=> date( 'Y-m-d H:i:s' )
 			);
