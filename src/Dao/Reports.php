@@ -52,13 +52,14 @@ class Reports extends AbstractDao {
 	}
 
 	/**
+	 * @param int $campaign Active campaign ID
 	 * @param array $params
 	 * @return object StdClass with rows and found memebers
 	 */
-	public function aggregatedScores( array $params ) {
+	public function aggregatedScores( $campaign, array $params ) {
 		$this->logger->debug( __METHOD__, $params );
 		$defaults = array(
-			'sort' => 'pcnt',
+			'sort' => 'id',
 			'order' => 'desc',
 			'items' => 20,
 			'page' => 0,
@@ -66,16 +67,15 @@ class Reports extends AbstractDao {
 		$params = array_merge( $defaults, $params );
 
 		$validSorts = array(
-			'id', 'title', 'amount', 'theme',
-			'impact', 'innovation', 'ability', 'engagement', 'recommend',
-			'rcnt', 'pcnt',
+			'id', 'title', 'amount', 'theme'
+			//'rcnt', 'pcnt',
 		);
 		$sortby = in_array( $params['sort'], $validSorts ) ?
 			$params['sort'] : $defaults['sort'];
 		$order = $params['order'] === 'desc' ? 'DESC' : 'ASC';
 
 		$crit = array();
-
+		$crit['campaign'] = $campaign;
 		if ( $params['items'] == 'all' ) {
 			$limit = '';
 			$offset = '';
@@ -86,29 +86,51 @@ class Reports extends AbstractDao {
 			$offset = 'OFFSET :int_offset';
 		}
 
+		$fields = array(
+			'p.id',
+			'p.title',
+			'p.theme',
+			'p.amount',
+			'ra.question',
+			'ra.proposal',
+			'ra.points',
+			'rq.id AS qid',
+			'rq.type'
+		);
 		$sql = self::concat(
-			'SELECT p.id, p.title, p.theme, p.amount,',
-			'r.impact,',
-			'r.innovation,',
-			'r.ability,',
-			'r.engagement,',
-			'r.recommend,',
-			'IF(r.conditional >0, \'*\', \'\') AS conditional,',
-			'r.cnt AS rcnt,',
-			'ROUND((r.recommend / r.cnt) * 100, 2) AS pcnt',
+//			'SELECT p.id, p.title, p.theme, p.amount,',
+//			'r.recommend,',
+//			'IF(r.conditional >0, \'*\', \'\') AS conditional,',
+//			'r.cnt AS rcnt,',
+//			'ROUND((r.recommend / r.cnt) * 100, 2) AS pcnt',
+//			'FROM proposals p',
+//			'INNER JOIN (',
+//				'SELECT COUNT(*) AS cnt,',
+//				'SUM(IF(recommendation > 0, 1, 0)) AS recommend,',
+//				'SUM(IF(recommendation = 1, 1, 0)) AS conditional,',
+//				'proposal',
+//				'FROM reviews',
+//				'GROUP BY proposal',
+//			') r ON p.id = r.proposal',
+
+//			'SELECT', implode( ',', $fields ), 'FROM proposals p',
+//			'INNER JOIN review_questions rq ON rq.campaign = p.campaign AND rq.type = "recommend"',
+//			'INNER JOIN (',
+//				'SELECT COUNT(*) AS cnt,',
+//				'SUM(IF(points > 0, 1, 0)) AS recommend,',
+//				'SUM(IF(points = 1, 1, 0)) AS conditional,',
+//				'proposal,',
+//				'question',
+//				'FROM review_answers',
+//				'GROUP BY proposal',
+//			') ra ON ra.question = rq.id',
+//			'WHERE p.campaign = :campaign',
+//			'GROUP BY p.id',
+			'SELECT', implode( ',', $fields ),
 			'FROM proposals p',
-			'INNER JOIN (',
-				'SELECT COUNT(*) AS cnt,',
-				'AVG(impact) AS impact,',
-				'AVG(innovation) AS innovation,',
-				'AVG(ability) AS ability,',
-				'AVG(engagement) AS engagement,',
-				'SUM(IF(recommendation > 0, 1, 0)) AS recommend,',
-				'SUM(IF(recommendation = 1, 1, 0)) AS conditional,',
-				'proposal',
-				'FROM reviews',
-				'GROUP BY proposal',
-			') r ON p.id = r.proposal',
+			'INNER JOIN review_answers ra ON ra.proposal = p.id',
+			'INNER JOIN review_questions rq ON ra.question = rq.id',
+			'WHERE p.campaign = :campaign',
 			"ORDER BY {$sortby} {$order}, id {$order}",
 			$limit, $offset
 		);
