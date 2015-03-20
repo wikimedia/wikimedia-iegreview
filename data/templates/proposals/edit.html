@@ -28,7 +28,7 @@
   {{ forms.text( ctx, 'proposals-edit-title', 'title', { 'required':true } ) }}
   {{ forms.url( ctx, 'proposals-edit-url', 'url', { 'required':true } ) }}
   {{ forms.select( ctx, 'proposals-edit-theme', 'theme', { 'online':'theme-online'|message, 'offline':'theme-offline'|message, 'tool':'theme-tool'|message, 'research':'theme-research'|message }, { 'required':true } ) }}
-  {{ forms.number( ctx, 'proposals-edit-amount', 'amount' ) }}
+  {{ forms.number( ctx, 'proposals-edit-amount', 'amount', { 'placeholder':'proposals-edit-amount-placeholder'|message } ) }}
   {{ forms.textArea( ctx, 'proposals-edit-description', 'description', { 'elmclass':'monospace' } ) }}
   {{ forms.textArea( ctx, 'proposals-edit-notes', 'notes', { 'elmclass':'monospace' } ) }}
   <button type="submit" class="btn btn-primary pull-right" id="submit" name="submit">

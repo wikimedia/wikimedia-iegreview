@@ -101,6 +101,7 @@
 	"privacy-page": "Privacy policy page content.",
 	"proposal-summary": "Section title",
 	"proposals-edit-amount": "Input label, followed ty text box.",
+	"proposals-edit-amount-placeholder": "Placeholder for input text box",
 	"proposals-edit-amount-error": "Error message",
 	"proposals-edit-description": "Input label, followed by text box.",
 	"proposals-edit-error": "Error message shown when proposal addition fails.",

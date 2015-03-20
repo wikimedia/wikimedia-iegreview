@@ -34,11 +34,11 @@
 
 {% macro input( ctx, type, mesg, name, opts = {} ) %}
 {% import _self as forms %}
-{% set opts = { 'required':false }|merge( opts ) %}
+{% set opts = { 'required':false, 'placeholder':'' }|merge( opts ) %}
 {% set value = opts.value ?: ctx.form.get( name ) %}
 {{ forms.startElement( ctx, mesg, name, opts ) }}
 <input type="{{ type }}" class="form-control {{ opts.elmclass ? opts.elmclass
-}}" id="{{ name }}" name="{{ name }}" value="{{ value ?: '' }}" {{ opts.required ? 'required' }}/>
+}}" id="{{ name }}" name="{{ name }}" value="{{ value ?: '' }}" placeholder="{{ opts.placeholder }}" {{ opts.required ? 'required' }}/>
 {{ forms.endElement( ctx, name, mesg ) }}
 {% endmacro %}
 
