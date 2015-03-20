@@ -37,7 +37,7 @@ class Aggregated extends AbstractReport {
 	 * @return array Column descriptions
 	 */
 	protected function describeColumns() {
-		return array(
+		$columns = array(
 			'report-aggregated-proposal' => array(
 				'column' => 'id',
 				'format' => 'proposal',
@@ -57,44 +57,32 @@ class Aggregated extends AbstractReport {
 				'sortable' => true,
 				'sortcolumn' => 'amount',
 			),
-			'report-aggregated-impact' => array(
-				'column' => 'impact',
-				'format' => 'number',
-				'precision' => 2,
-				'sortable' => true,
-				'sortcolumn' => 'impact',
-			),
-			'report-aggregated-innovation' => array(
-				'column' => 'innovation',
-				'format' => 'number',
-				'precision' => 2,
-				'sortable' => true,
-				'sortcolumn' => 'innovation',
-			),
-			'report-aggregated-ability' => array(
-				'column' => 'ability',
-				'format' => 'number',
-				'precision' => 2,
-				'sortable' => true,
-				'sortcolumn' => 'ability',
-			),
-			'report-aggregated-engagement' => array(
-				'column' => 'engagement',
-				'format' => 'number',
-				'precision' => 2,
-				'sortable' => true,
-				'sortcolumn' => 'engagement',
-			),
-			'report-aggregated-recommend' => array(
-				'format' => 'message',
-				'message' => 'report-format-recommend',
-				'columns' => array(
-					'recommend', 'conditional', 'rcnt', 'pcnt',
-				),
-				'sortable' => true,
-				'sortcolumn' => 'pcnt',
-			),
 		);
+
+		foreach ( $this->getQuestions() as $question ) {
+			if ( $question['type'] == 'score' ) {
+				$columns["q{$question['id']}"] = array(
+					'header' => $question['name'],
+					'column' => "q{$question['id']}",
+					'sortcolumn' => "q{$question['id']}",
+					'format' => 'number',
+					'precision' => 2,
+					'sortable' => true,
+				);
+			} else {
+				$columns['report-aggregated-recommend'] = array(
+					'format' => 'message',
+					'message' => 'report-format-recommend',
+					'columns' => array(
+						'recommend', 'conditional', 'rcnt', 'pcnt',
+					),
+					'sortable' => true,
+					'sortcolumn' => 'pcnt',
+				);
+			}
+		}
+
+		return $columns;
 	}
 
 	protected function defaultSortColumn() {
@@ -103,6 +91,38 @@ class Aggregated extends AbstractReport {
 
 	protected function defaultSortOrder() {
 		return 'desc';
+	}
+
+	protected function getQuestions() {
+		// POC hack, should be db query
+		static $questions = array(
+			array(
+				'id' => 1,
+				'name' => 'q #1', // FIXME: we don't have this in the database
+				'type' => 'score',
+			),
+			array(
+				'id' => 2,
+				'name' => 'q #2',
+				'type' => 'score',
+			),
+			array(
+				'id' => 3,
+				'name' => 'q #3',
+				'type' => 'score',
+			),
+			array(
+				'id' => 4,
+				'name' => 'q #4',
+				'type' => 'score',
+			),
+			array(
+				'id' => 5,
+				'name' => 'recommend',
+				'type' => 'recommend',
+			),
+		);
+		return $questions;
 	}
 
 	/**
@@ -115,6 +135,11 @@ class Aggregated extends AbstractReport {
 			'items' => $this->form->get( 'items' ),
 			'page' => $this->form->get( 'p' ),
 		);
-		return $this->dao->aggregatedScores( $params );
+		return $this->dao->aggregatedScores(
+			$this->activeCampaign, $this->getQuestions(), $params
+		);
 	}
+
+
 }
+
