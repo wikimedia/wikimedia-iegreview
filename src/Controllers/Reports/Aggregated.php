@@ -57,42 +57,43 @@ class Aggregated extends AbstractReport {
 				'sortable' => true,
 				'sortcolumn' => 'amount',
 			),
-			'report-aggregated-impact' => array(
-				'column' => 'impact',
+			'report-aggregated-q1' => array(
+				'column' => 'question1',
 				'format' => 'number',
 				'precision' => 2,
-				'sortable' => true,
-				'sortcolumn' => 'impact',
+				'sortable' => false,
 			),
-			'report-aggregated-innovation' => array(
-				'column' => 'innovation',
+			'report-aggregated-q2' => array(
+				'column' => 'question2',
 				'format' => 'number',
 				'precision' => 2,
-				'sortable' => true,
-				'sortcolumn' => 'innovation',
+				'sortable' => false,
 			),
-			'report-aggregated-ability' => array(
-				'column' => 'ability',
+			'report-aggregated-q3' => array(
+				'column' => 'question3',
 				'format' => 'number',
 				'precision' => 2,
-				'sortable' => true,
-				'sortcolumn' => 'ability',
+				'sortable' => false,
 			),
-			'report-aggregated-engagement' => array(
-				'column' => 'engagement',
+			'report-aggregated-q4' => array(
+				'column' => 'question4',
 				'format' => 'number',
 				'precision' => 2,
-				'sortable' => true,
-				'sortcolumn' => 'engagement',
+				'sortable' => false,
 			),
 			'report-aggregated-recommend' => array(
 				'format' => 'message',
+				'columns' => array( 'rcnt', 'total', 'rpercentage' ),
 				'message' => 'report-format-recommend',
-				'columns' => array(
-					'recommend', 'conditional', 'rcnt', 'pcnt',
-				),
 				'sortable' => true,
-				'sortcolumn' => 'pcnt',
+				'sortcolumn' => 'recommend',
+			),
+			'report-aggregated-conditional' => array(
+				'format' => 'message',
+				'columns' => array( 'ccnt', 'total', 'cpercentage' ),
+				'message' => 'report-format-recommend',
+				'sortable' => true,
+				'sortcolumn' => 'conditional',
 			),
 		);
 	}
@@ -105,6 +106,10 @@ class Aggregated extends AbstractReport {
 		return 'desc';
 	}
 
+	protected function getTemplate() {
+		return 'reports/report.html';
+	}
+
 	/**
 	 * @return stdClass Results
 	 */
@@ -115,6 +120,70 @@ class Aggregated extends AbstractReport {
 			'items' => $this->form->get( 'items' ),
 			'page' => $this->form->get( 'p' ),
 		);
-		return $this->dao->aggregatedScores( $params );
+		$rows = $this->dao->aggregatedScores( $this->activeCampaign, $params );
+		$proposals = array();
+		$scorequestions = array();
+		$recommendquestions = array();
+		$result = array();
+
+		foreach ( $rows->rows as $r ) {
+			if ( is_array( $r ) ) {
+				if ( !in_array( $r['proposal'], $proposals ) ) {
+					array_push( $proposals, $r['proposal'] );
+				}
+				if ( !in_array( $r['question'], $scorequestions ) && $r['type'] == 'score' ) {
+					array_push( $scorequestions, $r['question'] );
+				}
+				if ( !in_array( $r['question'], $recommendquestions ) && $r['type'] == 'recommend' ) {
+					array_push( $recommendquestions, $r['question'] );
+				}
+			}
+		}
+
+		sort( $proposals );
+		sort( $scorequestions );
+		sort( $recommendquestions );
+
+		foreach ( $proposals as $p ) {
+			foreach ( $rows->rows as $r ) {
+				if ( $r['proposal'] == $p ) {
+					$result['rows'][$p]['title'] = $r['title'];
+					$result['rows'][$p]['theme'] = $r['theme'];
+					$result['rows'][$p]['amount'] = $r['amount'];
+					$result['rows'][$p]['id'] = $p;
+					break;
+				}
+			}
+			$i = 0;
+			foreach ( $scorequestions as $sq ) {
+				$i++;
+				foreach ( $rows->rows as $r ) {
+					if ( $r['question'] == $sq && $r['proposal'] == $p ) {
+						$result['rows'][$p]['question'.$i] = $r['avg'];
+					}
+				}
+			}
+		}
+
+		foreach ( $proposals as $p ) {
+			foreach ( $recommendquestions as $rq ) {
+				foreach ( $rows->rows as $r ) {
+					if ( $r['question'] == $rq && $r['proposal'] == $p ) {
+						$result['rows'][$p]['rcnt'] = $r['recommend'];
+						$result['rows'][$p]['ccnt'] = $r['conditional'];
+						$result['rows'][$p]['rpercentage'] =
+							number_format( ( $r['recommend'] / $r['cnt'] ) * 100, 2 );
+						$result['rows'][$p]['cpercentage'] =
+							number_format( ( $r['conditional'] / $r['cnt'] ) * 100, 2 );
+						$result['rows'][$p]['total'] = $r['cnt'];
+					}
+				}
+			}
+		}
+
+		return $result;
 	}
+
+
 }
+
