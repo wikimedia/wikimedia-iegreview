@@ -57,40 +57,37 @@ class Aggregated extends AbstractReport {
 				'sortable' => true,
 				'sortcolumn' => 'amount',
 			),
-			'report-aggregated-impact' => array(
-				'column' => 'impact',
+			'report-aggregated-q1' => array(
+				'column' => 'question1',
 				'format' => 'number',
 				'precision' => 2,
-				'sortable' => true,
-				'sortcolumn' => 'impact',
+				'sortable' => false,
+				'sortcolumn' => 'question1',
 			),
-			'report-aggregated-innovation' => array(
-				'column' => 'innovation',
+			'report-aggregated-q2' => array(
+				'column' => 'question2',
 				'format' => 'number',
 				'precision' => 2,
-				'sortable' => true,
-				'sortcolumn' => 'innovation',
+				'sortable' => false,
+				'sortcolumn' => 'question2',
 			),
-			'report-aggregated-ability' => array(
-				'column' => 'ability',
+			'report-aggregated-q3' => array(
+				'column' => 'question3',
 				'format' => 'number',
 				'precision' => 2,
-				'sortable' => true,
-				'sortcolumn' => 'ability',
+				'sortable' => false,
+				'sortcolumn' => 'question3',
 			),
-			'report-aggregated-engagement' => array(
-				'column' => 'engagement',
+			'report-aggregated-q4' => array(
+				'column' => 'question4',
 				'format' => 'number',
 				'precision' => 2,
-				'sortable' => true,
-				'sortcolumn' => 'engagement',
+				'sortable' => false,
+				'sortcolumn' => 'question4',
 			),
 			'report-aggregated-recommend' => array(
 				'format' => 'message',
 				'message' => 'report-format-recommend',
-				'columns' => array(
-					'recommend', 'conditional', 'rcnt', 'pcnt',
-				),
 				'sortable' => true,
 				'sortcolumn' => 'pcnt',
 			),
@@ -105,6 +102,10 @@ class Aggregated extends AbstractReport {
 		return 'desc';
 	}
 
+	protected function getTemplate() {
+		return 'reports/aggregated.html';
+	}
+
 	/**
 	 * @return stdClass Results
 	 */
@@ -115,6 +116,6 @@ class Aggregated extends AbstractReport {
 			'items' => $this->form->get( 'items' ),
 			'page' => $this->form->get( 'p' ),
 		);
-		return $this->dao->aggregatedScores( $params );
+		return $this->dao->aggregatedScores( $this->activeCampaign, $params );
 	}
 }
