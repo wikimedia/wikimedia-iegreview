@@ -48,10 +48,10 @@ class Mailer {
 		'CharSet' => 'utf-8',
 		'ContentType' => 'text/plain',
 		'From' => 'iegrants@wikimedia.org',
-		'FromName' => 'Wikimedia IEG',
+		'FromName' => 'Wikimedia Grants',
 		'Mailer' => 'smtp',
 		'WordWrap' => 72,
-		'XMailer' => 'Wikimedia IEG review system',
+		'XMailer' => 'Wikimedia Grants review system',
 	);
 
 
