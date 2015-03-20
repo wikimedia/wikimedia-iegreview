@@ -90,6 +90,7 @@ class Campaign extends Controller {
 		$this->form->requireStringArray( 'questions' );
 		$this->form->requireStringArray( 'qtitles' );
 		$this->form->requireStringArray( 'qfooters' );
+		$this->form->requireStringArray( 'qreporthead' );
 
 		if ( $this->form->validate() ) {
 			$params = array(
@@ -101,6 +102,7 @@ class Campaign extends Controller {
 			$questions = $this->form->get( 'questions' );
 			$questionTitles = $this->form->get( 'qtitles' );
 			$questionFooters = $this->form->get( 'qfooters' );
+			$questionReportHeads = $this->form->get( 'qreporthead' );
 
 			if ( $id == 'new' && $this->dao->activeCampaign() ) {
 				$this->flash( 'error',
@@ -130,7 +132,8 @@ class Campaign extends Controller {
 							'score', 'score', 'score', 'score', 'recommend'
 						);
 						$this->dao->insertQuestions(
-							$id, $questions, $questionTitles, $questionFooters, $questionTypes
+							$id, $questions, $questionTitles, $questionFooters, $questionTypes,
+							$questionReportHeads
 						);
 					}
 				} else {
@@ -153,7 +156,9 @@ class Campaign extends Controller {
 				$diff = Arrays::difference( $oldReviewers, $newReviewers );
 				// TODO: Check return value and add error message
 				$this->dao->updateReviewers( $id, $diff );
-				$this->dao->updateQuestions( $id, $questions, $questionTitles, $questionFooters );
+				$this->dao->updateQuestions(
+					$id, $questions, $questionTitles, $questionFooters, $questionReportHeads
+				);
 
 				if ( $this->dao->updateCampaign( $params, $id ) ) {
 					$this->flash( 'info',
@@ -174,6 +179,7 @@ class Campaign extends Controller {
 			$questions = $this->form->get( 'questions' );
 			$questionTitles = $this->form->get( 'qtitles' );
 			$questionFooters = $this->form->get( 'qfooters' );
+			$questionReportHeads = $this->form->get( 'qreporthead' );
 			$quesDefaults = array();
 			if ( $id == 'new' ) {
 				for ( $idx = 0; $idx < 5; $idx ++ ) {
@@ -185,6 +191,8 @@ class Campaign extends Controller {
 							isset( $questions[$idx] ) ? $questions[$idx] : '',
 						'question_footer' =>
 							isset( $questionFooters[$idx] ) ? $questionFooters[$idx] : '',
+						'report_head' =>
+							isset( $questionReportHeads[$idx] ) ? $questionReportHeads[$idx] : '',
 					);
 				}
 			} else {
@@ -201,7 +209,10 @@ class Campaign extends Controller {
 						'question_footer' =>
 							isset( $questionFooters[$idx] ) ?
 								$questionFooters[$idx] : $q['question_footer'],
-						);
+						'report_head' =>
+							isset( $questionReportHeads[$idx] ) ?
+								$questionReportHeads[$idx] : $q['report_head']
+					);
 				}
 			}
 			$this->flash( 'form_defaults', $quesDefaults );

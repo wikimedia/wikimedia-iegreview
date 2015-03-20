@@ -52,10 +52,14 @@ class Reports extends AbstractDao {
 	}
 
 	/**
+	 * @param int $campaign Active campaign ID
+	 * @param array $questions
 	 * @param array $params
 	 * @return object StdClass with rows and found memebers
 	 */
-	public function aggregatedScores( array $params ) {
+	public function aggregatedScores(
+		$campaign, array $questions, array $params
+	) {
 		$this->logger->debug( __METHOD__, $params );
 		$defaults = array(
 			'sort' => 'pcnt',
@@ -66,15 +70,16 @@ class Reports extends AbstractDao {
 		$params = array_merge( $defaults, $params );
 
 		$validSorts = array(
-			'id', 'title', 'amount', 'theme',
-			'impact', 'innovation', 'ability', 'engagement', 'recommend',
-			'rcnt', 'pcnt',
+			'id', 'title', 'amount', 'theme', 'rcnt', 'pcnt'
+		) + array_map(
+			function ( $elm ) { return "q{$elm['id']}"; }, $questions
 		);
 		$sortby = in_array( $params['sort'], $validSorts ) ?
 			$params['sort'] : $defaults['sort'];
 		$order = $params['order'] === 'desc' ? 'DESC' : 'ASC';
 
 		$crit = array();
+		$crit['campaign'] = $campaign;
 
 		if ( $params['items'] == 'all' ) {
 			$limit = '';
@@ -86,29 +91,50 @@ class Reports extends AbstractDao {
 			$offset = 'OFFSET :int_offset';
 		}
 
+		$fields = array(
+			'p.id',
+			'p.title',
+			'p.amount',
+			'p.theme',
+		);
+
+		$joins = array();
+
+		foreach ( $questions as $question ) {
+			$sub = "q{$question['id']}";
+			if ( $question['type'] == 'score' ) {
+				$subselect = self::concat(
+					'SELECT proposal, AVG(points) AS points',
+					'FROM review_answers',
+					"WHERE question = :int_{$sub}",
+					'GROUP BY proposal'
+				);
+				$fields[] = "{$sub}.points AS {$sub}";
+			} else {
+				$subselect = self::concat(
+					'SELECT proposal,',
+					'SUM(IF(points > 0, 1, 0)) AS recommend,',
+					'SUM(IF(points = 1, 1, 0)) AS conditional,',
+					'COUNT(DISTINCT reviewer) AS cnt',
+					'FROM review_answers',
+					"WHERE question = :int_{$sub}",
+					'GROUP BY proposal'
+				);
+
+				$fields[] = "{$sub}.recommend as recommend";
+				$fields[] = "IF({$sub}.conditional >0, '*', '') AS conditional";
+				$fields[] = "{$sub}.cnt AS rcnt";
+				$fields[] = "ROUND(({$sub}.recommend / {$sub}.cnt) * 100, 2) AS pcnt";
+			}
+			$joins[] = "LEFT OUTER JOIN ({$subselect}) {$sub} ON p.id = {$sub}.proposal";
+			$crit["int_{$sub}"] = $question['id'];
+		}
+
 		$sql = self::concat(
-			'SELECT p.id, p.title, p.theme, p.amount,',
-			'r.impact,',
-			'r.innovation,',
-			'r.ability,',
-			'r.engagement,',
-			'r.recommend,',
-			'IF(r.conditional >0, \'*\', \'\') AS conditional,',
-			'r.cnt AS rcnt,',
-			'ROUND((r.recommend / r.cnt) * 100, 2) AS pcnt',
+			'SELECT', implode( ',', $fields ),
 			'FROM proposals p',
-			'INNER JOIN (',
-				'SELECT COUNT(*) AS cnt,',
-				'AVG(impact) AS impact,',
-				'AVG(innovation) AS innovation,',
-				'AVG(ability) AS ability,',
-				'AVG(engagement) AS engagement,',
-				'SUM(IF(recommendation > 0, 1, 0)) AS recommend,',
-				'SUM(IF(recommendation = 1, 1, 0)) AS conditional,',
-				'proposal',
-				'FROM reviews',
-				'GROUP BY proposal',
-			') r ON p.id = r.proposal',
+			$joins,
+			'WHERE p.campaign = :campaign',
 			"ORDER BY {$sortby} {$order}, id {$order}",
 			$limit, $offset
 		);

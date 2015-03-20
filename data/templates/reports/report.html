@@ -29,7 +29,7 @@
 {% else %}
   {% set class = '' %}
 {% endif %}
-<th><a class="sortable {{ sorted ? "sorted-#{o}" : 'unsorted' }} {{ class }}" href="{{ urlFor( ctx.route ) }}?{{ qsMerge( { 's':column, 'o':nextO } ) }}">{{ label|message }}</a></th>
+<th><a class="sortable {{ sorted ? "sorted-#{o}" : 'unsorted' }} {{ class }}" href="{{ urlFor( ctx.route ) }}?{{ qsMerge( { 's':column, 'o':nextO } ) }}">{{ label }}</a></th>
 {% endmacro %}
 
 {% macro format( row, spec ) %}
@@ -72,10 +72,11 @@
   <thead>
     <tr>
       {% for msg,col in columns %}
+        {% set label = col.header|default(false) ? col.header : msg|message %}
         {% if col.sortable %}
-          {{ _self.sortHeader( msg, col.sortcolumn, ctx, col.format ) }}
+          {{ _self.sortHeader( label, col.sortcolumn, ctx, col.format ) }}
         {% else %}
-          <th>{{ msg|message }}</th>
+          <th>{{ lable }}</th>
         {% endif %}
       {% endfor %}
     </tr>
