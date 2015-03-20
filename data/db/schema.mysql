@@ -93,6 +93,7 @@ CREATE TABLE IF NOT EXISTS review_questions (
   , question_title  VARCHAR(255)
   , question_body   BLOB
   , question_footer VARCHAR(255)
+  , report_head     VARCHAR(255)
   , type            ENUM( 'score', 'recommend' ) DEFAULT 'score'
   , created_by      INT(11)
   , created_at      TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
