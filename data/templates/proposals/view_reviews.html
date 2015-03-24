@@ -1,37 +1,47 @@
 {% import _self as helpers %}
 
-{% macro criteria( reviews, crit, ctx ) %}
+{% macro criteria( reviews, ques, ctx, type ) %}
 {% import _self as helpers %}
-{% set note = crit ~ '_note' %}
 <section class="panel panel-default">
   <div class="panel-heading">
-    <h3 class="panel-title">{{ ( 'review-' ~ crit )|message }}</h3>
+    <h3 class="panel-title">{{ ques.question_title|wikitext }}</h3>
   </div>
   <table class="table table-bordered table-hover table-condensed">
     <thead>
       <tr>
-        <th>{{ 'summary-list-mean'|message }}</th>
-        <th>{{ 'summary-list-median'|message }}</th>
-        <th>{{ 'summary-list-range'|message }}</th>
-        <th>{{ 'summary-list-stddev'|message }}</th>
+        {% if type == 'score' %}
+          <th>{{ 'summary-list-mean'|message }}</th>
+          <th>{{ 'summary-list-median'|message }}</th>
+          <th>{{ 'summary-list-range'|message }}</th>
+          <th>{{ 'summary-list-stddev'|message }}</th>
+        {% elseif type == 'recommend' %}
+          <th>{{ 'form-yes'|message }}</th>
+          <th>{{ 'form-conditional'|message }}</th>
+          <th>{{ 'form-neutral'|message }}</th>
+          <th>{{ 'form-no'|message }}</th>
+        {% endif %}
       </tr>
     </thead>
     <tbody>
-      {{ helpers.stats( reviews, crit ) }}
+        {% if type == 'score' %}
+          {{ helpers.scorestats( reviews, ques.id ) }}
+        {% elseif type == 'recommend' %}
+          {{ helpers.recommendstats( reviews, ques.id ) }}
+        {% endif %}
     </tbody>
   </table>
   <section class="panel panel-default muted">
     <div class="panel-heading">
-      <a class="accordion-toggle collapsed" data-toggle="collapse" href="#{{ crit }}-notes">
+      <a class="accordion-toggle collapsed" data-toggle="collapse" href="#{{ ques.id }}-notes">
         <span class="text-muted">{{ 'reviews-notes'|message }}</span>
       </a>
     </div>
-    <div id="{{ crit }}-notes" class="panel-body panel-collapse collapse">
+    <div id="{{ ques.id }}-notes" class="panel-body panel-collapse collapse">
       <ul class="list-group">
       {% for review in reviews %}
-        {% if review[note] %}
+        {% if review.comments %}
         <li class="list-group-item clearfix">
-          {{ review[note] }}
+          {{ review.comments }}
           {% if ctx.isadmin|default( false ) %}
           <cite class="pull-right text-muted">&mdash; {{ review.reviewer_name }}</cite>
           {% endif %}
@@ -44,22 +54,50 @@
 </section>
 {% endmacro %}
 
-{% macro stats( reviews, name ) %}
+{% macro scorestats( reviews, qid ) %}
 {% import _self as helpers %}
 {% set scores = [] %}
 {% set sum = 0 %}
 {% set squares = 0 %}
 {% for review in reviews %}
-{% set val = review[name] %}
-  {% set scores = scores|merge( [ val ] ) %}
-  {% set sum = sum + val %}
-  {% set squares = squares + ( val * val ) %}
+  {% if review.question == qid %}
+    {% set val = review.points %}
+    {% set scores = scores|merge( [ val ] ) %}
+    {% set sum = sum + val %}
+    {% set squares = squares + ( val * val ) %}
+  {% endif %}
 {% endfor %}
 <tr>
   <td class="text-right">{{ ( sum / scores|length )|number_format( 2 ) }}</td>
   <td class="text-right">{{ helpers.median( scores ) }}</td>
   <td class="text-right">{{ max( scores ) - min( scores ) }}</td>
   <td class="text-right">{{ ( ( squares - ( ( sum * sum ) / scores|length ) ) ** ( 1 / 2 ) )|number_format( 2 ) }}</td>
+</tr>
+{% endmacro %}
+
+{% macro recommendstats( reviews, qid ) %}
+{% set countyes = 0 %}
+{% set countconditional = 0 %}
+{% set countneutral = 0 %}
+{% set countno = 0 %}
+{% for review in reviews %}
+  {% if review.question == qid %}
+    {% if review.points == '-1' %}
+      {% set countno = countno + 1 %}
+    {% elseif review.points == '0' %}
+      {% set countneutral = countneutral + 1 %}
+    {% elseif review.points == '1' %}
+      {% set countconditional = countconditional + 1 %}
+    {% elseif review.points == '2' %}
+      {% set countyes = countyes + 1 %}
+    {% endif %}
+  {% endif %}
+{% endfor %}
+<tr>
+  <td class="text-right">{{ countyes }}</td>
+  <td class="text-right">{{ countconditional }}</td>
+  <td class="text-right">{{ countneutral }}</td>
+  <td class="text-right">{{ countno }}</td>
 </tr>
 {% endmacro %}
 
@@ -79,6 +117,21 @@
 {{ count }}
 {% endmacro %}
 
+{% macro reviewers( reviews ) %}
+{% set revs = [] %}
+{% for r in reviews %}
+  {% if r.reviewer_name not in revs %}
+    {% set revs = revs|merge( r.reviewer_name ) %}
+  {% endif %}
+{% endfor %}
+<li>{{ revs|length }}</li>
+{% if isadmin|default(false) %}
+  {% for rev in revs %}
+    <li class="text-muted">{{ rev }}</li>
+  {% endfor %}
+{% endif %}
+{% endmacro%}
+
 {% spaceless %}
 <article id="summary" class="panel-group">
   <section class="panel panel-default">
@@ -91,62 +144,16 @@
       <dl class="dl-horizontal">
         <dt>{{ 'summary-list-reviewers'|message }}</dt>
         <dd><ul class="list-inline">
-            <li>{{ reviews|length }}</li>
-            {% if isadmin|default(false) %}
-              {% for review in reviews %}
-                <li class="text-muted">{{ review.reviewer_name }}</li>
-              {% endfor %}
-            {% endif %}
+            {{ helpers.reviewers( reviews ) }}
         </ul></dd>
       </dl>
-      {{ helpers.criteria( reviews, 'impact', _context ) }}
-      {{ helpers.criteria( reviews, 'innovation', _context ) }}
-      {{ helpers.criteria( reviews, 'ability', _context ) }}
-      {{ helpers.criteria( reviews, 'engagement', _context ) }}
-      <section class="panel panel-default">
-        <div class="panel-heading">
-          <h3 class="panel-title">{{ 'review-recommendation'|message }}
-        </div>
-        <table class="table table-bordered table-hover table-condensed">
-          <thead>
-            <tr>
-              <th>{{ 'form-yes'|message }}</th>
-              <th>{{ 'form-conditional'|message }}</th>
-              <th>{{ 'form-neutral'|message }}</th>
-              <th>{{ 'form-no'|message }}</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>{{ helpers.count( reviews, 'recommendation', 2 ) }}</td>
-              <td>{{ helpers.count( reviews, 'recommendation', 1 ) }}</td>
-              <td>{{ helpers.count( reviews, 'recommendation', 0 ) }}</td>
-              <td>{{ helpers.count( reviews, 'recommendation', -1 ) }}</td>
-            </tr>
-          </tbody>
-        </table>
-        <section class="panel panel-default muted">
-          <div class="panel-heading">
-            <a class="accordion-toggle collapsed" data-toggle="collapse" href="#recommendation-notes">
-              <span class="text-muted">{{ 'reviews-notes'|message }}</span>
-            </a>
-          </div>
-          <div id="recommendation-notes" class="panel-body panel-collapse collapse">
-            <ul class="list-group">
-            {% for review in reviews %}
-              {% if review.comments %}
-              <li class="list-group-item clearfix">
-                {{ review.comments }}
-                {% if isadmin|default( false ) %}
-                <cite class="pull-right text-muted">&mdash; {{ review.reviewer_name }}</cite>
-                {% endif %}
-              </li>
-              {% endif %}
-            {% endfor %}
-            </ul>
-          </div>
-        </section>
-      </section>
+      {% for q in questions %}
+        {% if q.type == 'score' %}
+          {{ helpers.criteria( reviews, q, _context, 'score' ) }}
+        {% elseif q.type == 'recommend' %}
+          {{ helpers.criteria( reviews, q, _context, 'recommend' ) }}
+        {% endif %}
+      {% endfor %}
     </div>
   </section>
 </article>
