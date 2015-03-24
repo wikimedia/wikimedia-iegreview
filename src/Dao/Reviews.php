@@ -125,11 +125,13 @@ class Reviews extends AbstractDao {
 
 	public function getReviews( $proposal ) {
 		$sql = self::concat(
-			'SELECT r.*, u.username as reviewer_name',
-			'FROM reviews r',
-			'LEFT OUTER JOIN users u on u.id = r.reviewer',
-			'WHERE proposal = ?',
-			'ORDER BY r.id'
+//			'SELECT r.*, u.username as reviewer_name',
+//			'FROM reviews r',
+//			'LEFT OUTER JOIN users u on u.id = r.reviewer',
+//			'WHERE proposal = ?',
+//			'ORDER BY r.id'
+			'SELECT * from review_answers WHERE proposal = ?',
+			'ORDER BY reviewer'
 		);
 		return $this->fetchAll( $sql, array( $proposal ) );
 	}
