@@ -59,7 +59,8 @@ class View extends Controller {
 		$this->view->setData( 'questions', $questions );
 
 		$userId = $this->authManager->getUserId();
-		if ( $this->campaignsDao->isReviewer( $this->activeCampaign, $userId ) ) {
+		$isreviewer = $this->campaignsDao->isReviewer( $this->activeCampaign, $userId );
+		if ( $isreviewer ) {
 			$review = $this->reviewsDao->reviewByUser( $id );
 			$myReview = array();
 			if ( $review ) {
@@ -79,7 +80,8 @@ class View extends Controller {
 			// showing/hiding information based on the user's permissions.
 			$this->addReviewsToView( $id );
 		}
-
+		$this->view->setData( 'isreviewer', $isreviewer );
+		$this->view->setData( 'isadmin', $this->authManager->isAdmin() );
 		$this->render( 'proposals/view.html' );
 	}
 
