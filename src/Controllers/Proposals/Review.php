@@ -60,7 +60,7 @@ class Review extends Controller {
 			);
 
 			$userId = $this->authManager->getUserId();
-			if ( $this->campaignsDao->isReviewer( $this->activeCampaign, $userId) ) {
+			if ( $this->campaignsDao->isReviewer( $this->activeCampaign, $userId ) ) {
 				$ok = $this->dao->insertOrUpdateReview( $review );
 				if ( $ok ) {
 					$this->flash( 'info', $this->msg( 'review-edit-save' ) );
