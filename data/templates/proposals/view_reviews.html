@@ -1,11 +1,11 @@
 {% import _self as helpers %}
 
-{% macro criteria( reviews, crit, ctx ) %}
+{% macro score( reviews, ques, ctx ) %}
 {% import _self as helpers %}
 {% set note = crit ~ '_note' %}
 <section class="panel panel-default">
   <div class="panel-heading">
-    <h3 class="panel-title">{{ ( 'review-' ~ crit )|message }}</h3>
+    <h3 class="panel-title">{{ ques.question_title|wikitext }}</h3>
   </div>
   <table class="table table-bordered table-hover table-condensed">
     <thead>
@@ -17,7 +17,7 @@
       </tr>
     </thead>
     <tbody>
-      {{ helpers.stats( reviews, crit ) }}
+      {{ helpers.stats( reviews, ques.id ) }}
     </tbody>
   </table>
   <section class="panel panel-default muted">
@@ -29,9 +29,9 @@
     <div id="{{ crit }}-notes" class="panel-body panel-collapse collapse">
       <ul class="list-group">
       {% for review in reviews %}
-        {% if review[note] %}
+        {% if review.comments %}
         <li class="list-group-item clearfix">
-          {{ review[note] }}
+          {{ review.comments }}
           {% if ctx.isadmin|default( false ) %}
           <cite class="pull-right text-muted">&mdash; {{ review.reviewer_name }}</cite>
           {% endif %}
@@ -44,16 +44,66 @@
 </section>
 {% endmacro %}
 
-{% macro stats( reviews, name ) %}
+{% macro recommend( reviews, ques, ctx )%}
+{% import _self as helpers %}
+<section class="panel panel-default">
+    <div class="panel-heading">
+      <h3 class="panel-title">{{ ques.question_title|wikitext }}
+    </div>
+    <table class="table table-bordered table-hover table-condensed">
+      <thead>
+        <tr>
+          <th>{{ 'form-yes'|message }}</th>
+          <th>{{ 'form-conditional'|message }}</th>
+          <th>{{ 'form-neutral'|message }}</th>
+          <th>{{ 'form-no'|message }}</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>{{ helpers.count( reviews, 'recommendation', 2 ) }}</td>
+          <td>{{ helpers.count( reviews, 'recommendation', 1 ) }}</td>
+          <td>{{ helpers.count( reviews, 'recommendation', 0 ) }}</td>
+          <td>{{ helpers.count( reviews, 'recommendation', -1 ) }}</td>
+         </tr>
+      </tbody>
+    </table>
+    <section class="panel panel-default muted">
+      <div class="panel-heading">
+        <a class="accordion-toggle collapsed" data-toggle="collapse" href="#recommendation-notes">
+          <span class="text-muted">{{ 'reviews-notes'|message }}</span>
+        </a>
+      </div>
+      <div id="recommendation-notes" class="panel-body panel-collapse collapse">
+        <ul class="list-group">
+        {% for review in reviews %}
+          {% if review.comments %}
+            <li class="list-group-item clearfix">
+              {{ review.comments }}
+              {% if isadmin|default( false ) %}
+                <cite class="pull-right text-muted">&mdash; {{ review.reviewer_name }}</cite>
+              {% endif %}
+            </li>
+          {% endif %}
+        {% endfor %}
+        </ul>
+       </div>
+    </section>
+</section>
+{% endmacro %}
+
+{% macro stats( reviews, qid ) %}
 {% import _self as helpers %}
 {% set scores = [] %}
 {% set sum = 0 %}
 {% set squares = 0 %}
 {% for review in reviews %}
-{% set val = review[name] %}
-  {% set scores = scores|merge( [ val ] ) %}
-  {% set sum = sum + val %}
-  {% set squares = squares + ( val * val ) %}
+  {% if review.question == qid %}
+    {% set val = review.points %}
+    {% set scores = scores|merge( [ val ] ) %}
+    {% set sum = sum + val %}
+    {% set squares = squares + ( val * val ) %}
+  {% endif %}
 {% endfor %}
 <tr>
   <td class="text-right">{{ ( sum / scores|length )|number_format( 2 ) }}</td>
@@ -99,54 +149,13 @@
             {% endif %}
         </ul></dd>
       </dl>
-      {{ helpers.criteria( reviews, 'impact', _context ) }}
-      {{ helpers.criteria( reviews, 'innovation', _context ) }}
-      {{ helpers.criteria( reviews, 'ability', _context ) }}
-      {{ helpers.criteria( reviews, 'engagement', _context ) }}
-      <section class="panel panel-default">
-        <div class="panel-heading">
-          <h3 class="panel-title">{{ 'review-recommendation'|message }}
-        </div>
-        <table class="table table-bordered table-hover table-condensed">
-          <thead>
-            <tr>
-              <th>{{ 'form-yes'|message }}</th>
-              <th>{{ 'form-conditional'|message }}</th>
-              <th>{{ 'form-neutral'|message }}</th>
-              <th>{{ 'form-no'|message }}</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>{{ helpers.count( reviews, 'recommendation', 2 ) }}</td>
-              <td>{{ helpers.count( reviews, 'recommendation', 1 ) }}</td>
-              <td>{{ helpers.count( reviews, 'recommendation', 0 ) }}</td>
-              <td>{{ helpers.count( reviews, 'recommendation', -1 ) }}</td>
-            </tr>
-          </tbody>
-        </table>
-        <section class="panel panel-default muted">
-          <div class="panel-heading">
-            <a class="accordion-toggle collapsed" data-toggle="collapse" href="#recommendation-notes">
-              <span class="text-muted">{{ 'reviews-notes'|message }}</span>
-            </a>
-          </div>
-          <div id="recommendation-notes" class="panel-body panel-collapse collapse">
-            <ul class="list-group">
-            {% for review in reviews %}
-              {% if review.comments %}
-              <li class="list-group-item clearfix">
-                {{ review.comments }}
-                {% if isadmin|default( false ) %}
-                <cite class="pull-right text-muted">&mdash; {{ review.reviewer_name }}</cite>
-                {% endif %}
-              </li>
-              {% endif %}
-            {% endfor %}
-            </ul>
-          </div>
-        </section>
-      </section>
+      {% for q in questions %}
+        {% if q.type == 'score' %}
+          {{ helpers.score( reviews, q, _context ) }}
+        {% elseif q.type == 'recommend' %}
+          {{ helpers.recommend( reviews, q, _context ) }}
+        {% endif %}
+      {% endfor %}
     </div>
   </section>
 </article>
