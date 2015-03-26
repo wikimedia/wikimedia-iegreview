@@ -47,7 +47,7 @@ class Mailer {
 		'AllowEmpty' => false,
 		'CharSet' => 'utf-8',
 		'ContentType' => 'text/plain',
-		'From' => 'iegrants@wikimedia.org',
+		'From' => 'grants@wikimedia.org',
 		'FromName' => 'Wikimedia Grants',
 		'Mailer' => 'smtp',
 		'WordWrap' => 72,
