@@ -55,7 +55,7 @@ class TwigExtension extends \Twig_Extension {
 		return array(
 			new \Twig_SimpleFilter(
 				'wikitext', array( $this, 'wikitextFilterCallback' ),
-				array( 'pre_escape' => 'html', 'is_safe' => array( 'html' ) )
+				array( 'is_safe' => array( 'html' ) )
 			),
 		);
 	}

@@ -72,7 +72,7 @@ class ParsoidClient {
 			$parsed = $this->fetchParse( $text );
 			if ( $parsed === false ) {
 				// return raw text if fetch fails
-				$parsed = $text;
+				$parsed = htmlspecialchars( $text, ENT_QUOTES, 'UTF-8' );
 			} else {
 				$this->cachePut( $key, $parsed );
 			}
