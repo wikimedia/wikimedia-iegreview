@@ -85,6 +85,21 @@ class Campaigns extends AbstractDao {
 
 
 	/**
+	 * Get total proposal count for a given campaign
+	 * @param int $campaign Campaign ID
+	 * @return int Number of proposals
+	 */
+	public function getProposalCount( $campaign ) {
+		$sql = self::concat(
+			'SELECT COUNT(id) AS total',
+			'FROM proposals',
+			'WHERE campaign = ?'
+		);
+		return $this->fetch( $sql, array( $campaign ) );
+	}
+
+
+	/**
 	 * @param int $id Fetches reviewers registered in the system
 	 * If no parameter is passed, all registered reviewers are returned
 	 */
@@ -100,6 +115,72 @@ class Campaigns extends AbstractDao {
 				'WHERE u.id = cu.user_id AND cu.campaign_id = ?'
 			);
 			return $this->fetchAll( $sql, array( $id ) );
+		}
+	}
+
+
+	/**
+	 * Get stats on reviewers from a given campaign
+	 * @param int $campaign Campaign ID
+	 * @return array Reviewer stats - proposals reviewed, total proposals, username
+	 */
+	public function getReviewerStats( $campaign ) {
+		$fields = array(
+			'cu.campaign_id',
+			'cu.user_id',
+			'COALESCE(ra.reviewed, 0) AS reviewed',
+			'u.username'
+		);
+		$sql = self::concat(
+			'SELECT', implode( ',', $fields ),
+			'FROM campaign_users cu',
+			'LEFT OUTER JOIN (',
+				'SELECT COUNT(DISTINCT proposal) AS reviewed,',
+				'reviewer',
+				'FROM review_answers',
+				'WHERE proposal IN (',
+					'SELECT id FROM proposals WHERE campaign = :campaign',
+				') GROUP BY reviewer',
+			') ra ON ra.reviewer = cu.user_id',
+			'INNER JOIN (',
+				'SELECT username, id FROM users',
+			') u ON u.id = cu.user_id',
+			'WHERE cu.campaign_id = :campaign',
+			'ORDER BY ra.reviewed DESC'
+		);
+		$result = $this->fetchAll( $sql, array( 'campaign' => $campaign ) );
+		$totalProposals = $this->getProposalCount( $campaign );
+
+		array_walk( $result, function ( &$val, $key, $totalProposals ) {
+			$val['total'] = $totalProposals['total'];
+		}, $totalProposals );
+		return $result;
+	}
+
+
+	/**
+	 * Fetch reviews by given user for given campaign
+	 * @param int $user User ID
+	 * @param int $campaign Campaign ID
+	 * @return array proposals reviewed by a given user in a given campaign
+	 */
+	public function getReviewsByUser( $user, $campaign ) {
+		if ( !$this->isReviewer( $campaign, $user ) ) {
+			return false;
+		} else {
+			$sql = self::concat(
+				'SELECT ra.proposal, ra.reviewer, ra.points, p.title, p.amount, p.theme',
+				'FROM review_answers ra',
+				'INNER JOIN proposals p ON p.id = ra.proposal',
+				'WHERE p.campaign = :campaign',
+				'AND ra.reviewer = :user',
+				'GROUP BY p.title'
+			);
+			$data = array(
+				'campaign' => $campaign,
+				'user' => $user
+			);
+			return $this->fetchAll( $sql, $data );
 		}
 	}
 

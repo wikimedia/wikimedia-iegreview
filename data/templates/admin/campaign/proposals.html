@@ -23,60 +23,33 @@
 <ol class="breadcrumb">
   <li>{{ 'nav-admin'|message }}</li>
   <li>{{ 'nav-campaigns'|message }}</li>
+  <li>{{ 'nav-campaigns-reviewers'|message }}</li>
+  <li>{{ 'nav-campaigns-reviewers-proposals'|message }}</li>
 </ol>
-
-<form class="form-inline" method="get" action="{{ urlFor( route ) }}" role="form">
-  <input type="hidden" name="p" value="0">
-  <div class="form-group">
-    <label class="sr-only" for="name">{{ 'admin-campaigns-name'|message }}</label>
-    <input type="text" id="name" name="name" class="form-control" placeholder="{{ 'admin-campaigns-name'|message }}" value="{{ name }}">
-  </div>
-
-  <div class="form-group">
-    <button type="submit" class="btn btn-sm btn-primary">
-      <i class="glyphicon glyphicon-search"></i>
-      {{ 'admin-campaigns-form-go'|message }}
-    </button>
-  </div>
-
-  {% if isadmin|default(false) %}
-  <div class="form-group">
-    <a class="btn btn-sm btn-default" href="{{ urlFor( 'admin_campaign', { 'id':'new' } ) }}">
-      <i class="glyphicon glyphicon-plus"></i>
-      {{ 'admin-campaigns-add'|message }}
-    </a>
-  </div>
-  {% endif %}
-</form>
-
-<p></p>
 
 <table class="table table-striped table-hover table-condensed table-responsive">
   <tr>
-    {{ _self.sortHeader( 'admin-campaigns-id', 'id', ctx, 'text-right' ) }}
-    {{ _self.sortHeader( 'admin-campaigns-name', 'name', ctx ) }}
-    {{ _self.sortHeader( 'admin-campaigns-start', 'start', ctx ) }}
-    {{ _self.sortHeader( 'admin-campaigns-end', 'end', ctx ) }}
-    {{ _self.sortHeader( 'admin-campaigns-active', 'status', ctx ) }}
-    {{ _self.sortHeader( 'admin-campaigns-reviewers-report', 'reviewer', ctx ) }}
+    {{ _self.sortHeader( 'admin-proposal-title', 'name', ctx ) }}
+    {{ _self.sortHeader( 'admin-proposal-theme', 'reviewed', ctx ) }}
+    {{ _self.sortHeader( 'admin-proposal-amount', 'percentage', ctx ) }}
   </tr>
-  {% for row in records %}
-  <tr class="{{ cycle( [ 'oddrow', 'evenrow' ], loop.index ) }}">
-    <td class="text-right">{{ row.id }}</td>
-    <td><a href="{{ urlFor( 'admin_campaign', { 'id':row.id} ) }}">{{ row.name }}</a></td>
-    <td>{{ row.start_date }}</td>
-    <td>{{ row.end_date }}</td>
-    <td>{{ _self.showBool( row.status ) }}</td>
-    <td><a href="{{ urlFor( 'admin_campaign_reviewers', { 'id':row.id} ) }}">{{ 'admin-campaigns-reviewers-report'|message }}</a></td>
   </tr>
+  {% if records is not empty %}
+    {% for row in records %}
+      <tr>
+        <td><a href="{{ urlFor( 'proposals_view', { 'id':row.proposal } ) }}">{{ row.title }}</a></td>
+        <td>{{ row.theme }}</td>
+        <td>{{ row.amount }}</td>
+      </tr>
+    {% endfor %}
   {% else %}
   <tr><td colspan="8">{{ 'no-results'|message }}</td></tr>
-  {% endfor %}
+  {% endif %}
 </table>
 
 <div class="row">
   <div class="col-md-3">
-    <p class="text-right">{{ 'page-of-pages'|message(  p + 1, pages ) }}</p>
+    <p class="text-right">{{ 'page-of-pages'|message( p + 1, pages ) }}</p>
   </div>
   <div class="col-md-9">
     <ul class="pagination">
