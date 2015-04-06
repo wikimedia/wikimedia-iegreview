@@ -1,0 +1,75 @@
+{% extends "admin/base.html" %}
+{% set route = app.router.getCurrentRoute.getName %}
+{% set ctx = _context %}
+
+{% macro showBool( val ) %}
+{{ val ? 'admin-users-yes'|message : 'admin-users-no'|message }}
+{% endmacro %}
+
+{% macro sortHeader( label, column, ctx, class ) %}
+{% set sorted = ctx.s == column %}
+{% if sorted %}
+  {% set o = ctx.o == 'desc' ? 'desc' : 'asc' %}
+  {% set nextO = o == 'asc' ? 'desc' : 'asc' %}
+{% else %}
+  {% set nextO = 'asc' %}
+{% endif %}
+<th><a class="sortable {{ sorted ? "sorted-#{o}" : 'unsorted' }} {{ class|default( '' ) }}" href="{{ urlFor( ctx.route, { 'id':ctx.campid } ) }}?{{ qsMerge( { 's':column, 'o':nextO } ) }}">{{ label|message }}</a></th>
+{% endmacro %}
+
+{% block subtitle %}{{ 'nav-campaigns'|message }}{% endblock %}
+{% block content %}
+{% spaceless %}
+<ol class="breadcrumb">
+  <li>{{ 'nav-admin'|message }}</li>
+  <li>{{ 'nav-campaigns'|message }}</li>
+  <li>{{ 'nav-campaigns-reviewers'|message }}</li>
+</ol>
+
+<table class="table table-striped table-hover table-condensed table-responsive">
+  <tr>
+    {{ _self.sortHeader( 'admin-reviewer-name', 'username', ctx ) }}
+    {{ _self.sortHeader( 'admin-reviewer-proposals-reviewed', 'reviewed', ctx ) }}
+    <th>{{ 'admin-reviewer-proposals-total'|message }}</th>
+    {{ _self.sortHeader( 'admin-reviewer-percentage', 'percentage', ctx ) }}
+    <th>{{ 'admin-reviewer-proposals'|message }}</th>
+  </tr>
+  {% for row in records %}
+  <tr class="{{ cycle( [ 'oddrow', 'evenrow' ], loop.index ) }}">
+    <td>{{ row.username }}</td>
+    <td class="text-center">{{ row.reviewed }}</td>
+    <td class="text-center">{{ row.total }}</td>
+    <td class="text-center">{{ ( ( row.reviewed / row.total ) * 100 )|number_format(2) }}%</td>
+    <td><a href="{{ urlFor( 'admin_campaign_proposals', { 'id':row.campaign_id, 'user':row.user_id } ) }}">{{ 'admin-reviewer-proposals'|message }}</a></td>
+  </tr>
+  {% else %}
+  <tr><td colspan="8">{{ 'no-results'|message }}</td></tr>
+  {% endfor %}
+</table>
+
+<div class="row">
+  <div class="col-md-3">
+    <p class="text-right">{{ 'page-of-pages'|message( p + 1, pages ) }}</p>
+  </div>
+  <div class="col-md-9">
+    <ul class="pagination">
+      {% if p > 0 %}
+      <li><a href="{{ urlFor( route, { 'id':ctx.campid } ) }}?{{ qsMerge( { 'p':(p - 1) } ) }}" id="prev">&laquo;</a></li>
+      {% else %}
+      <li class="disabled"><span>&laquo;</span></li>
+      {% endif %}
+      {% if left > 0 %}<li class="disabled"><span>&hellip;</span></li>{% endif %}
+      {% for i in left .. right %}
+      <li class="{{ i == p ? 'active' }}"><a href="{{ urlFor( route ) }}?{{ qsMerge( { 'p':i } ) }}" id="prev">{{ i + 1 }}</a></li>
+      {% endfor %}
+      {% if right < pages - 1 %}<li class="disabled"><span>&hellip;</span></li>{% endif %}
+      {% if p + 1 < pages %}
+      <li><a href="{{ urlFor( route ) }}?{{ qsMerge( { 'p':(p + 1) } ) }}" >&raquo;</a></li>
+      {% else %}
+      <li class="disabled"><span>&raquo;</span></li>
+      {% endif %}
+    </ul>
+  </div>
+</div>
+{% endspaceless %}
+{% endblock content %}
