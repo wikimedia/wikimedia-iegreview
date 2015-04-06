@@ -23,6 +23,7 @@
 	"nav-users": "Manage users",
 	"nav-account": "My Account",
 	"nav-campaigns": "Manage campaigns",
+	"nav-campaigns-reviewers": "Report by reviewers",
 
 	"new-account-subject": "New grants review account",
 	"new-account-email": "A new grants review account has been created for you.\n\nYour login info is:\n\nusername: $1\npassword: $2\n\nYou may login at: $3\n\nYou may change your password at: $4\n\nSincerely,\nGrants review administrators",
@@ -101,6 +102,7 @@
 	"admin-campaigns-start": "Start date",
 	"admin-campaigns-end": "End date",
 	"admin-campaigns-id": "ID",
+	"admin-campaigns-reviewers-report": "Report by Reviewer",
 	"admin-campaigns-active": "Active?",
 	"admin-campaign-create-success": "Campaign created succesfully.",
 	"admin-campaign-create-fail": "Campaign creation failed. Check logs.",
@@ -112,6 +114,12 @@
 	"admin-campaign-reviewers": "Campaign reviewers:",
 	"admin-campaign-question": "Question $1:",
 	"admin-campaign-question-placeholder": "Add question text here",
+
+	"admin-reviewer-name": "Reviewer name",
+	"admin-reviewer-percentage": "Percentage of proposals reviewed",
+	"admin-reviewer-proposals": "Link to proposals reviewed",
+	"admin-reviewer-proposals-total": "Total proposals received",
+	"admin-reviewer-proposals-reviewed": "Number of proposals reviewed",
 
 	"page-of-pages": "Page $1 of $2",
 	"no-results": "No results found",
