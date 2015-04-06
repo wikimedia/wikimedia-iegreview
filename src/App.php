@@ -570,6 +570,12 @@ class App {
 					$page( $id );
 				} )->name( 'admin_campaign' );
 
+				$slim->get( 'campaign/:id/reviewers', function ( $id ) use ( $slim ) {
+					$page = new Controllers\Admin\CampaignReviewers( $slim );
+					$page->setDao( $slim->campaignsDao );
+					$page( $id );
+				} )->name( 'admin_campaign_reviewers' );
+
 				$slim->post( 'campaign.post', function () use ( $slim ) {
 					$page = new Controllers\Admin\Campaign( $slim );
 					$page->setDao( $slim->campaignsDao );

@@ -101,6 +101,7 @@
 	"admin-campaigns-start": "Start date",
 	"admin-campaigns-end": "End date",
 	"admin-campaigns-id": "ID",
+	"admin-campaigns-reviewers-report": "Report by Reviewer",
 	"admin-campaigns-active": "Active?",
 	"admin-campaign-create-success": "Campaign created succesfully.",
 	"admin-campaign-create-fail": "Campaign creation failed. Check logs.",
@@ -112,6 +113,12 @@
 	"admin-campaign-reviewers": "Campaign reviewers:",
 	"admin-campaign-question": "Question $1:",
 	"admin-campaign-question-placeholder": "Add question text here",
+
+	"admin-reviewer-id": "User ID",
+	"admin-reviewer-name": "Reviewer name",
+	"admin-reviewer-stats": "Review stats",
+	"admin-reviewer-stats-message": "$3% ($1 / $2)",
+	"admin-reviewer-proposals": "Proposals reviewed",
 
 	"page-of-pages": "Page $1 of $2",
 	"no-results": "No results found",

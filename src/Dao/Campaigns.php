@@ -105,6 +105,72 @@ class Campaigns extends AbstractDao {
 
 
 	/**
+	 * Get stats on reviewers from a given campaign
+	 * @param int $campaign Campaign ID
+	 * @return array Reviewer stats - proposals reviewed, total proposals, username
+	 */
+	public function getReviewerStats( $campaign ) {
+		$fields = array(
+			'cu.campaign_id',
+			'cu.user_id',
+			'COALESCE(ra.cnt, 0) AS cnt',
+			'COALESCE(p.total, 1) AS total',
+			'u.username'
+		);
+		$sql = self::concat(
+			'SELECT', implode( ',', $fields ),
+			'FROM campaign_users cu',
+			'LEFT OUTER JOIN (',
+				'SELECT COUNT(DISTINCT proposal) AS cnt,',
+				'reviewer',
+				'FROM review_answers',
+				'WHERE proposal IN (',
+					'SELECT id FROM proposals WHERE campaign = :campaign',
+				') GROUP BY reviewer',
+			') ra ON ra.reviewer = cu.user_id',
+			'LEFT JOIN (',
+				'SELECT COUNT(DISTINCT id) AS total,',
+				'campaign',
+				'FROM proposals',
+				'WHERE campaign = :campaign',
+			') p ON p.campaign = cu.campaign_id',
+			'INNER JOIN (',
+				'SELECT username, id FROM users',
+			') u ON u.id = cu.user_id',
+			'WHERE cu.campaign_id = :campaign',
+			'ORDER BY ra.cnt DESC'
+		);
+		return $this->fetchAll( $sql, array( 'campaign' => $campaign ) );
+	}
+
+
+	/**
+	 * Fetch reviews by given user for given campaign
+	 * @param int $user User ID
+	 * @param int $campaign Campaign ID
+	 * @return 
+	 */
+	public function getReviewsByUser( $user, $campaign ) {
+		if ( !$this->isReviewer( $campaign, $user ) ) {
+			return false;
+		} else {
+			$sql = self::concat(
+				'SELECT ra.proposal, ra.reviewer',
+				'FROM review_answers ra',
+				'INNER JOIN proposals p ON p.id = ra.proposal',
+				'WHERE p.campaign = :campaign',
+				'AND ra.reviewer = :user'
+			);
+			$data = array(
+				'campaign' => $campaign,
+				'user' => $user
+			);
+			return $this->fetchAllWithFound( $sql, $data );
+		}
+	}
+
+
+	/**
 	 * @param int $id ID of campaign to end
 	*/
 	public function endCampaign( $id ) {
