@@ -58,6 +58,7 @@
     {{ _self.sortHeader( 'admin-campaigns-start', 'start', ctx ) }}
     {{ _self.sortHeader( 'admin-campaigns-end', 'end', ctx ) }}
     {{ _self.sortHeader( 'admin-campaigns-active', 'status', ctx ) }}
+    {{ _self.sortHeader( 'admin-campaigns-reviewers-report', 'reviewer', ctx ) }}
   </tr>
   {% for row in records %}
   <tr class="{{ cycle( [ 'oddrow', 'evenrow' ], loop.index ) }}">
@@ -66,6 +67,7 @@
     <td>{{ row.start_date }}</td>
     <td>{{ row.end_date }}</td>
     <td>{{ _self.showBool( row.status ) }}</td>
+    <td><a href="{{ urlFor( 'admin_campaign_reviewers', { 'id':row.id} ) }}">{{ 'admin-campaigns-reviewers-report'|message }}</a></td>
   </tr>
   {% else %}
   <tr><td colspan="8">{{ 'no-results'|message }}</td></tr>

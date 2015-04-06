@@ -105,6 +105,45 @@ class Campaigns extends AbstractDao {
 
 
 	/**
+	 * Get count of proposals for a given campaign
+	 * @param int $campaign Campaign ID
+	 */
+	public function getProposalCount( $campaign ) {
+		$sql = self::concat(
+			'SELECT campaign, COUNT(*) AS count',
+			'FROM proposals p',
+			'WHERE p.campaign = ?'
+		);
+		return $this->fetchAll( $sql, array( $campaign ) );
+	}
+
+
+	/**
+	 * Fetch reviews by given user for given campaign
+	 * @param int $user User ID
+	 * @param int $campaign Campaign ID
+	 */
+	public function getReviewsByUser( $user, $campaign ) {
+		if ( !$this->isReviewer( $campaign, $user ) ) {
+			return false;
+		} else {
+			$sql = self::concat(
+				'SELECT ra.proposal, ra.reviewer',
+				'FROM review_answers ra',
+				'INNER JOIN proposals p ON p.id = ra.proposal',
+				'WHERE p.campaign = :campaign',
+				'AND ra.reviewer = :user'
+			);
+			$data = array(
+				'campaign' => $campaign,
+				'user' => $user
+			);
+			return $this->fetchAllWithFound( $sql, $data );
+		}
+	}
+
+
+	/**
 	 * @param int $id ID of campaign to end
 	*/
 	public function endCampaign( $id ) {
