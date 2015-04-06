@@ -23,6 +23,8 @@
 	"nav-users": "Manage users",
 	"nav-account": "My Account",
 	"nav-campaigns": "Manage campaigns",
+	"nav-campaigns-reviewers": "Report by reviewers",
+	"nav-campaigns-reviewers-proposals": "Proposals",
 
 	"new-account-subject": "New grants review account",
 	"new-account-email": "A new grants review account has been created for you.\n\nYour login info is:\n\nusername: $1\npassword: $2\n\nYou may login at: $3\n\nYou may change your password at: $4\n\nSincerely,\nGrants review administrators",
@@ -101,6 +103,7 @@
 	"admin-campaigns-start": "Start date",
 	"admin-campaigns-end": "End date",
 	"admin-campaigns-id": "ID",
+	"admin-campaigns-reviewers-report": "Report by Reviewer",
 	"admin-campaigns-active": "Active?",
 	"admin-campaign-create-success": "Campaign created succesfully.",
 	"admin-campaign-create-fail": "Campaign creation failed. Check logs.",
@@ -117,6 +120,15 @@
 	"admin-campaign-questiontitle-placeholder": "Add question title here. For example: Criteria A: Innovation",
 	"admin-campaign-questionfooter-placeholder": "Add question footer string here",
 	"admin-campaign-reporthead-placeholder": "Aggregated report column header. For example: Innovation",
+
+	"admin-reviewer-name": "Reviewer name",
+	"admin-reviewer-percentage": "Percentage reviewed",
+	"admin-reviewer-proposals": "Link to proposals reviewed",
+	"admin-reviewer-proposals-total": "Total proposals received",
+	"admin-reviewer-proposals-reviewed": "Proposals reviewed",
+	"admin-proposal-title": "Title",
+	"admin-proposal-theme": "Theme",
+	"admin-proposal-amount": "Amount",
 
 	"page-of-pages": "Page $1 of $2",
 	"no-results": "No results found",
