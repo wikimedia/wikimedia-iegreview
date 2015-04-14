@@ -111,7 +111,12 @@
 	"admin-new-campaign-in-progress": "Cannot create a new campaign if one is already in progress. Please end the current campaign before starting a new one.",
 	"admin-campaign-reviewers": "Campaign reviewers:",
 	"admin-campaign-question": "Question $1:",
-	"admin-campaign-question-placeholder": "Add question text here",
+	"admin-campaign-questionbody-placeholder": "Add question text here",
+	"admin-campaign-name-placeholder": "Must be unique",
+	"admin-campaign-date-placeholder": "YYYY-MM-DD HH:MM:SS (UTC only)",
+	"admin-campaign-questiontitle-placeholder": "Add question title here. For example: Criteria A: Innovation",
+	"admin-campaign-questionfooter-placeholder": "Add question footer string here",
+	"admin-campaign-reporthead-placeholder": "Aggregated report column header. For example: Innovation",
 
 	"page-of-pages": "Page $1 of $2",
 	"no-results": "No results found",

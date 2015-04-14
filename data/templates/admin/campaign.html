@@ -39,7 +39,7 @@
       {{ 'admin-campaign-new'|message }}
     </label>
     <div class="col-sm-6">
-      <input type="text" class="form-control" name="name" id="name" placeholder="Must be unique" value="{{ campaign.name }}" required="required">
+      <input type="text" class="form-control" name="name" id="name" placeholder="{{ 'admin-campaign-name-placeholder'|message }}" value="{{ campaign.name }}" required="required">
     </div>
   </div>
 
@@ -48,7 +48,7 @@
       {{ 'admin-campaign-start-date'|message }}
     </label>
     <div class="col-sm-6">
-      <input type="date" class="form-control" name="start_date" id="start_date" placeholder="YYYY-MM-DD HH:MM:SS (UTC only)" value="{{ campaign.start_date }}" required="required">
+      <input type="date" class="form-control" name="start_date" id="start_date" placeholder="{{ 'admin-campaign-date-placeholder'|message }}" value="{{ campaign.start_date }}" required="required">
     </div>
   </div>
 
@@ -57,7 +57,7 @@
       {{ 'admin-campaign-end-date'|message }}
     </label>
     <div class="col-sm-6">
-      <input type="date" class="form-control" name="end_date" id="end_date" placeholder="YYYY-MM-DD HH:MM:SS (UTC only)" value="{{ campaign.end_date }}" required="required">
+      <input type="date" class="form-control" name="end_date" id="end_date" placeholder="{{ 'admin-campaign-date-placeholder'|message }}" value="{{ campaign.end_date }}" required="required">
     </div>
   </div>
 
@@ -67,16 +67,16 @@
       {{ 'admin-campaign-question'|message( loop.index ) }}
     </label>
     <div class="col-sm-10 {{ "qtitles[#{row.id}]" in errors ? 'has-error' }}">
-      <input type="text" class="form-control" name="qtitles[{{ row.id }}]" value="{{ row.question_title }}" placeholder="Add question title here" required>
+      <input type="text" class="form-control" name="qtitles[{{ row.id }}]" value="{{ row.question_title }}" placeholder="{{ 'admin-campaign-questiontitle-placeholder'|message }}" required>
     </div>
     <div class="col-sm-10 col-sm-offset-2 {{ "questions[#{row.id}]" in errors ? 'has-error' }}">
-      <textarea class="form-control" rows="6" name="questions[{{ row.id }}]" placeholder="{{ 'admin-campaign-question-placeholder'|message }}">{{ row.question_body }}</textarea>
+      <textarea class="form-control" rows="6" name="questions[{{ row.id }}]" placeholder="{{ 'admin-campaign-questionbody-placeholder'|message }}">{{ row.question_body }}</textarea>
     </div>
     <div class="col-sm-10 col-sm-offset-2 {{ "qfooters[#{row.id}]" in errors ? 'has-error' }}">
-      <input type="text" class="form-control" name="qfooters[{{ row.id }}]" value="{{ row.question_footer }}" placeholder="Add question footer string here" required>
+      <input type="text" class="form-control" name="qfooters[{{ row.id }}]" value="{{ row.question_footer }}" placeholder="{{ 'admin-campaign-questionfooter-placeholder'|message }}" required>
     </div>
     <div class="col-sm-10 col-sm-offset-2 {{ "qreporthead[#{row.id}]" in errors ? 'has-error' }}">
-      <input type="text" class="form-control" name="qreporthead[{{ row.id }}]" value="{{ row.report_head }}" placeholder="Report column header" required>
+      <input type="text" class="form-control" name="qreporthead[{{ row.id }}]" value="{{ row.report_head }}" placeholder="{{ 'admin-campaign-reporthead-placeholder'|message }}" required>
     </div>
   </div>
 {% endfor %}
