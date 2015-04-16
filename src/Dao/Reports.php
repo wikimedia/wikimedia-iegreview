@@ -66,6 +66,7 @@ class Reports extends AbstractDao {
 			'order' => 'desc',
 			'items' => 20,
 			'page' => 0,
+			'theme' => null,
 		);
 		$params = array_merge( $defaults, $params );
 
@@ -84,6 +85,12 @@ class Reports extends AbstractDao {
 		$crit = array();
 		$crit['campaign'] = $campaign;
 
+		$where = array( 'p.campaign = :campaign' );
+		if ( $params['theme'] !== null ) {
+			$where[] = 'p.theme = :theme';
+			$crit['theme'] = $params['theme'];
+		}
+
 		if ( $params['items'] == 'all' ) {
 			$limit = '';
 			$offset = '';
@@ -99,6 +106,7 @@ class Reports extends AbstractDao {
 			'p.title',
 			'p.amount',
 			'p.theme',
+			'p.url',
 		);
 
 		$joins = array();
@@ -136,85 +144,45 @@ class Reports extends AbstractDao {
 			'SELECT', implode( ',', $fields ),
 			'FROM proposals p',
 			$joins,
-			'WHERE p.campaign = :campaign',
+			self::buildWhere( $where ),
 			"ORDER BY {$sortby} {$order}, id {$order}",
 			$limit, $offset
 		);
 		return $this->fetchAllWithFound( $sql, $crit );
 	}
 
+
 	/**
+	 * @param int $campaign Active campaign ID
+	 * @param array $questions
 	 * @param array $params
 	 * @return object StdClass with rows and found memebers
 	 */
-	public function export( array $params ) {
+	public function export( $campaign, array $questions, array $params ) {
 		$this->logger->debug( __METHOD__, $params );
 		$defaults = array(
+			'sort' => 'pcnt',
+			'order' => 'desc',
+			'items' => 'all',
+			'page' => 0,
 			'theme' => null,
 		);
 		$params = array_merge( $defaults, $params );
 
-		$where = array();
-		$crit = array();
-		if ( $params['theme'] !== null ) {
-			$where[] = 'p.theme = :theme';
-			$crit['theme'] = $params['theme'];
-		}
-
-		$sql = self::concat(
-			'SELECT p.id, p.title, p.url,p.theme,',
-			'r.impact,',
-			'r.innovation,',
-			'r.ability,',
-			'r.engagement,',
-			'r.recommend,',
-			'IF(r.conditional >0, \'*\', \'\') AS conditional,',
-			'r.cnt AS rcnt,',
-			'ROUND((r.recommend / r.cnt) * 100, 2) AS pcnt',
-			'FROM proposals p',
-			'INNER JOIN (',
-				'SELECT COUNT(*) AS cnt,',
-				'AVG(impact) AS impact,',
-				'AVG(innovation) AS innovation,',
-				'AVG(ability) AS ability,',
-				'AVG(engagement) AS engagement,',
-				'SUM(IF(recommendation > 0, 1, 0)) AS recommend,',
-				'SUM(IF(recommendation = 1, 1, 0)) AS conditional,',
-				'proposal',
-				'FROM reviews',
-				'GROUP BY proposal',
-			') r ON p.id = r.proposal',
-			self::buildWhere( $where ),
-			"ORDER BY pcnt DESC, id DESC"
-		);
-		$results = $this->fetchAllWithFound( $sql, $crit );
+		$results = $this->aggregatedScores( $campaign, $questions, $params );
 
 		$commentsSql = self::concat(
-			'SELECT proposal,',
-			'impact_note,',
-			'innovation_note,',
-			'ability_note,',
-			'engagement_note,',
-			'comments',
-			'FROM reviews'
+			'SELECT ra.proposal, ra.question, ra.comments',
+			'FROM review_answers ra',
+			'INNER JOIN review_questions rq ON rq.id = ra.question',
+			'WHERE rq.campaign = ?'
 		);
+		$commentsRows = $this->fetchAll( $commentsSql, array( $campaign ) );
 
 		$comments = array();
-		foreach ( $this->fetchAll( $commentsSql ) as $row ) {
-			if ( !isset( $comments[ $row['proposal'] ] ) ) {
-				$comments[ $row['proposal'] ] = array();
-			}
-			if ( $row['impact_note'] ) {
-				$comments[$row['proposal']][] = $row['impact_note'];
-			}
-			if ( $row['innovation_note'] ) {
-				$comments[$row['proposal']][] = $row['innovation_note'];
-			}
-			if ( $row['ability_note'] ) {
-				$comments[$row['proposal']][] = $row['ability_note'];
-			}
-			if ( $row['engagement_note'] ) {
-				$comments[$row['proposal']][] = $row['engagement_note'];
+		foreach ( $commentsRows as $row ) {
+			if ( !isset( $comments[$row['proposal']] ) ) {
+				$comments[$row['proposal']] = array();
 			}
 			if ( $row['comments'] ) {
 				$comments[$row['proposal']][] = $row['comments'];

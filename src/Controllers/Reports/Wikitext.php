@@ -33,6 +33,23 @@ use Wikimedia\IEGReview\Controller;
  */
 class Wikitext extends Controller {
 
+	protected $campaignsDao;
+
+
+	public function setCampaignsDao( $dao ) {
+		$this->campaignsDao = $dao;
+	}
+
+
+	protected function getQuestions() {
+		static $questions = null;
+		if ( $questions === null ) {
+			$questions = $this->campaignsDao->getQuestions( $this->activeCampaign );
+		}
+		return $questions;
+	}
+
+
 	protected function handleGet() {
 		$this->form->expectString( 'th' );
 		$this->form->validate( $_GET );
@@ -40,7 +57,23 @@ class Wikitext extends Controller {
 		$params = array(
 			'theme' => $this->form->get( 'th' ),
 		);
-		$this->view->setData( 'report', $this->dao->export( $params ) );
+		$records = $this->dao->export(
+			$this->activeCampaign, $this->getQuestions(), $params
+		);
+
+		// HACK: map questions to A, B, C, D criteria labels for use in output
+		// template.
+		// FIXME: find a better way to associate questions and the wikitext
+		$questions = array();
+		foreach( $this->getQuestions() as $q ) {
+			if( $q['type'] === 'score' ) {
+				$questions[] = "q{$q['id']}";
+			}
+		}
+		$questions = array_combine( array( 'A', 'B', 'C', 'D' ), $questions );
+
+		$this->view->set( 'questions', $questions );
+		$this->view->setData( 'report', $records );
 		$this->view->set( 'th', $this->form->get( 'th' ) );
 		$this->render( 'reports/wikitext.html' );
 	}
