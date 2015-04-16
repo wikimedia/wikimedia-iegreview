@@ -50,11 +50,10 @@
         <a href="{{ row.url|raw }}" target="_blank">{{ row.title }}</a>
         <textarea class="form-control" rows="10" readonly>
 ==Aggregated feedback from the committee for ''{{ row.title }}''==
-{{ '{{' }}IEG/Committee/Review/Score/2
-| A score={{ row.impact|number_format(1) }}
-| B score={{ row.innovation|number_format(1) }}
-| C score={{ row.ability|number_format(1) }}
-| D score={{ row.engagement|number_format(1) }}
+{{ '{{' }}Inspire/Review/Score
+{% for key, val in questions %}
+| {{ key }} score={{ row[val] }}
+{% endfor %}
 | comments=
 {% for comment in row.comments %}
 * {{ comment|replace( { "\n":' ' } ) }}
