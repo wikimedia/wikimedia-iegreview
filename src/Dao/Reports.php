@@ -143,81 +143,90 @@ class Reports extends AbstractDao {
 		return $this->fetchAllWithFound( $sql, $crit );
 	}
 
+
 	/**
 	 * @param array $params
 	 * @return object StdClass with rows and found memebers
 	 */
-	public function export( array $params ) {
+	public function export( array $questions, array $params ) {
 		$this->logger->debug( __METHOD__, $params );
 		$defaults = array(
 			'theme' => null,
 		);
 		$params = array_merge( $defaults, $params );
 
-		$where = array();
 		$crit = array();
+		$crit['campaign'] = $params['campaign'];
 		if ( $params['theme'] !== null ) {
-			$where[] = 'p.theme = :theme';
+			$where = 'WHERE p.theme = :theme AND p.campaign = :campaign';
 			$crit['theme'] = $params['theme'];
+		} else {
+			$where = 'WHERE p.campaign = :campaign';
 		}
 
+		$fields = array(
+			'p.id',
+			'p.title',
+			'p.amount',
+			'p.theme',
+			'p.url'
+		);
+
+		$joins = array();
+
+		foreach ( $questions as $question ) {
+			$sub = "q{$question['id']}";
+			if ( $question['type'] == 'score' ) {
+				$subselect = self::concat(
+					'SELECT proposal, AVG(points) AS points',
+					'FROM review_answers',
+					"WHERE question = :int_{$sub}",
+					'GROUP BY proposal'
+				);
+				$fields[] = "{$sub}.points AS {$sub}";
+			} else {
+				$subselect = self::concat(
+					'SELECT proposal,',
+					'SUM(IF(points > 0, 1, 0)) AS recommend,',
+					'SUM(IF(points = 1, 1, 0)) AS conditional,',
+					'COUNT(DISTINCT reviewer) AS cnt',
+					'FROM review_answers',
+					"WHERE question = :int_{$sub}",
+					'GROUP BY proposal'
+				);
+
+				$fields[] = "{$sub}.recommend as recommend";
+				$fields[] = "IF({$sub}.conditional >0, '*', '') AS conditional";
+				$fields[] = "{$sub}.cnt AS rcnt";
+				$fields[] = "ROUND(({$sub}.recommend / {$sub}.cnt) * 100, 2) AS pcnt";
+			}
+			$joins[] = "LEFT OUTER JOIN ({$subselect}) {$sub} ON p.id = {$sub}.proposal";
+			$crit["int_{$sub}"] = $question['id'];
+		}
 		$sql = self::concat(
-			'SELECT p.id, p.title, p.url,p.theme,',
-			'r.impact,',
-			'r.innovation,',
-			'r.ability,',
-			'r.engagement,',
-			'r.recommend,',
-			'IF(r.conditional >0, \'*\', \'\') AS conditional,',
-			'r.cnt AS rcnt,',
-			'ROUND((r.recommend / r.cnt) * 100, 2) AS pcnt',
+			'SELECT', implode( ',', $fields ),
 			'FROM proposals p',
-			'INNER JOIN (',
-				'SELECT COUNT(*) AS cnt,',
-				'AVG(impact) AS impact,',
-				'AVG(innovation) AS innovation,',
-				'AVG(ability) AS ability,',
-				'AVG(engagement) AS engagement,',
-				'SUM(IF(recommendation > 0, 1, 0)) AS recommend,',
-				'SUM(IF(recommendation = 1, 1, 0)) AS conditional,',
-				'proposal',
-				'FROM reviews',
-				'GROUP BY proposal',
-			') r ON p.id = r.proposal',
-			self::buildWhere( $where ),
+			$joins, $where,
 			"ORDER BY pcnt DESC, id DESC"
 		);
 		$results = $this->fetchAllWithFound( $sql, $crit );
 
 		$commentsSql = self::concat(
-			'SELECT proposal,',
-			'impact_note,',
-			'innovation_note,',
-			'ability_note,',
-			'engagement_note,',
-			'comments',
-			'FROM reviews'
+			'SELECT ra.proposal, ra.question, ra.comments, rq.type',
+			'FROM review_answers ra',
+			'INNER JOIN review_questions rq',
+			'ON rq.id = ra.question',
+			'WHERE rq.campaign = ?'
 		);
+		$commentsRows = $this->fetchAll( $commentsSql, array( $params['campaign'] ) );
 
 		$comments = array();
-		foreach ( $this->fetchAll( $commentsSql ) as $row ) {
+		foreach ( $commentsRows as $row ) {
 			if ( !isset( $comments[ $row['proposal'] ] ) ) {
 				$comments[ $row['proposal'] ] = array();
 			}
-			if ( $row['impact_note'] ) {
-				$comments[$row['proposal']][] = $row['impact_note'];
-			}
-			if ( $row['innovation_note'] ) {
-				$comments[$row['proposal']][] = $row['innovation_note'];
-			}
-			if ( $row['ability_note'] ) {
-				$comments[$row['proposal']][] = $row['ability_note'];
-			}
-			if ( $row['engagement_note'] ) {
-				$comments[$row['proposal']][] = $row['engagement_note'];
-			}
 			if ( $row['comments'] ) {
-				$comments[$row['proposal']][] = $row['comments'];
+				$comments[ $row['proposal'] ][] = $row['comments'];
 			}
 		}
 

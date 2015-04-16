@@ -523,6 +523,7 @@ class App {
 				$slim->get( 'wikitext', function () use ( $slim ) {
 					$page = new Controllers\Reports\Wikitext( $slim );
 					$page->setDao( $slim->reportsDao );
+					$page->setCampaignsDao( $slim->campaignsDao );
 					$page();
 				} )->name( 'reports_wikitext' );
 
