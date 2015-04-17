@@ -31,6 +31,9 @@
   {{ forms.number( ctx, 'proposals-edit-amount', 'amount', { 'placeholder':'proposals-edit-amount-placeholder'|message } ) }}
   {{ forms.textArea( ctx, 'proposals-edit-description', 'description', { 'elmclass':'monospace' } ) }}
   {{ forms.textArea( ctx, 'proposals-edit-notes', 'notes', { 'elmclass':'monospace' } ) }}
+  {% if id != 'new' %}
+    {{ forms.checkbox( ctx, 'proposals-edit-status', 'status' ) }}
+  {% endif %}
   <button type="submit" class="btn btn-primary pull-right" id="submit" name="submit">
     <i class="glyphicon glyphicon-ok"></i> {{ 'proposals-edit-submit'|message }}
   </button>
