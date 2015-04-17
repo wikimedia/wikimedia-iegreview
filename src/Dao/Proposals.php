@@ -59,6 +59,7 @@ class Proposals extends AbstractDao {
 	 */
 	public function createProposal( array $data ) {
 		$data['created_by'] = $this->userId ?: null;
+		$data['status'] = 'open';
 		$cols = array_keys( $data );
 		$params = self::makeBindParams( $cols );
 		$sql = self::concat(
@@ -102,7 +103,7 @@ class Proposals extends AbstractDao {
 	public function updateProposal( $id, $data ) {
 		$fields = array(
 			'title', 'description', 'url', 'amount', 'theme', 'notes',
-			'campaign', 'modified_by',
+			'campaign', 'status', 'modified_by',
 		);
 		$placeholders = array();
 		foreach ( $fields as $field ) {
@@ -117,6 +118,9 @@ class Proposals extends AbstractDao {
 		);
 		$data['id'] = $id;
 		$data['modified_by'] = $this->userId;
+		if ( $data['status'] === 'true' ) {
+			$data['status'] = 'abandoned';
+		}
 
 		return $this->update( $sql, $data );
 	}
@@ -212,6 +216,8 @@ class Proposals extends AbstractDao {
 			"LEFT OUTER JOIN ({$reviewCountSql}) rc on p.id = rc.proposal",
 			"LEFT OUTER JOIN ({$myReviewCountSql}) mc on p.id = mc.proposal",
 		);
+
+		$where[] = "status = 'open'";
 
 		$sql = self::concat(
 			'SELECT SQL_CALC_FOUND_ROWS', implode( ',', $fields ),

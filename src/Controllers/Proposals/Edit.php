@@ -42,6 +42,7 @@ class Edit extends Controller {
 				'amount'      => null,
 				'theme'       => null,
 				'notes'       => null,
+				'status'      => false
 			),
 			$defaults
 		);
@@ -68,6 +69,10 @@ class Edit extends Controller {
 			'default' => $defaults['notes'],
 		) );
 
+		$this->form->expectString( 'status', array(
+			'default' => $defaults['status'],
+		) );
+
 		$this->log->debug( print_r( $this->form, true ) );
 		$this->view->setData( 'form', $this->form );
 	}
@@ -75,6 +80,11 @@ class Edit extends Controller {
 	protected function handleGet( $id ) {
 		if ( is_numeric( $id ) ) {
 			$proposal = $this->dao->getProposal( $id );
+			if ( $proposal['status'] == 'open' ) {
+				$proposal['status'] = false;
+			} else {
+				$proposal['status'] = true;
+			}
 		} else {
 			$proposal = array();
 		}
@@ -96,6 +106,7 @@ class Edit extends Controller {
 				'amount' => $this->form->get( 'amount' ),
 				'theme' => $this->form->get( 'theme' ),
 				'notes' => $this->form->get( 'notes' ),
+				'status' => $this->form->get( 'status' ),
 				'campaign' => $this->activeCampaign
 			);
 
