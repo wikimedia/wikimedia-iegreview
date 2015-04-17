@@ -42,6 +42,7 @@ class Edit extends Controller {
 				'amount'      => null,
 				'theme'       => null,
 				'notes'       => null,
+				'status'      => 'open'
 			),
 			$defaults
 		);
@@ -66,6 +67,12 @@ class Edit extends Controller {
 
 		$this->form->expectString( 'notes', array(
 			'default' => $defaults['notes'],
+		) );
+
+		$this->form->requireInArray( 'status',
+			array( 'open', 'abandoned', 'accepted', 'rejected' ),
+			array(
+				'default' => $defaults['status'],
 		) );
 
 		$this->log->debug( print_r( $this->form, true ) );
@@ -96,6 +103,7 @@ class Edit extends Controller {
 				'amount' => $this->form->get( 'amount' ),
 				'theme' => $this->form->get( 'theme' ),
 				'notes' => $this->form->get( 'notes' ),
+				'status' => $this->form->get( 'status' ),
 				'campaign' => $this->activeCampaign
 			);
 

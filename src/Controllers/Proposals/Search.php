@@ -37,6 +37,10 @@ class Search extends Controller {
 		$this->form->expectString( 't' );
 		$this->form->expectString( 'th' );
 		$this->form->expectString( 'campaign' );
+		$this->form->expectInArray( 'stat',
+			array( 'open', 'approved', 'rejected', 'abandoned' ),
+			array( 'default' => 'open' )
+		);
 		$this->form->expectInt( 'items',
 			array( 'min_range' => 1, 'max_range' => 250, 'default' => 50 )
 		);
@@ -50,6 +54,7 @@ class Search extends Controller {
 		$this->view->set( 't', $this->form->get( 't' ) );
 		$this->view->set( 'th', $this->form->get( 'th' ) );
 		$this->view->set( 'campaign', $this->form->get( 'campaign' ) );
+		$this->view->set( 'stat', $this->form->get( 'stat' ) );
 		$this->view->set( 'items', $this->form->get( 'items' ) );
 		$this->view->set( 'p', $this->form->get( 'p' ) );
 		$this->view->set( 's', $this->form->get( 's' ) );
@@ -67,6 +72,7 @@ class Search extends Controller {
 				'title' => $this->form->get( 't' ),
 				'theme' => $this->form->get( 'th' ),
 				'campaign' => $this->form->get( 'campaign' ),
+				'status' => $this->form->get( 'stat' ),
 				'sort' => $this->form->get( 's' ),
 				'order' => $this->form->get( 'o' ),
 				'items' => $this->form->get( 'items' ),

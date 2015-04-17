@@ -49,6 +49,18 @@
     </select>
   </div>
 
+  {% if isadmin|default(false) %}
+  <div class="form-group">
+    <label class="sr-only" for="stat">{{ 'proposals-search-status'|message }}</label>
+    <select id="stat" name="stat" class="form-control">
+      <option value="">{{ 'proposals-search-status-empty'|message }}</option>
+      {% for val in [ 'open', 'approved', 'rejected', 'abandoned' ] %}
+      <option value="{{ val }}" {{ val == stat ? 'selected="selected"' }}>{{ "status-#{val}"|message }}</option>
+      {% endfor %}
+    </select>
+  </div>
+  {% endif %}
+
   <div class="form-group">
     <button type="submit" class="btn btn-sm btn-primary">
       <i class="glyphicon glyphicon-search"></i>

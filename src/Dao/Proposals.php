@@ -59,6 +59,7 @@ class Proposals extends AbstractDao {
 	 */
 	public function createProposal( array $data ) {
 		$data['created_by'] = $this->userId ?: null;
+		$data['status'] = 'open';
 		$cols = array_keys( $data );
 		$params = self::makeBindParams( $cols );
 		$sql = self::concat(
@@ -102,13 +103,12 @@ class Proposals extends AbstractDao {
 	public function updateProposal( $id, $data ) {
 		$fields = array(
 			'title', 'description', 'url', 'amount', 'theme', 'notes',
-			'campaign', 'modified_by',
+			'campaign', 'status', 'modified_by',
 		);
 		$placeholders = array();
 		foreach ( $fields as $field ) {
 			$placeholders[] = "{$field} = :{$field}";
 		}
-
 		$sql = self::concat(
 			'UPDATE proposals SET',
 			implode( ', ', $placeholders ),
@@ -131,6 +131,7 @@ class Proposals extends AbstractDao {
 			'title' => null,
 			'theme' => null,
 			'campaign' => null,
+			'status' => 'open',
 			'sort' => 'title',
 			'order' => 'asc',
 			'items' => 20,
@@ -171,6 +172,10 @@ class Proposals extends AbstractDao {
 		if ( $params['campaign'] !== null ) {
 			$where[] = 'p.campaign = :campaign';
 			$crit['campaign'] = $params['campaign'];
+		}
+		if ( !empty( $params['status'] ) ) {
+			$where[] = 'p.status = :status';
+			$crit['status'] = $params['status'];
 		}
 
 		$fields = array(

@@ -85,7 +85,7 @@ class Reports extends AbstractDao {
 		$crit = array();
 		$crit['campaign'] = $campaign;
 
-		$where = array( 'p.campaign = :campaign' );
+		$where = array( 'p.campaign = :campaign', "p.status = 'open'" );
 		if ( $params['theme'] !== null ) {
 			$where[] = 'p.theme = :theme';
 			$crit['theme'] = $params['theme'];
@@ -107,6 +107,7 @@ class Reports extends AbstractDao {
 			'p.amount',
 			'p.theme',
 			'p.url',
+			'p.status'
 		);
 
 		$joins = array();
