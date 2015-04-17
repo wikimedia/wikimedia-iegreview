@@ -119,6 +119,9 @@
 	"csrf-heading": "Invalid request",
 	"csrf-message": "The request that was submitted was missing the request forgery protection token. Please return to the form, reload the page and try again.",
 
+	"proposal-valid": "Valid.",
+	"proposal-abandoned": "Invalid. Please note that selecting this option will prevent this proposal from showing up anywhere in the application.",
+
 	"proposals-edit-error": "Your submission has errors.  Please correct the following errors and submit the form again.",
 	"proposals-edit-title": "Title",
 	"proposals-edit-title-error": "Title is required.",
@@ -135,6 +138,8 @@
 	"proposals-edit-submit": "Save proposal",
 	"proposals-edit-save": "Changes saved.",
 	"proposals-edit-save-error": "Failed to save changes.",
+	"proposals-edit-status": "Proposal status:",
+	"proposals-edit-status-empty": "Please select.",
 
 	"proposals-view-url": "URL:",
 	"proposals-view-amount": "Amount:",

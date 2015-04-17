@@ -99,6 +99,7 @@ class Reports extends AbstractDao {
 			'p.title',
 			'p.amount',
 			'p.theme',
+			'p.status'
 		);
 
 		$joins = array();
@@ -136,7 +137,7 @@ class Reports extends AbstractDao {
 			'SELECT', implode( ',', $fields ),
 			'FROM proposals p',
 			$joins,
-			'WHERE p.campaign = :campaign',
+			'WHERE p.campaign = :campaign AND p.status = "open"',
 			"ORDER BY {$sortby} {$order}, id {$order}",
 			$limit, $offset
 		);
