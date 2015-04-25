@@ -243,7 +243,17 @@
 	"proposals-queue-theme-empty": "Select theme",
 	"proposals-queue-go": "Filter queue",
 
+	"user-manage-username": "Username:",
+	"user-manage-email": "Email address:",
+	"user-manage-blocked": "Disable account",
+	"user-manage-update": "Update details",
+	"manage-account": "Manage account",
+	"user-manage-blocked-helptext": "Please note that after disabling your account you will no longer be able to log in to the application. Your email address and username will be automatically removed from the app.",
+	"user-manage-update-error": "Your details could not be updated at this moment. Please check the logs to find out why.",
+	"user-manage-update-success": "Your details have been updated.",
+	"user-manage-form-error": "The form data is invalid. Please re-check and submit again.",
+
 	"currency-usd": "USD",
 
-  "reports-wikitext-go": "Filter report"
+	"reports-wikitext-go": "Filter report"
 }

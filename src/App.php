@@ -436,6 +436,18 @@ class App {
 					$slim->redirect( $slim->urlFor( 'user_changepassword' ) );
 				} )->name( 'user_home' );
 
+				$slim->get( 'manageAccount', function () use ( $slim ) {
+					$page = new Controllers\User\ManageAccount( $slim );
+					$page->setDao( $slim->usersDao );
+					$page();
+				} )->name( 'user_manageaccount' );
+
+				$slim->post( 'manageAccount', function () use ( $slim ) {
+					$page = new Controllers\User\ManageAccount( $slim );
+					$page->setDao( $slim->usersDao );
+					$page();
+				} )->name( 'user_manageaccount_post' );
+
 				$slim->get( 'changePassword', function () use ( $slim ) {
 					$page = new Controllers\User\ChangePassword( $slim );
 					$page();
