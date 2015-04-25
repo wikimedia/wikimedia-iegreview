@@ -205,5 +205,15 @@
 	"theme-online": "Theme long name",
 	"theme-research": "Theme long name",
 	"theme-tool": "Theme long name",
-	"username": "Input label, followed by text box.\n{{Identical|Username}}"
+	"username": "Input label, followed by text box.\n{{Identical|Username}}",
+
+	"user-manage-username": "Text box label",
+	"user-manage-email": "Text box label",
+	"user-manage-blocked": "Checkbox label",
+	"user-manage-update": "Submit button label",
+	"manage-account": "Breadcrumb label",
+	"user-manage-blocked-helptext": "Help text for disable account checkbox",
+	"user-manage-update-error": "Flash message for update failure",
+	"user-manage-update-success": "Flash message for update success",
+	"user-manage-form-error": "Flash message for invalid form data"
 }
