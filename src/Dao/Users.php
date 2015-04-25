@@ -213,4 +213,33 @@ class Users extends AbstractDao {
 		return $res['blocked'];
 	}
 
+	/**
+	 * Function to let user update their own details and to disable account
+	 * @param integer $id User ID
+	 * @param array $params Updated user data
+	 */
+	public function updateUserAccount( $id, $params ) {
+		$fields = array(
+			'username', 'email', 'blocked'
+		);
+		$placeholders = array();
+		foreach ( $fields as $field ) {
+			$placeholders[] = "{$field} = :{$field}";
+		}
+
+		if ( $params['blocked'] === '1' ) {
+			$params['username'] = null;
+			$params['email'] = null;
+		}
+		$params['id'] = $id;
+
+		$sql = self::concat(
+			'UPDATE users SET',
+			implode( ', ', $placeholders ),
+			'WHERE id = :id'
+		);
+
+		return $this->update( $sql, $params );
+	}
+
 }
