@@ -65,6 +65,10 @@
 	"admin-campaign-wikitext": "Label for a wikitext template textarea",
 	"admin-campaign-wikitext-placeholder": "Placehodler for wikitext template textarea placeholder",
 
+	"campaigns-welcome": "Welcome message for reviewer landing page",
+	"campaigns-active": "Active campaigns header",
+	"campaigns-past": "Past campaigns header",
+
 	"change-password": "Navigation menu item, links to password change page.\n{{Identical|Change password}}",
 	"credits": "Credits page heading",
 	"credits-page-license": "Credits page content",

@@ -33,6 +33,13 @@ use Wikimedia\IEGReview\Controller;
  */
 class Users extends Controller {
 
+	protected $campaignsDao;
+
+
+	public function setCampaignsDao( $dao ) {
+		$this->campaignsDao = $dao;
+	}
+
 	protected function handleGet() {
 		$this->form->expectString( 'name' );
 		$this->form->expectString( 'email' );
@@ -72,6 +79,7 @@ class Users extends Controller {
 		$this->view->set( 'pages', $pageCount );
 		$this->view->set( 'left', $first );
 		$this->view->set( 'right', $last );
+		$this->view->set( 'listcampaigns', $this->campaignsDao->getUserCampaigns() );
 
 		$this->render( 'admin/users.html' );
 	}

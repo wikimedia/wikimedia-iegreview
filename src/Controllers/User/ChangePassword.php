@@ -33,8 +33,16 @@ use Wikimedia\IEGReview\Controller;
  */
 class ChangePassword extends Controller {
 
+	protected $campaignsDao;
+
+
+	public function setCampaignsDao( $dao ) {
+		$this->campaignsDao = $dao;
+	}
+
 	protected function handleGet() {
 		$this->view->set( 'user', $this->authManager->getUser() );
+		$this->view->set( 'listcampaigns', $this->campaignsDao->getUserCampaigns() );
 		$this->render( 'user/changePassword.html' );
 	}
 

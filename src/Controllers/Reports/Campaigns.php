@@ -61,7 +61,7 @@ class Campaigns extends AbstractReport {
 	/**
 	 * @return stdClass Results
 	 */
-	protected function runReport() {
+	protected function runReport( $campaign ) {
 		$params = array(
 			'sort' => $this->form->get( 's' ),
 			'order' => $this->form->get( 'o' ),

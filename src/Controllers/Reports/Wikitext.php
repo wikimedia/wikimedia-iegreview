@@ -41,16 +41,16 @@ class Wikitext extends Controller {
 	}
 
 
-	protected function getQuestions() {
+	protected function getQuestions( $campaign ) {
 		static $questions = null;
 		if ( $questions === null ) {
-			$questions = $this->campaignsDao->getQuestions( $this->activeCampaign );
+			$questions = $this->campaignsDao->getQuestions( $campaign );
 		}
 		return $questions;
 	}
 
 
-	protected function handleGet() {
+	protected function handleGet( $campaign ) {
 		$this->form->expectString( 'th' );
 		$this->form->validate( $_GET );
 
@@ -58,14 +58,14 @@ class Wikitext extends Controller {
 			'theme' => $this->form->get( 'th' ),
 		);
 		$records = $this->dao->export(
-			$this->activeCampaign, $this->getQuestions(), $params
+			$campaign, $this->getQuestions( $campaign ), $params
 		);
 		$template = $this->campaignsDao->getTemplate( $this->activeCampaign );
 		// HACK: map questions to A, B, C, D criteria labels for use in output
 		// template.
 		// FIXME: find a better way to associate questions and the wikitext
 		$questions = array();
-		foreach( $this->getQuestions() as $q ) {
+		foreach( $this->getQuestions( $campaign ) as $q ) {
 			if( $q['type'] === 'score' ) {
 				$questions[] = "q{$q['id']}";
 			}
@@ -76,6 +76,7 @@ class Wikitext extends Controller {
 		$this->view->setData( 'report', $records );
 		$this->view->set( 'th', $this->form->get( 'th' ) );
 		$this->view->set( 'template', $template['wikitext'] );
+		$this->view->set( 'campaign', $campaign );
 		$this->render( 'reports/wikitext.html' );
 	}
 }
