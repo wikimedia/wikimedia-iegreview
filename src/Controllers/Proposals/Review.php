@@ -47,7 +47,7 @@ class Review extends Controller {
 	}
 
 
-	protected function handlePost( $id ) {
+	protected function handlePost( $id, $campaign ) {
 		$this->form->requireInt( 'proposal' );
 		$this->form->requireIntArray( 'points' );
 		$this->form->expectStringArray( 'notes' );
@@ -60,7 +60,7 @@ class Review extends Controller {
 			);
 
 			$userId = $this->authManager->getUserId();
-			if ( $this->campaignsDao->isReviewer( $this->activeCampaign, $userId) ) {
+			if ( $this->campaignsDao->isReviewer( $campaign, $userId ) ) {
 				$ok = $this->dao->insertOrUpdateReview( $review );
 				if ( $ok ) {
 					$this->flash( 'info', $this->msg( 'review-edit-save' ) );
@@ -77,7 +77,7 @@ class Review extends Controller {
 			// TODO: save input to be shown in get screen
 		}
 		$this->redirect(
-			$this->urlFor( 'proposals_view', array( 'id' => $id ) )
+			$this->urlFor( 'proposals_view', array( 'id' => $id, 'campaign' => $campaign ) )
 		);
 	}
 }

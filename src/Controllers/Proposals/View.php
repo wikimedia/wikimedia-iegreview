@@ -52,14 +52,15 @@ class View extends Controller {
 		$this->campaignsDao = $dao;
 	}
 
-	protected function handleGet( $id ) {
+	protected function handleGet( $id, $campaign ) {
 		$proposal = $this->dao->getProposal( $id );
-		$questions = $this->campaignsDao->getQuestions( $this->activeCampaign );
+		$questions = $this->campaignsDao->getQuestions( $campaign );
 		$this->view->setData( 'proposal', $proposal );
 		$this->view->setData( 'questions', $questions );
+		$this->view->set( 'campaign', $campaign );
 
 		$userId = $this->authManager->getUserId();
-		$isreviewer = $this->campaignsDao->isReviewer( $this->activeCampaign, $userId );
+		$isreviewer = $this->campaignsDao->isReviewer( $campaign, $userId );
 		if ( $isreviewer ) {
 			$review = $this->reviewsDao->reviewByUser( $id );
 			$myReview = array();
