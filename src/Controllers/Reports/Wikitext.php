@@ -44,13 +44,13 @@ class Wikitext extends Controller {
 	protected function getQuestions() {
 		static $questions = null;
 		if ( $questions === null ) {
-			$questions = $this->campaignsDao->getQuestions( $this->activeCampaign );
+			$questions = $this->campaignsDao->getQuestions( $campaign );
 		}
 		return $questions;
 	}
 
 
-	protected function handleGet() {
+	protected function handleGet( $campaign ) {
 		$this->form->expectString( 'th' );
 		$this->form->validate( $_GET );
 
@@ -58,7 +58,7 @@ class Wikitext extends Controller {
 			'theme' => $this->form->get( 'th' ),
 		);
 		$records = $this->dao->export(
-			$this->activeCampaign, $this->getQuestions(), $params
+			$campaign, $this->getQuestions( $campaign ), $params
 		);
 
 		// HACK: map questions to A, B, C, D criteria labels for use in output
@@ -75,6 +75,7 @@ class Wikitext extends Controller {
 		$this->view->set( 'questions', $questions );
 		$this->view->setData( 'report', $records );
 		$this->view->set( 'th', $this->form->get( 'th' ) );
+		$this->view->set( 'campaign', $campaign );
 		$this->render( 'reports/wikitext.html' );
 	}
 }

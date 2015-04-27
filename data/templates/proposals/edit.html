@@ -6,13 +6,13 @@
 {% block content %}
 {% spaceless %}
 <ol class="breadcrumb">
-  <li><a href="{{ urlFor( 'proposals_home' ) }}">{{ 'nav-proposals'|message }}</a></li>
+  <li><a href="{{ urlFor( 'proposals_home', { 'campaign':campaign } ) }}">{{ 'nav-proposals'|message }}</a></li>
   {% if id != 'new' %}
-  <li><a href="{{ urlFor( 'proposals_view', { 'id': id } ) }}">{{ form.get( 'title' )|default( id ) }}</a></li>
+  <li><a href="{{ urlFor( 'proposals_view', { 'id': id, 'campaign':campaign } ) }}">{{ form.get( 'title' )|default( id ) }}</a></li>
   {% else %}
   <li>{{ id }}</li>
   {% endif %}
-  <li><a href="{{ urlFor( 'proposals_edit', { 'id': id } ) }}">{{ 'nav-proposals-edit'|message }}</a></li>
+  <li><a href="{{ urlFor( 'proposals_edit', { 'id': id, 'campaign':campaign } ) }}">{{ 'nav-proposals-edit'|message }}</a></li>
 </ol>
 
 {% if form.hasErrors %}
@@ -22,7 +22,7 @@
 </div>
 {% endif %}
 
-<form class="form-horizontal" method="post" action="{{ urlFor( 'proposals_edit_post', { 'id': id  } ) }}">
+<form class="form-horizontal" method="post" action="{{ urlFor( 'proposals_edit_post', { 'id': id, 'campaign':campaign  } ) }}">
   <input type="hidden" name="{{ csrf_param }}" value="{{ csrf_token }}" />
   <input type="hidden" name="id" value="{{ id }}" />
   {{ forms.text( ctx, 'proposals-edit-title', 'title', { 'required':true } ) }}

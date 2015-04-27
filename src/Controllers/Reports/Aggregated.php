@@ -110,7 +110,7 @@ class Aggregated extends AbstractReport {
 	/**
 	 * @return stdClass Results
 	 */
-	protected function runReport() {
+	protected function runReport( $campaign ) {
 		$params = array(
 			'sort' => $this->form->get( 's' ),
 			'order' => $this->form->get( 'o' ),
@@ -118,7 +118,7 @@ class Aggregated extends AbstractReport {
 			'page' => $this->form->get( 'p' ),
 		);
 		return $this->dao->aggregatedScores(
-			$this->activeCampaign, $this->getQuestions(), $params
+			$campaign, $this->getQuestions(), $params
 		);
 	}
 
