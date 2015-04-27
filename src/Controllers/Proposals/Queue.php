@@ -33,7 +33,7 @@ use Wikimedia\IEGReview\Controller;
  */
 class Queue extends Controller {
 
-	protected function handleGet() {
+	protected function handleGet( $campaign ) {
 		$this->form->expectString( 'type', array( 'default' => 'myqueue' ) );
 		$this->form->expectString( 'th' );
 		$this->form->expectInt( 'items',
@@ -53,6 +53,7 @@ class Queue extends Controller {
 		$this->view->set( 's', $this->form->get( 's' ) );
 		$this->view->set( 'o', $this->form->get( 'o' ) );
 		$this->view->set( 'found', null );
+		$this->view->set( 'campaign', $campaign );
 
 		$params = array(
 			'type' => $this->form->get( 'type' ),
@@ -61,7 +62,7 @@ class Queue extends Controller {
 			'page' => $this->form->get( 'p' ),
 			'sort' => $this->form->get( 's' ),
 			'order' => $this->form->get( 'o' ),
-			'campaign' => $this->activeCampaign
+			'campaign' => $campaign
 		);
 
 		$ret = $this->dao->search( $params );
@@ -75,8 +76,7 @@ class Queue extends Controller {
 		$this->view->set( 'pages', $pageCount );
 		$this->view->set( 'left', $first );
 		$this->view->set( 'right', $last );
-
-		$this->render( 'proposals/queue.html' );
+		$this->render( 'proposals/queue.html', array( 'campaign' => $campaign ) );
 	}
 
 }
