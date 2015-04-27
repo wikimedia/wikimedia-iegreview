@@ -28,11 +28,11 @@
           <a class="navbar-brand" href="{{ urlFor( 'home') }}" title="{{ 'header-title'|message }}"><img src="{{ siteUrl( 'images/glasses.png' ) }}" width="46" height="36" alt="{{ 'logo-alt'|message }}"></a>
         </div>
         <div class="navbar-collapse collapse">
-          <ul class="nav navbar-nav">
             {% block navbar %}
             {% if user|default(false) %}
             {% include 'nav_user.html' %}
             {% else %}
+          <ul class="nav navbar-nav">
             {% block login_form %}
             <form class="navbar-form navbar-right" action="{{ urlFor( 'login_post' ) }}" method="post" role="form">
                 <input type="hidden" name="{{ csrf_param }}" value="{{ csrf_token }}" />

@@ -48,7 +48,7 @@ plate macro
 	/**
 	 * @return stdClass Results object
 	 */
-	abstract protected function runReport();
+	abstract protected function runReport( $campaign );
 
 	/**
 	 * Configure the form.
@@ -87,7 +87,7 @@ plate macro
 		return 'asc';
 	}
 
-	protected function handleGet() {
+	protected function handleGet( $campaign ) {
 		$this->setupForm();
 		$this->form->validate( $_GET );
 
@@ -97,8 +97,9 @@ plate macro
 		$this->view->set( 'p', $this->form->get( 'p' ) );
 		$this->view->set( 's', $this->form->get( 's' ) );
 		$this->view->set( 'o', $this->form->get( 'o' ) );
+		$this->view->set( 'campaign', $campaign );
 
-		$this->view->setData( 'report', $this->runReport() );
+		$this->view->setData( 'report', $this->runReport( $campaign ) );
 		$this->render( $this->getTemplate() );
 	}
 
