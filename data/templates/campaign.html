@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% block navbar %}{% endblock navbar %}
+
+{% block content %}
+{% spaceless %}
+<div class="row">
+  <div class="col-md-10 col-md-offset-1">
+    <h2>Welcome reviewer!</h2>
+  </div>
+</div>
+{% if user|default(false) %}
+
+<div class="row">
+  <div class="col-md-10 col-md-offset-1">
+  <h3>Active campaigns</h3>
+  </div>
+</div>
+  {% for campaign in campaigns if campaign.status == 1 %}
+    <div class="row">
+        <div class="col-md-10 col-md-offset-1">
+          <a href ="{{ urlFor( 'proposals_home', { 'campaign':campaign.id } ) }}" >{{ campaign.name }}</a>
+        </div>
+    </div>
+  {% endfor %}
+<div class="row">
+  <div class="col-md-10 col-md-offset-1">
+  <h3>Past campaigns</h3>
+  </div>
+</div>
+  {% for campaign in campaigns if campaign.status == 0 %}
+    <div class="row">
+        <div class="col-md-10 col-md-offset-1">
+          <a href ="{{ urlFor( 'proposals_home', { 'campaign':campaign.id } ) }}" >{{ campaign.name }}</a>
+        </div>
+    </div>
+  {% endfor %}
+
+{% endif %}
+
+{% endspaceless %}
+{% endblock content %}

@@ -387,6 +387,17 @@ class App {
 					$slim->redirect( $slim->urlFor( 'login' ) );
 				}
 			},
+
+			'require-viewcampaign' => function ( $route ) use ( $slim ) {
+				$user = $slim->authManager->getUserId();
+				$campaign = $route->getParam('campaign');
+				if ( $slim->campaignsDao->isReviewer( $campaign, $user ) === false ) {
+					// Redirect to home page
+					$slim->flash( 'error', 'You cannot access this campaign' );
+					$slim->flashKeep();
+					$slim->redirect( $slim->urlFor( 'campaigns' ) );
+				}
+			}
 		);
 
 		// "Root" routes for non-autenticated users
@@ -398,7 +409,20 @@ class App {
 					$slim->redirect( $slim->urlFor( 'index' ) );
 				} )->name( 'home' );
 
-				App::template( $slim, 'index' );
+				$slim->get( 'campaigns', $middleware['must-revalidate'],
+					function () use ( $slim ) {
+						$page = new Controllers\Campaigns( $slim );
+						$page->setDao( $slim->campaignsDao );
+						$page();
+					}
+				)->name( 'campaigns' );
+
+				$slim->get( 'index', function () use ( $slim ) {
+					$page = new Controllers\Index( $slim );
+					$page->setDao( $slim->campaignsDao );
+					$page();
+				} )->name( 'index' );
+
 				App::template( $slim, 'credits' );
 				App::template( $slim, 'privacy' );
 
@@ -450,99 +474,107 @@ class App {
 
 				$slim->get( 'changePassword', function () use ( $slim ) {
 					$page = new Controllers\User\ChangePassword( $slim );
+					$page->setCampaignsDao( $slim->campaignsDao );
 					$page();
 				} )->name( 'user_changepassword' );
 
 				$slim->post( 'changePassword.post', function () use ( $slim ) {
 					$page = new Controllers\User\ChangePassword( $slim );
 					$page->setDao( $slim->usersDao );
+					$page->setCampaignsDao( $slim->campaignsDao );
 					$page();
 				} )->name( 'user_changepassword_post' );
 			}
 		);
 
 		// Routes for proposals
-		$slim->group( '/proposals/',
+		$slim->group( '/campaign/:campaign/proposals/',
 			$middleware['must-revalidate'],
 			$middleware['inject-user'],
 			$middleware['require-user'],
+			$middleware['require-viewcampaign'],
 			function () use ( $slim, $middleware ) {
-				$slim->get( '', function () use ( $slim ) {
+				$slim->get( '', function ( $campaign ) use ( $slim ) {
 					$slim->flashKeep();
-					$slim->redirect( $slim->urlFor( 'proposals_queue' ) );
+					$slim->redirect(
+						$slim->urlFor( 'proposals_queue', array( 'campaign' => $campaign ) )
+					);
 				} )->name( 'proposals_home' );
 
-				$slim->get( 'queue', function () use ( $slim ) {
+				$slim->get( 'queue', function ( $campaign ) use ( $slim ) {
 					$page = new Controllers\Proposals\Queue( $slim );
 					$page->setDao( $slim->proposalsDao );
-					$page();
+					$page( $campaign );
 				} )->name( 'proposals_queue' );
 
-				$slim->get( 'search', function () use ( $slim ) {
+				$slim->get( 'search', function ( $campaign ) use ( $slim ) {
 					$page = new Controllers\Proposals\Search( $slim );
 					$page->setDao( $slim->proposalsDao );
-					$page();
+					$page( $campaign );
 				} )->name( 'proposals_search' );
 
-				$slim->get( ':id/edit', function ( $id ) use ( $slim ) {
+				$slim->get( ':id/edit', function ( $campaign, $id ) use ( $slim ) {
 					$page = new Controllers\Proposals\Edit( $slim );
 					$page->setDao( $slim->proposalsDao );
-					$page( $id );
+					$page( $campaign, $id );
 				} )->name( 'proposals_edit' );
 
-				$slim->post( ':id/edit/post', function ( $id ) use ( $slim ) {
+				$slim->post( ':id/edit/post', function ( $campaign, $id ) use ( $slim ) {
 					$page = new Controllers\Proposals\Edit( $slim );
 					$page->setDao( $slim->proposalsDao );
-					$page( $id );
+					$page( $campaign, $id );
 				} )->name( 'proposals_edit_post' );
 
-				$slim->post( ':id/review', function ( $id ) use ( $slim ) {
+				$slim->post( ':id/review', function ( $campaign, $id ) use ( $slim ) {
 					$page = new Controllers\Proposals\Review( $slim );
 					$page->setDao( $slim->reviewsDao );
 					$page->setCampaignsDao( $slim->campaignsDao );
-					$page( $id );
+					$page( $campaign, $id );
 				} )->name( 'proposals_review_post' );
 
-				$slim->get( ':id', function ( $id ) use ( $slim ) {
+				$slim->get( ':id', function ( $campaign, $id ) use ( $slim ) {
 					$page = new Controllers\Proposals\View( $slim );
 					$page->setDao( $slim->proposalsDao );
 					$page->setReviewsDao( $slim->reviewsDao );
 					$page->setCampaignsDao( $slim->campaignsDao );
-					$page( $id );
+					$page( $campaign, $id );
 				} )->name( 'proposals_view' );
 			}
 		);
 
 		// Routes for reports
-		$slim->group( '/reports/',
+		$slim->group( '/campaign/:campaign/reports/',
 			$middleware['must-revalidate'],
 			$middleware['inject-user'],
 			$middleware['require-user'],
 			$middleware['require-viewreports'],
+			$middleware['require-viewcampaign'],
 			function () use ( $slim, $middleware ) {
-				$slim->get( '', function () use ( $slim ) {
+				$slim->get( '', function ( $campaign ) use ( $slim ) {
 					$slim->flashKeep();
-					$slim->redirect( $slim->urlFor( 'reports_aggregated' ) );
+					$slim->redirect( $slim->urlFor( 'reports_aggregated',
+						array( 'campaign' => $campaign )
+					) );
 				} )->name( 'reports_home' );
 
-				$slim->get( 'aggregated', function () use ( $slim ) {
+				$slim->get( 'aggregated', function ( $campaign ) use ( $slim ) {
 					$page = new Controllers\Reports\Aggregated( $slim );
 					$page->setDao( $slim->reportsDao );
 					$page->setCampaignsDao( $slim->campaignsDao );
-					$page();
+					$page( $campaign );
 				} )->name( 'reports_aggregated' );
 
-				$slim->get( 'wikitext', function () use ( $slim ) {
+				$slim->get( 'wikitext', function ( $campaign ) use ( $slim ) {
 					$page = new Controllers\Reports\Wikitext( $slim );
 					$page->setDao( $slim->reportsDao );
 					$page->setCampaignsDao( $slim->campaignsDao );
-					$page();
+					$page( $campaign );
 				} )->name( 'reports_wikitext' );
 
-				$slim->get( 'campaigns', function () use ( $slim ) {
+				$slim->get( 'campaigns', function ( $campaign ) use ( $slim ) {
 					$page = new Controllers\Reports\Campaigns( $slim );
 					$page->setDao( $slim->reportsDao );
-					$page();
+					$page( $campaign );
 				} )->name( 'reports_campaigns' );
 			}
 		);
@@ -556,18 +588,21 @@ class App {
 				$slim->get( 'users', function () use ( $slim ) {
 					$page = new Controllers\Admin\Users( $slim );
 					$page->setDao( $slim->usersDao );
+					$page->setCampaignsDao( $slim->campaignsDao );
 					$page();
 				} )->name( 'admin_users' );
 
 				$slim->get( 'user/:id', function ( $id ) use ( $slim ) {
 					$page = new Controllers\Admin\User( $slim );
 					$page->setDao( $slim->usersDao );
+					$page->setCampaignsDao( $slim->campaignsDao );
 					$page( $id );
 				} )->name( 'admin_user' );
 
 				$slim->post( 'user.post', function () use ( $slim ) {
 					$page = new Controllers\Admin\User( $slim );
 					$page->setDao( $slim->usersDao );
+					$page->setCampaignsDao( $slim->campaignsDao );
 					$page->setMailer( $slim->mailer );
 					$page();
 				} )->name( 'admin_user_post' );

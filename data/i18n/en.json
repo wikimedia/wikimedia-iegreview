@@ -22,9 +22,9 @@
 	"nav-admin": "Admin",
 	"nav-users": "Manage users",
 	"nav-account": "My Account",
-	"nav-campaigns": "Manage campaigns",
 	"nav-campaigns-reviewers": "Report by reviewers",
 	"nav-campaigns-reviewers-proposals": "Proposals",
+	"nav-campaigns": "Campaigns",
 
 	"new-account-subject": "New grants review account",
 	"new-account-email": "A new grants review account has been created for you.\n\nYour login info is:\n\nusername: $1\npassword: $2\n\nYou may login at: $3\n\nYou may change your password at: $4\n\nSincerely,\nGrants review administrators",

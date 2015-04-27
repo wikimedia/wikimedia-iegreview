@@ -29,10 +29,10 @@
 {% else %}
   {% set class = '' %}
 {% endif %}
-<th><a class="sortable {{ sorted ? "sorted-#{o}" : 'unsorted' }} {{ class }}" href="{{ urlFor( ctx.route ) }}?{{ qsMerge( { 's':column, 'o':nextO } ) }}">{{ label }}</a></th>
+<th><a class="sortable {{ sorted ? "sorted-#{o}" : 'unsorted' }} {{ class }}" href="{{ urlFor( ctx.route, { 'campaign':campaign } ) }}?{{ qsMerge( { 's':column, 'o':nextO } ) }}">{{ label }}</a></th>
 {% endmacro %}
 
-{% macro format( row, spec ) %}
+{% macro format( row, spec, ctx ) %}
 {% set val = row[spec.column] %}
 {% if spec.format == 'number' %}
   <td class="text-right">{{ row[spec.column]|number_format( spec.precision ) }}</td>
@@ -42,7 +42,7 @@
     {{ 'currency-usd'|message }}
   </td>
 {% elseif spec.format == 'proposal' %}
-  <td><a href="{{ urlFor( 'proposals_view', { 'id':row[spec.column] } ) }}">{{ row[spec.text] }}</a></td>
+  <td><a href="{{ urlFor( 'proposals_view', { 'id':row[spec.column], 'campaign':ctx.campaign } ) }}">{{ row[spec.text] }}</a></td>
 {% elseif spec.format == 'message' %}
   {% set vals = [] %}
   {% for key in spec.columns %}
@@ -50,7 +50,7 @@
   {% endfor %}
   <td class="text-center">{{ spec.message|message( vals ) }}</td>
 {% elseif spec.format == 'campaign' %}
-  <td><a href="{{ urlFor( 'proposals_search' ) }}?campaign={{ row[spec.column] }}">
+  <td><a href="{{ urlFor( 'proposals_search', { 'campaign':ctx.campaign } ) }}?campaign={{ row[spec.column] }}">
     {{ row[spec.text]}}
   </a></td>
 {% else %}
@@ -64,8 +64,9 @@
 {% block content %}
 {% spaceless %}
 <ol class="breadcrumb">
+  <li><a href="{{ urlFor( 'campaigns' ) }}">{{ 'nav-campaigns'|message }}</a></li>
   <li>{{ 'nav-reports'|message }}</li>
-  <li><a href="{{ urlFor( route ) }}">{{ ( 'nav-reports-' ~ suffix )|message }}</a></li>
+  <li><a href="{{ urlFor( route, { 'campaign':campaign } ) }}">{{ ( 'nav-reports-' ~ suffix )|message }}</a></li>
 </ol>
 
 <table class="table table-striped table-hover table-condensed table-responsive">
@@ -85,7 +86,7 @@
     {% for row in report.rows %}
     <tr>
       {% for col in columns %}
-      {{ _self.format( row, col ) }}
+      {{ _self.format( row, col, ctx ) }}
       {% endfor %}
     </tr>
     {% else %}
@@ -102,17 +103,17 @@
   <div class="col-md-9">
     <ul class="pagination">
       {% if p > 0 %}
-      <li><a href="{{ urlFor( route ) }}?{{ qsMerge( { 'p':(p - 1) } ) }}" id="prev">&laquo;</a></li>
+      <li><a href="{{ urlFor( route, { 'campaign':campaign } ) }}?{{ qsMerge( { 'p':(p - 1) } ) }}" id="prev">&laquo;</a></li>
       {% else %}
       <li class="disabled"><span>&laquo;</span></li>
       {% endif %}
       {% if left > 0 %}<li class="disabled"><span>&hellip;</span></li>{% endif %}
       {% for i in left .. right %}
-      <li class="{{ i == p ? 'active' }}"><a href="{{ urlFor( route ) }}?{{ qsMerge( { 'p':i } ) }}" id="prev">{{ i + 1 }}</a></li>
+      <li class="{{ i == p ? 'active' }}"><a href="{{ urlFor( route, { 'campaign':campaign } ) }}?{{ qsMerge( { 'p':i } ) }}" id="prev">{{ i + 1 }}</a></li>
       {% endfor %}
       {% if right < pages - 1 %}<li class="disabled"><span>&hellip;</span></li>{% endif %}
       {% if p + 1 < pages %}
-      <li><a href="{{ urlFor( route ) }}?{{ qsMerge( { 'p':(p + 1) } ) }}" >&raquo;</a></li>
+      <li><a href="{{ urlFor( route, { 'campaign':campaign } ) }}?{{ qsMerge( { 'p':(p + 1) } ) }}" >&raquo;</a></li>
       {% else %}
       <li class="disabled"><span>&raquo;</span></li>
       {% endif %}
