@@ -74,6 +74,7 @@ class Campaign extends Controller {
 		$this->view->set( 'campaign', $campaign );
 		$this->view->set( 'rev', $reviewers );
 		$this->view->set( 'ques', $questions );
+		$this->view->set( 'listcampaigns', $this->dao->getUserCampaigns() );
 		$this->render( 'admin/campaign.html' );
 	}
 

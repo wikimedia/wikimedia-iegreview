@@ -33,10 +33,10 @@ use Wikimedia\IEGReview\Controller;
  */
 class Search extends Controller {
 
-	protected function handleGet() {
+	protected function handleGet( $campaign ) {
 		$this->form->expectString( 't' );
 		$this->form->expectString( 'th' );
-		$this->form->expectString( 'campaign' );
+		$this->form->expectString( 'campaign-select' );
 		$this->form->expectInArray( 'stat',
 			array( 'open', 'approved', 'rejected', 'abandoned' ),
 			array( 'default' => 'open' )
@@ -53,13 +53,14 @@ class Search extends Controller {
 
 		$this->view->set( 't', $this->form->get( 't' ) );
 		$this->view->set( 'th', $this->form->get( 'th' ) );
-		$this->view->set( 'campaign', $this->form->get( 'campaign' ) );
+		$this->view->set( 'campaign-select', $this->form->get( 'campaign-select' ) );
 		$this->view->set( 'stat', $this->form->get( 'stat' ) );
 		$this->view->set( 'items', $this->form->get( 'items' ) );
 		$this->view->set( 'p', $this->form->get( 'p' ) );
 		$this->view->set( 's', $this->form->get( 's' ) );
 		$this->view->set( 'o', $this->form->get( 'o' ) );
 		$this->view->set( 'found', null );
+		$this->view->set( 'campaign', $campaign );
 
 		$campaignslist = $this->dao->getCampaigns();
 		$this->view->set( 'campaigns', $campaignslist );
@@ -71,7 +72,7 @@ class Search extends Controller {
 			$params = array(
 				'title' => $this->form->get( 't' ),
 				'theme' => $this->form->get( 'th' ),
-				'campaign' => $this->form->get( 'campaign' ),
+				'campaign' => $this->form->get( 'campaign-select' ),
 				'status' => $this->form->get( 'stat' ),
 				'sort' => $this->form->get( 's' ),
 				'order' => $this->form->get( 'o' ),
