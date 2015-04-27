@@ -33,7 +33,7 @@ use Wikimedia\IEGReview\Controller;
  */
 class Search extends Controller {
 
-	protected function handleGet() {
+	protected function handleGet( $campaign ) {
 		$this->form->expectString( 't' );
 		$this->form->expectString( 'th' );
 		$this->form->expectString( 'campaign' );
