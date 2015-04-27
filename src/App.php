@@ -398,7 +398,13 @@ class App {
 					$slim->redirect( $slim->urlFor( 'index' ) );
 				} )->name( 'home' );
 
-				App::template( $slim, 'index' );
+				$slim->get( 'index', function () use ( $slim ) {
+					$page = new Controllers\Index( $slim );
+					$page->setDao( $slim->campaignsDao );
+					$page();
+				} )->name( 'index' );
+
+				// App::template( $slim, 'index' );
 				App::template( $slim, 'credits' );
 				App::template( $slim, 'privacy' );
 

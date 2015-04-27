@@ -8,5 +8,12 @@
     {{ 'index-page'|message|raw|wikitext }}
   </div>
 </div>
+{% if user|default(false) %}
+<div class="row">
+  <div class="col-md-10 col-md-offset-1">
+    <a href="credits.html">Hola there!</a>
+  </div>
+</div>
+{% endif %}
 {% endspaceless %}
 {% endblock content %}

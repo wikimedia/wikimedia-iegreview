@@ -58,13 +58,21 @@ class Campaigns extends AbstractDao {
 	}
 
 	/**
+	 * Get campaign data for given campaign ID
+	 * If $id = null, all past and present campaigns are returned
 	 * @param int $id ID of campaign whose data is to be fetched
 	 */
-	public function getCampaign( $id ) {
-		return $this->fetch(
-			'SELECT * FROM campaigns WHERE id = ?',
-			array( $id )
-		);
+	public function getCampaign( $id = null ) {
+		if ( $id != null ) {
+			return $this->fetch(
+				'SELECT * FROM campaigns WHERE id = ?',
+				array( $id )
+			);
+		} else {
+			return $this->fetchAll(
+				'SELECT * FROM campaigns'
+			);
+		}
 	}
 
 
