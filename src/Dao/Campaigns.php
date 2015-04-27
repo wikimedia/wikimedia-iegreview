@@ -58,12 +58,23 @@ class Campaigns extends AbstractDao {
 	}
 
 	/**
+	 * Get campaign data for given campaign ID
 	 * @param int $id ID of campaign whose data is to be fetched
 	 */
 	public function getCampaign( $id ) {
 		return $this->fetch(
 			'SELECT * FROM campaigns WHERE id = ?',
 			array( $id )
+		);
+	}
+
+
+	/**
+	 * Get all data for all campaigns
+	 */
+	public function getAllCampaigns() {
+		return $this->fetchAll(
+			'SELECT * FROM campaigns ORDER BY status DESC, id ASC'
 		);
 	}
 
@@ -98,6 +109,19 @@ class Campaigns extends AbstractDao {
 		return $this->fetch( $sql, array( $campaign ) );
 	}
 
+
+	/**
+	 * Return all campaigns the current user has been approved to access
+	 */
+	public function getUserCampaigns() {
+		$user = $this->userId;
+		$sql = self::concat(
+			'SELECT cu.campaign_id, cu.user_id, c.name, c.id FROM campaign_users cu',
+			'INNER JOIN campaigns c ON c.id = cu.campaign_id',
+			'WHERE cu.user_id = ?'
+		);
+		return $this->fetchAll( $sql, array( $user ) );
+	}
 
 	/**
 	 * @param int $id Fetches reviewers registered in the system

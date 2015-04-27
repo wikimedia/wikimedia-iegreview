@@ -4,8 +4,9 @@
 {% block content %}
 {% spaceless %}
 <ol class="breadcrumb">
-  <li><a href="{{ urlFor( 'proposals_home' ) }}">{{ 'nav-proposals'|message }}</a></li>
-  <li><a href="{{ urlFor( 'proposals_view', { 'id': proposal.id } ) }}">{{ proposal.title }}</a></li>
+  <li><a href="{{ urlFor( 'campaigns' ) }}">{{ 'nav-campaigns'|message }}</a></li>
+  <li><a href="{{ urlFor( 'proposals_home', { 'campaign':campaign } ) }}">{{ 'nav-proposals'|message }}</a></li>
+  <li><a href="{{ urlFor( 'proposals_view', { 'id': proposal.id, 'campaign':campaign } ) }}">{{ proposal.title }}</a></li>
 </ol>
 
 <article id="proposal" class="panel-group">
@@ -48,7 +49,7 @@
       {% endif %}
       {% if isadmin|default(false) %}
       <div class="text-right">
-        <a class="btn btn-sm" href="{{ urlFor( 'proposals_edit', { 'id': proposal.id } ) }}"><span class="glyphicon glyphicon-edit"></span> {{ 'proposals-view-edit'|message }}</a>
+        <a class="btn btn-sm" href="{{ urlFor( 'proposals_edit', { 'id': proposal.id, 'campaign':campaign } ) }}"><span class="glyphicon glyphicon-edit"></span> {{ 'proposals-view-edit'|message }}</a>
       </div>
       {% endif %}
     </div>
@@ -64,8 +65,8 @@
 {% endif %}
 
 <ol class="breadcrumb">
-  <li><a href="{{ urlFor( 'proposals_home' ) }}">{{ 'nav-proposals'|message }}</a></li>
-  <li><a href="{{ urlFor( 'proposals_view', { 'id': proposal.id } ) }}">{{ proposal.title }}</a></li>
+  <li><a href="{{ urlFor( 'proposals_home', { 'campaign':campaign } ) }}">{{ 'nav-proposals'|message }}</a></li>
+  <li><a href="{{ urlFor( 'proposals_view', { 'id': proposal.id, 'campaign':campaign } ) }}">{{ proposal.title }}</a></li>
 </ol>
 {% endspaceless %}
 {% endblock content %}
