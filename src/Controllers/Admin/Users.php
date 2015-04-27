@@ -72,6 +72,7 @@ class Users extends Controller {
 		$this->view->set( 'pages', $pageCount );
 		$this->view->set( 'left', $first );
 		$this->view->set( 'right', $last );
+		$this->view->set( 'listcampaigns', $this->dao->getUserCampaigns() );
 
 		$this->render( 'admin/users.html' );
 	}

@@ -56,7 +56,7 @@ class Login extends Controller {
 
 			if ( $authed ) {
 				$this->flash( 'info', $this->i18nContext->message( 'login-success' ) );
-				$this->redirect( $next ?: $this->urlFor( 'home' ) );
+				$this->redirect( $next ?: $this->urlFor( 'campaigns' ) );
 
 			} else {
 				$this->flash( 'error', $this->i18nContext->message( 'login-failed' ) );

@@ -53,6 +53,7 @@ class User extends Controller {
 
 		$this->view->set( 'id', $id );
 		$this->view->set( 'u', $user );
+		$this->view->set( 'listcampaigns', $this->dao->getUserCampaigns() );
 		$this->render( 'admin/user.html' );
 	}
 

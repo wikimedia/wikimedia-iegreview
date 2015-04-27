@@ -35,6 +35,7 @@ class ChangePassword extends Controller {
 
 	protected function handleGet() {
 		$this->view->set( 'user', $this->authManager->getUser() );
+		$this->view->set( 'listcampaigns', $this->dao->getUserCampaigns() );
 		$this->render( 'user/changePassword.html' );
 	}
 
