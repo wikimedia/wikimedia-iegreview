@@ -79,21 +79,24 @@ class Edit extends Controller {
 		$this->view->setData( 'form', $this->form );
 	}
 
-	protected function handleGet( $id ) {
+	protected function handleGet( $campaign, $id ) {
 		if ( is_numeric( $id ) ) {
 			$proposal = $this->dao->getProposal( $id );
 		} else {
 			$proposal = array();
 		}
-		$this->setupForm( $proposal );
+		$this->setupForm( $proposal, $campaign );
 		$this->view->setData( 'id', $id );
+		$this->view->set( 'campaign', $campaign );
 		$this->render( 'proposals/edit.html' );
 	}
 
-	protected function handlePost() {
+	protected function handlePost( $campaign ) {
 		$id = $this->request->post( 'id' );
 		$this->setupForm( array() );
-		$redir = $this->urlFor( 'proposals_edit', array( 'id' => $id ) );
+		$redir = $this->urlFor( 'proposals_edit',
+			array( 'id' => $id, 'campaign' => $campaign )
+		);
 
 		if ( $this->form->validate() ) {
 			$proposal = array(
@@ -104,7 +107,7 @@ class Edit extends Controller {
 				'theme' => $this->form->get( 'theme' ),
 				'notes' => $this->form->get( 'notes' ),
 				'status' => $this->form->get( 'status' ),
-				'campaign' => $this->activeCampaign
+				'campaign' => $campaign
 			);
 
 			if ( is_numeric( $id ) ) {
@@ -118,8 +121,8 @@ class Edit extends Controller {
 
 			if ( $ok ) {
 				$this->flash( 'info', $this->msg( 'proposals-edit-save' ) );
-				$redir = $this->urlFor(
-					'proposals_view', array( 'id' => $id )
+				$redir = $this->urlFor( 'proposals_view',
+						array( 'id' => $id, 'campaign' => $campaign )
 				);
 			} else {
 				$this->flash( 'error',

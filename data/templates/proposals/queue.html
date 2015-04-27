@@ -11,14 +11,15 @@
 {% else %}
   {% set nextO = 'asc' %}
 {% endif %}
-<th><a class="sortable {{ sorted ? "sorted-#{o}" : 'unsorted' }} {{ class|default( '' ) }}" href="{{ urlFor( ctx.route ) }}?{{ qsMerge( { 's':column, 'o':nextO } ) }}">{{ label|message }}</a></th>
+<th><a class="sortable {{ sorted ? "sorted-#{o}" : 'unsorted' }} {{ class|default( '' ) }}" href="{{ urlFor( ctx.route, { 'campaign':ctx.campaign } ) }}?{{ qsMerge( { 's':column, 'o':nextO } ) }}">{{ label|message }}</a></th>
 {% endmacro %}
 
 {% block subtitle %}{{ 'nav-proposals-queue'|message }}{% endblock %}
 {% block content %}
 {% spaceless %}
 <ol class="breadcrumb">
-  <li><a href="{{ urlFor( 'proposals_home' ) }}">{{ 'nav-proposals'|message }}</a></li>
+  <li><a href="{{ urlFor( 'campaigns' ) }}">{{ 'nav-campaigns'|message }}</a></li>
+  <li><a href="{{ urlFor( 'proposals_home', { 'campaign':campaign } ) }}">{{ 'nav-proposals'|message }}</a></li>
   <li>{{ 'nav-proposals-queue'|message }}</li>
 </ol>
 
@@ -26,7 +27,7 @@
     {{ 'proposals-queue-intro'|message|raw|wikitext }}
 </section>
 
-<form class="form-inline" method="get" action="{{ urlFor( route ) }}" role="form">
+<form class="form-inline" method="get" action="{{ urlFor( route, { 'campaign':campaign } ) }}" role="form">
   <input type="hidden" name="p" value="0">
   <input type="hidden" name="o" value="{{ o }}">
   <input type="hidden" name="s" value="{{ s }}">
@@ -66,7 +67,7 @@
   </tr>
   {% for row in records %}
   <tr>
-    <td><a href="{{ urlFor( 'proposals_view', { 'id': row.id } ) }}">{{ row.title }}</a></td>
+    <td><a href="{{ urlFor( 'proposals_view', { 'id': row.id, 'campaign':campaign } ) }}">{{ row.title }}</a></td>
     <td>{{ row.theme }}</td>
     <td class="text-right nowrap">
         {{ row.amount|number_format }}

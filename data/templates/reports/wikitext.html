@@ -5,11 +5,12 @@
 {% block content %}
 {% spaceless %}
 <ol class="breadcrumb">
+  <li><a href="{{ urlFor( 'campaigns' ) }}">{{ 'nav-campaigns'|message }}</a></li>
   <li>{{ 'nav-reports'|message }}</li>
-  <li><a href="{{ urlFor( 'reports_wikitext' ) }}">{{ 'nav-reports-wikitext'|message }}</a></li>
+  <li><a href="{{ urlFor( 'reports_wikitext', { 'campaign':campaign } ) }}">{{ 'nav-reports-wikitext'|message }}</a></li>
 </ol>
 
-<form class="form-inline" method="get" action="{{ urlFor( 'reports_wikitext' ) }}" role="form">
+<form class="form-inline" method="get" action="{{ urlFor( 'reports_wikitext', { 'campaign':campaign } ) }}" role="form">
   <div class="form-group">
     <label class="sr-only" for="th">{{ 'proposals-queue-theme'|message }}</label>
     <select id="th" name="th" class="form-control">

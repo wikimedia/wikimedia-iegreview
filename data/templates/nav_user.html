@@ -1,13 +1,14 @@
+<ul class="nav navbar-nav">
 {% if isreviewer|default(false) or isadmin|default(false) %}
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown">{{ 'nav-proposals'|message }} <b class="caret"></b></a>
   <ul class="dropdown-menu">
     {% if isreviewer|default(false) %}
-    <li><a href="{{ urlFor( 'proposals_queue' ) }}">{{ 'nav-proposals-queue'|message }}</a></li>
+    <li><a href="{{ urlFor( 'proposals_queue', { 'campaign':campaign } ) }}">{{ 'nav-proposals-queue'|message }}</a></li>
     {% endif %}
-    <li><a href="{{ urlFor( 'proposals_search' ) }}">{{ 'nav-proposals-search'|message }}</a></li>
+    <li><a href="{{ urlFor( 'proposals_search', { 'campaign':campaign } ) }}">{{ 'nav-proposals-search'|message }}</a></li>
     {% if isadmin|default(false) %}
-    <li><a href="{{ urlFor( 'proposals_edit', { 'id': 'new' } ) }}">{{ 'nav-proposals-add'|message }}</a></li>
+    <li><a href="{{ urlFor( 'proposals_edit', { 'id': 'new', 'campaign':campaign } ) }}">{{ 'nav-proposals-add'|message }}</a></li>
     {% endif %}
   </ul>
 </li>
@@ -17,9 +18,9 @@
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown">{{ 'nav-reports'|message }} <b class="caret"></b></a>
   <ul class="dropdown-menu">
-    <li><a href="{{ urlFor( 'reports_aggregated' ) }}">{{ 'nav-reports-aggregated'|message }}</a></li>
-    <li><a href="{{ urlFor( 'reports_campaigns' ) }}">{{ 'nav-reports-campaigns'|message }}</a></li>
-    <li><a href="{{ urlFor( 'reports_wikitext' ) }}">{{ 'nav-reports-wikitext'|message }}</a></li>
+    <li><a href="{{ urlFor( 'reports_aggregated', { 'campaign':campaign } ) }}">{{ 'nav-reports-aggregated'|message }}</a></li>
+    <li><a href="{{ urlFor( 'reports_campaigns', { 'campaign':campaign } ) }}">{{ 'nav-reports-campaigns'|message }}</a></li>
+    <li><a href="{{ urlFor( 'reports_wikitext', { 'campaign':campaign } ) }}">{{ 'nav-reports-wikitext'|message }}</a></li>
   </ul>
 </li>
 {% endif %}
@@ -44,4 +45,6 @@
     <li><a href="{{ urlFor( 'logout' ) }}">{{ 'logout'|message }}</a></li>
   </ul>
 </li>
+
+</ul>
 
