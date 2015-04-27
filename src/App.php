@@ -387,6 +387,16 @@ class App {
 					$slim->redirect( $slim->urlFor( 'login' ) );
 				}
 			},
+
+			'require-viewcampaign' => function ( $campaign ) use ( $slim ) {
+				$user = $this->authManager->getUserId();
+				if ( !$slim->campaignsDao->isReviewer( $campaign, $user ) ) {
+					// Redirect to home page
+					$slim->flash( 'error', 'You cannot access this campaign' );
+					$slim->flashKeep();
+					$slim->redirect( $slim->urlFor( 'login' ) );
+				}
+			}
 		);
 
 		// "Root" routes for non-autenticated users
@@ -398,7 +408,13 @@ class App {
 					$slim->redirect( $slim->urlFor( 'index' ) );
 				} )->name( 'home' );
 
-				App::template( $slim, 'index' );
+				$slim->get( 'index', function () use ( $slim ) {
+					$page = new Controllers\Index( $slim );
+					$page->setDao( $slim->campaignsDao );
+					$page();
+				} )->name( 'index' );
+
+				// App::template( $slim, 'index' );
 				App::template( $slim, 'credits' );
 				App::template( $slim, 'privacy' );
 
@@ -450,7 +466,7 @@ class App {
 		);
 
 		// Routes for proposals
-		$slim->group( '/proposals/',
+		$slim->group( '/campaign/:campaign/proposals/',
 			$middleware['must-revalidate'],
 			$middleware['inject-user'],
 			$middleware['require-user'],
