@@ -60,7 +60,7 @@ class Wikitext extends Controller {
 		$records = $this->dao->export(
 			$this->activeCampaign, $this->getQuestions(), $params
 		);
-
+		$template = $this->campaignsDao->getTemplate( $this->activeCampaign );
 		// HACK: map questions to A, B, C, D criteria labels for use in output
 		// template.
 		// FIXME: find a better way to associate questions and the wikitext
@@ -75,6 +75,7 @@ class Wikitext extends Controller {
 		$this->view->set( 'questions', $questions );
 		$this->view->setData( 'report', $records );
 		$this->view->set( 'th', $this->form->get( 'th' ) );
-		$this->render( 'reports/wikitext.html' );
+		$this->view->set( 'template', $template['wikitext'] );
+		$this->render( 'reports/customwikitext.html' );
 	}
 }

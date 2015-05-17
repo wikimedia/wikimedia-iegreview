@@ -277,6 +277,7 @@ class App {
 			new \Slim\Views\TwigExtension(),
 			new TwigExtension( $this->slim->parsoid ),
 			new \Wikimedia\SimpleI18n\TwigExtension( $this->slim->i18nContext ),
+			new \Twig_Extension_StringLoader(),
 		);
 
 		// Set default view data

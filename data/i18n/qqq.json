@@ -62,6 +62,8 @@
 	"admin-proposal-title": "Table column header",
 	"admin-proposal-theme": "Table column header",
 	"admin-proposal-amount": "Table column header",
+	"admin-campaign-wikitext": "Label for a wikitext template textarea",
+	"admin-campaign-wikitext-placeholder": "Placehodler for wikitext template textarea placeholder",
 
 	"change-password": "Navigation menu item, links to password change page.\n{{Identical|Change password}}",
 	"credits": "Credits page heading",
