@@ -25,6 +25,7 @@ namespace Wikimedia\IEGReview\Controllers\Admin;
 
 use Wikimedia\IEGReview\Controller;
 use Wikimedia\IEGReview\Arrays;
+use \Twig_Environment;
 
 /**
  * Add a new campaign.
@@ -34,6 +35,44 @@ use Wikimedia\IEGReview\Arrays;
  */
 class Campaign extends Controller {
 
+	protected $defaultTemplate = <<< END
+{% extends 'reports/wikitext.html' %}
+{% block row %}
+	<div class="panel panel-default">
+		<div class="panel-heading">
+		<h4 class="panel-title">
+			<a class="accordion-toggle collapsed block" data-toggle="collapse"
+				data-parent="#accordion" href="#proposal{{ row.id }}">
+				{{ row.title }}
+				<small>
+					{{ row.pcnt|number_format(2) }}%
+					( {{ row.recommend }} / {{ row.rcnt }} ) {{ row.conditional }}
+				</small>
+			</a>
+		</h4>
+		</div>
+	<div id="proposal{{ row.id }}" class="panel-collapse collapse">
+		<div class="panel-body form-group">
+			<a href="{{ row.url|raw }}" target="_blank">{{ row.title }}</a>
+				<textarea class="form-control" rows="10" readonly>
+==Aggregated feedback from the committee for ''{{ row.title }}''==
+{{ '{{' }}Inspire/Review/Score
+{% for label, qid in questions %}
+| {{ label }} score={{ row[qid]|number_format(1) }}
+{% endfor %}
+| comments=
+{% for comment in row.comments %}
+* {{ comment|replace( { "\n":' ' } ) }}
+{% endfor %}
+{{ '}}' }}
+</textarea>
+		</div>
+		</div>
+	</div>
+{% endblock row %}
+END;
+
+
 	protected function handleGet( $id ) {
 		$reviewers = $this->dao->getReviewers();
 		if ( $id === 'new' ) {
@@ -41,6 +80,7 @@ class Campaign extends Controller {
 				'name' => '',
 				'start_date' => date( 'Y-m-d H:i:s' ),
 				'end_date' => date( 'Y-m-d H:i:s', strtotime( '+30 days' ) ),
+				'wikitext' => $this->defaultTemplate
 			);
 			$questions = array();
 			for ( $idx = 0; $idx < 5; $idx ++ ) {
@@ -92,11 +132,24 @@ class Campaign extends Controller {
 		$this->form->requireStringArray( 'qfooters' );
 		$this->form->requireStringArray( 'qreporthead' );
 
+		$this->form->expectString( 'wikitext',
+			array( 'validate' => function ( $value ) {
+				$twig = new Twig_Environment();
+				try {
+					$twig->parse( $twig->tokenize( $value ) );
+				} catch( \Twig_Error_Syntax $e ) {
+					return false;
+				}
+				return true;
+			} )
+		);
+
 		if ( $this->form->validate() ) {
 			$params = array(
 				'name' => $this->form->get( 'name' ),
 				'start_date' => $this->form->get( 'start_date' ),
 				'end_date' => $this->form->get( 'end_date' ),
+				'wikitext' => $this->form->get( 'wikitext' )
 			);
 
 			$questions = $this->form->get( 'questions' );
@@ -215,7 +268,14 @@ class Campaign extends Controller {
 					);
 				}
 			}
+			$campaignDefaults = array(
+				'name' => $this->form->get( 'name' ),
+				'start_date' => $this->form->get( 'start_date' ),
+				'end_date' => $this->form->get( 'end_date' ),
+				'wikitext' => $this->request->post( 'wikitext' )
+			);
 			$this->flash( 'form_defaults', $quesDefaults );
+			$this->flash( 'campaign', $campaignDefaults );
 		}
 
 		$this->redirect( $this->urlFor( 'admin_campaign', array( 'id' => $id ) ) );
