@@ -25,6 +25,7 @@ namespace Wikimedia\IEGReview\Controllers\Admin;
 
 use Wikimedia\IEGReview\Controller;
 use Wikimedia\IEGReview\Arrays;
+use \Twig_Environment;
 
 /**
  * Add a new campaign.
@@ -92,11 +93,24 @@ class Campaign extends Controller {
 		$this->form->requireStringArray( 'qfooters' );
 		$this->form->requireStringArray( 'qreporthead' );
 
+		$this->form->expectString( 'wikitext',
+			array( 'validate' => function ( $value ) {
+				$twig = new Twig_Environment();
+				try {
+					$twig->parse( $twig->tokenize( $value ) );
+				} catch( \Twig_Error_Syntax $e ) {
+					return false;
+				}
+				return true;
+			} )
+		);
+
 		if ( $this->form->validate() ) {
 			$params = array(
 				'name' => $this->form->get( 'name' ),
 				'start_date' => $this->form->get( 'start_date' ),
 				'end_date' => $this->form->get( 'end_date' ),
+				'wikitext' => $this->form->get( 'wikitext' )
 			);
 
 			$questions = $this->form->get( 'questions' );
@@ -215,7 +229,14 @@ class Campaign extends Controller {
 					);
 				}
 			}
+			$campaignDefaults = array(
+				'name' => $this->form->get( 'name' ),
+				'start_date' => $this->form->get( 'start_date' ),
+				'end_date' => $this->form->get( 'end_date' ),
+				'wikitext' => $this->form->get( 'wikitext' )
+			);
 			$this->flash( 'form_defaults', $quesDefaults );
+			$this->flash( 'campaign', $campaignDefaults );
 		}
 
 		$this->redirect( $this->urlFor( 'admin_campaign', array( 'id' => $id ) ) );

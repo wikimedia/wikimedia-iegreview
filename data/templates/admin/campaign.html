@@ -4,6 +4,9 @@
 {% if flash.form_defaults|default(false) %}
 {% set ques = flash.form_defaults %}
 {% endif %}
+{% if flash.campaign|default(false) %}
+{% set campaign = flash.campaign %}
+{% endif %}
 
 {% block javascript %}
 <script src="{{ siteUrl( 'js/campaign.js' ) }}"></script>
@@ -80,6 +83,15 @@
     </div>
   </div>
 {% endfor %}
+
+  <div class="form-group">
+    <label for="wikitext" class="col-sm-2 control-label">
+      {{ 'admin-campaign-wikitext'|message }}
+    </label>
+    <div class="col-sm-10 {{ 'wikitext' in errors ? 'has-error' }}">
+      <textarea class="form-control" rows="6" name="wikitext" placeholder="{{ 'admin-campaign-wikitext-placeholder'|message }}">{{ campaign.wikitext }}</textarea>
+    </div>
+  </div>
 
   <div class="form-group">
     <label for="reviewers" class="col-sm-2 control-label">

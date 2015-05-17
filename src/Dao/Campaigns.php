@@ -351,7 +351,7 @@ class Campaigns extends AbstractDao {
 	 * @return bool True if update suceeded, false otherwise
 	 */
 	public function updateCampaign( $params, $id ) {
-		$fields = array( 'name', 'start_date', 'end_date' );
+		$fields = array_keys( $params );
 		$placeholders = array();
 		foreach ( $fields as $field ) {
 			$placeholders[] = "{$field} = :{$field}";
