@@ -31,6 +31,7 @@ CREATE TABLE IF NOT EXISTS campaigns (
   , status          TINYINT(1) DEFAULT 0
   , start_date      TIMESTAMP NOT NULL
   , end_date        TIMESTAMP NOT NULL
+  , wikitext        BLOB
   , PRIMARY KEY (id)
   , UNIQUE KEY name (name)
   , CONSTRAINT FOREIGN KEY (created_by) REFERENCES users(id) ON DELETE SET NULL
