@@ -1,0 +1,5 @@
+{% extends 'reports/wikitext.html' %}
+{% block data %}
+{% embed template_from_string( template ) %}
+{% endembed %}
+{% endblock data %}
