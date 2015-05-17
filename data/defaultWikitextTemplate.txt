@@ -1,0 +1,36 @@
+{% extends 'reports/wikitext.html' %}
+{% block row %}
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h4 class="panel-title">
+        <a class="accordion-toggle collapsed block" data-toggle="collapse" data-parent="#accordion" href="#proposal{{ row.id }}">
+          {{ row.title }}
+          ·
+          <small>{{ "theme-#{row.theme}"|message }}</small>
+          ·
+          <small>
+            {{ row.pcnt|number_format(2) }}%
+            ({{ row.recommend }}/{{ row.rcnt }}){{ row.conditional }}
+          </small>
+        </a>
+      </h4>
+    </div>
+    <div id="proposal{{ row.id }}" class="panel-collapse collapse">
+      <div class="panel-body form-group">
+        <a href="{{ row.url|raw }}" target="_blank">{{ row.title }}</a>
+        <textarea class="form-control" rows="10" readonly>
+==Aggregated feedback from the committee for ''{{ row.title }}''==
+{{ '{{' }}Inspire/Review/Score
+{% for label, qid in questions %}
+| {{ label }} score={{ row[qid]|number_format(1) }}
+{% endfor %}
+| comments=
+{% for comment in row.comments %}
+* {{ comment|replace( { "\n":' ' } ) }}
+{% endfor %}
+{{ '}}' }}
+</textarea>
+      </div>
+    </div>
+  </div>
+{% endblock row %}
