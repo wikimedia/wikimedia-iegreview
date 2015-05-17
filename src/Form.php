@@ -300,6 +300,16 @@ class Form {
 		);
 	}
 
+	public function expectTwigTemplate( $template ) {
+		$twig = new Twig_Environment();
+		try {
+			$twig->parse($twig->tokenize($template));
+		} catch( Twig_Error_Syntax $e ) {
+			return false;
+		}
+		return true;
+	}
+
 	/**
 	 * Validate the provided input data using this form's expectations.
 	 *

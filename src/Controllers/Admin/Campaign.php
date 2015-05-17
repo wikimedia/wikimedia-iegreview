@@ -92,6 +92,8 @@ class Campaign extends Controller {
 		$this->form->requireStringArray( 'qfooters' );
 		$this->form->requireStringArray( 'qreporthead' );
 
+		$this->form->expectString( 'wikitext' );
+
 		if ( $this->form->validate() ) {
 			$params = array(
 				'name' => $this->form->get( 'name' ),
