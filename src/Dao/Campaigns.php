@@ -51,11 +51,6 @@ class Campaigns extends AbstractDao {
 		$this->userId = $uid;
 	}
 
-	public function activeCampaign() {
-		return $this->fetch(
-			'SELECT * FROM campaigns WHERE status = 1'
-		);
-	}
 
 	/**
 	 * Get campaign data for given campaign ID
