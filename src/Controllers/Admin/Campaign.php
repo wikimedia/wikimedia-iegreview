@@ -92,11 +92,6 @@ ENDTWIG;
 				);
 			}
 
-			if ( is_numeric( $this->activeCampaign ) ) {
-				$this->flashNow( 'error',
-					$this->i18nContext->message( 'admin-new-campaign-in-progress' )
-				);
-			}
 		} else {
 			$campaign = $this->dao->getCampaign( $id );
 			$currentReviewers = $this->dao->getReviewers( $id );
@@ -162,11 +157,7 @@ ENDTWIG;
 			$questionFooters = $this->form->get( 'qfooters' );
 			$questionReportHeads = $this->form->get( 'qreporthead' );
 
-			if ( $id == 'new' && $this->dao->activeCampaign() ) {
-				$this->flash( 'error',
-					$this->i18nContext->message( 'admin-new-campaign-in-progress' )
-				);
-			} elseif ( $id == 'new' ) {
+			if ( $id == 'new' ) {
 				// This is a temporary fix to make the *just started* campaign
 				// active and bypass the actual start and end date to be fixed
 				// in a subsequent patch when actual logic for using start and
