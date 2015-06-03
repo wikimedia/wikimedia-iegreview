@@ -69,7 +69,7 @@ class Edit extends Controller {
 			'default' => $defaults['notes'],
 		) );
 
-		$this->form->requireInArray( 'status',
+		$this->form->expectInArray( 'status',
 			array( 'open', 'abandoned', 'accepted', 'rejected' ),
 			array(
 				'default' => $defaults['status'],
