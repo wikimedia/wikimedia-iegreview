@@ -392,6 +392,9 @@ class App {
 			'require-viewcampaign' => function ( $route ) use ( $slim ) {
 				$user = $slim->authManager->getUserId();
 				$campaign = $route->getParam('campaign');
+				$campaigninfo = $slim->campaignsDao->getCampaign( $campaign );
+				$name = $campaigninfo['name'];
+				$slim->view->set( 'campaignname', $name );
 				if ( $slim->campaignsDao->isReviewer( $campaign, $user ) === false ) {
 					// Redirect to home page
 					$slim->flash( 'error', 'You cannot access this campaign' );
