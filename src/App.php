@@ -405,10 +405,8 @@ class App {
 		$slim->group( '/',
 			$middleware['inject-user'],
 			function () use ( $slim, $middleware ) {
-				$slim->get( '', function () use ( $slim ) {
-					$slim->flashKeep();
-					$slim->redirect( $slim->urlFor( 'campaigns' ) );
-				} )->name( 'home' );
+				App::redirect( $slim, '', 'campaigns', 'home' );
+				App::redirect( $slim, 'index', 'campaigns' );
 
 				$slim->get( 'campaigns', $middleware['must-revalidate'],
 					function () use ( $slim ) {
@@ -417,12 +415,6 @@ class App {
 						$page();
 					}
 				)->name( 'campaigns' );
-
-				$slim->get( 'index', function () use ( $slim ) {
-					$page = new Controllers\Index( $slim );
-					$page->setDao( $slim->campaignsDao );
-					$page();
-				} )->name( 'index' );
 
 				App::template( $slim, 'credits' );
 				App::template( $slim, 'privacy' );
@@ -649,6 +641,23 @@ class App {
 		$slim->notFound( function () use ( $slim, $middleware ) {
 			$slim->render( '404.html' );
 		} );
+	}
+
+
+	/**
+	 * Add a redirect route to the app.
+	 * @param \Slim\Slim $slim App
+	 * @param string $name Page name
+	 * @param string $to Redirect target route name
+	 * @param string $routeName Name for the route
+	 */
+	public static function redirect( $slim, $name, $to, $routeName = null ) {
+		$routeName = $routeName ?: $name;
+
+		$slim->get( $name, function () use ( $slim, $name, $to ) {
+			$slim->flashKeep();
+			$slim->redirect( $slim->urlFor( $to ) );
+		} )->name( $routeName );
 	}
 
 

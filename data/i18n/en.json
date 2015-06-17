@@ -29,8 +29,6 @@
 	"new-account-subject": "New grants review account",
 	"new-account-email": "A new grants review account has been created for you.\n\nYour login info is:\n\nusername: $1\npassword: $2\n\nYou may login at: $3\n\nYou may change your password at: $4\n\nSincerely,\nGrants review administrators",
 
-	"index-page": "Welcome to the Wikimedia grants review application.",
-
 	"credits": "Credits & licensing",
 	"credits-page-license": "The Wikimedia grants review software is open source and <a href=\"//git.wikimedia.org/log/wikimedia%2Fiegreview\">available</a> under the <a href=\"http://www.gnu.org/copyleft/gpl.html\">GNU General Public License 3.0</a>.",
 	"credits-page-scholarships": "The application is based on code developed for the <a href=\"https://git.wikimedia.org/log/wikimedia%2Fwikimania-scholarships\">Wikimania Scholarships application</a>.",
@@ -132,9 +130,11 @@
 	"admin-proposal-theme": "Theme",
 	"admin-proposal-amount": "Amount",
 
-	"campaigns-welcome": "Welcome reviewer! Pick a campaign to start reviewing.",
+	"campaigns-welcome": "Welcome to the Wikimedia grants review application.",
 	"campaigns-active": "Active campaigns",
+	"campaigns-active-empty": "No active campaigns found",
 	"campaigns-past": "Past campaigns",
+	"campaigns-past-empty": "No past campaigns found",
 
 	"page-of-pages": "Page $1 of $2",
 	"no-results": "No results found",

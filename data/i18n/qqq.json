@@ -67,7 +67,9 @@
 
 	"campaigns-welcome": "Welcome message for reviewer landing page",
 	"campaigns-active": "Active campaigns header",
+	"campaigns-active-empty": "Replacement for empty campaign list",
 	"campaigns-past": "Past campaigns header",
+	"campaigns-past-empty": "Replacement for empty campaign list",
 
 	"change-password": "Navigation menu item, links to password change page.\n{{Identical|Change password}}",
 	"credits": "Credits page heading",
@@ -87,7 +89,6 @@
 	"form-no": "Radio button label.",
 	"form-yes": "Radio button label.",
 	"header-title": "Used as the page title",
-	"index-page": "Landing page content,\n\nProcessed as wikitext.",
 	"login": "Login page heading and label for form submit button.\n{{Identical|Log in}}",
 	"login-error": "Message shown to user when authentication form is submitted with incomplete data",
 	"login-failed": "Message shown to user when authentication fails",
