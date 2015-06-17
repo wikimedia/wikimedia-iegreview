@@ -69,13 +69,12 @@ class Edit extends Controller {
 			'default' => $defaults['notes'],
 		) );
 
-		$this->form->requireInArray( 'status',
+		$this->form->expectInArray( 'status',
 			array( 'open', 'abandoned', 'accepted', 'rejected' ),
 			array(
 				'default' => $defaults['status'],
 		) );
 
-		$this->log->debug( print_r( $this->form, true ) );
 		$this->view->setData( 'form', $this->form );
 	}
 
@@ -133,6 +132,7 @@ class Edit extends Controller {
 
 		} else {
 			// TODO: save input to be shown in get screen
+			$this->flash( 'error', $this->msg( 'proposals-edit-error' ) );
 		}
 		$this->redirect( $redir );
 	}
