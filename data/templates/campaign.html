@@ -1,41 +1,53 @@
 {% extends "base.html" %}
-{% block navbar %}{% endblock navbar %}
+
+{% block navbar %}
+{% if user|default(false) %}
+{% include 'nav_basic.html' %}
+{% else %}
+{% include 'nav_login.html' %}
+{% endif %}
+{% endblock navbar %}
 
 {% block content %}
 {% spaceless %}
 <div class="row">
   <div class="col-md-10 col-md-offset-1">
-    <h2>{{ 'campaigns-welcome'|message }}</h2>
+    <h2>{{ 'header-title'|message }}</h2>
+    <p>{{ 'campaigns-welcome'|message }}</p>
   </div>
 </div>
+
 {% if user|default(false) %}
+<div class="row">
+  <div class="col-md-10 col-md-offset-1">
+    <h3>{{ 'campaigns-active'|message }}</h3>
+    <ul>
+      {% for campaign in campaigns if campaign.status == 1 %}
+      <li>
+        <a href ="{{ urlFor( 'proposals_home', { 'campaign':campaign.id } ) }}" >{{ campaign.name }}</a>
+      </li>
+      {% else %}
+      <li>{{ 'campaigns-active-empty'|message }} </li>
+      {% endfor %}
+    </ul>
+  </div>
+</div>
+
 
 <div class="row">
   <div class="col-md-10 col-md-offset-1">
-  <h3>{{ 'campaigns-active'|message }}</h3>
+    <h3>{{ 'campaigns-past'|message }}</h3>
+    <ul>
+      {% for campaign in campaigns if campaign.status == 0 %}
+      <li>
+        <a href ="{{ urlFor( 'proposals_home', { 'campaign':campaign.id } ) }}" >{{ campaign.name }}</a>
+      </li>
+      {% else %}
+      <li>{{ 'campaigns-past-empty'|message }} </li>
+      {% endfor %}
+  </ul>
   </div>
 </div>
-  {% for campaign in campaigns if campaign.status == 1 %}
-    <div class="row">
-        <div class="col-md-10 col-md-offset-1">
-          <a href ="{{ urlFor( 'proposals_home', { 'campaign':campaign.id } ) }}" >{{ campaign.name }}</a>
-        </div>
-    </div>
-  {% endfor %}
-<div class="row">
-  <div class="col-md-10 col-md-offset-1">
-  <h3>{{ 'campaigns-past'|message }}</h3>
-  </div>
-</div>
-  {% for campaign in campaigns if campaign.status == 0 %}
-    <div class="row">
-        <div class="col-md-10 col-md-offset-1">
-          <a href ="{{ urlFor( 'proposals_home', { 'campaign':campaign.id } ) }}" >{{ campaign.name }}</a>
-        </div>
-    </div>
-  {% endfor %}
-
 {% endif %}
-
 {% endspaceless %}
 {% endblock content %}
