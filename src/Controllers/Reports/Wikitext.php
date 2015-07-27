@@ -60,7 +60,7 @@ class Wikitext extends Controller {
 		$records = $this->dao->export(
 			$campaign, $this->getQuestions( $campaign ), $params
 		);
-		$template = $this->campaignsDao->getTemplate( $this->activeCampaign );
+		$template = $this->campaignsDao->getTemplate( $campaign );
 		// HACK: map questions to A, B, C, D criteria labels for use in output
 		// template.
 		// FIXME: find a better way to associate questions and the wikitext

@@ -99,10 +99,10 @@ class Aggregated extends AbstractReport {
 		return 'desc';
 	}
 
-	protected function getQuestions() {
+	protected function getQuestions( $campaign ) {
 		static $questions = null;
 		if ( $questions === null ) {
-			$questions = $this->campaignsDao->getQuestions( $this->activeCampaign );
+			$questions = $this->campaignsDao->getQuestions( $campaign );
 		}
 		return $questions;
 	}
@@ -118,7 +118,7 @@ class Aggregated extends AbstractReport {
 			'page' => $this->form->get( 'p' ),
 		);
 		return $this->dao->aggregatedScores(
-			$campaign, $this->getQuestions(), $params
+			$campaign, $this->getQuestions( $campaign ), $params
 		);
 	}
 
