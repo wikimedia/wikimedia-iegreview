@@ -43,7 +43,7 @@ plate macro
 	 * 'sortable' => true/false
 	 * @return array Column descriptions
 	 */
-	abstract protected function describeColumns();
+	abstract protected function describeColumns( $campaign );
 
 	/**
 	 * @return stdClass Results object
@@ -91,7 +91,7 @@ plate macro
 		$this->setupForm();
 		$this->form->validate( $_GET );
 
-		$this->view->setData( 'columns', $this->describeColumns() );
+		$this->view->setData( 'columns', $this->describeColumns( $campaign ) );
 
 		$this->view->set( 'items', $this->form->get( 'items' ) );
 		$this->view->set( 'p', $this->form->get( 'p' ) );

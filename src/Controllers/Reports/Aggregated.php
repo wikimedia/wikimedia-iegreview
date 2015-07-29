@@ -42,7 +42,7 @@ class Aggregated extends AbstractReport {
 	/**
 	 * @return array Column descriptions
 	 */
-	protected function describeColumns() {
+	protected function describeColumns( $campaign ) {
 		$columns = array(
 			'report-aggregated-proposal' => array(
 				'column' => 'id',
@@ -65,7 +65,7 @@ class Aggregated extends AbstractReport {
 			),
 		);
 
-		foreach ( $this->getQuestions() as $question ) {
+		foreach ( $this->getQuestions( $this->$campaign ) as $question ) {
 			if ( $question['type'] === 'score' ) {
 				$columns["q{$question['id']}"] = array(
 					'header' => $question['report_head'],
