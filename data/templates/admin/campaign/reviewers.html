@@ -39,7 +39,13 @@
     <td>{{ row.username }}</td>
     <td class="text-center">{{ row.reviewed }}</td>
     <td class="text-center">{{ row.total }}</td>
-    <td class="text-center">{{ ( ( row.reviewed / row.total ) * 100 )|number_format(2) }}%</td>
+    <td class="text-center">
+      {% if row.total > 0 %}
+        {{ ( ( row.reviewed / row.total ) * 100 )|number_format(2) }}%
+      {% else %}
+        {{ 0.00 }}%
+      {% endif %}
+    </td>
     <td><a href="{{ urlFor( 'admin_campaign_proposals', { 'id':row.campaign_id, 'user':row.user_id } ) }}">{{ 'admin-reviewer-proposals'|message }}</a></td>
   </tr>
   {% else %}
