@@ -65,7 +65,7 @@ class Aggregated extends AbstractReport {
 			),
 		);
 
-		foreach ( $this->getQuestions( $this->$campaign ) as $question ) {
+		foreach ( $this->getQuestions( $campaign ) as $question ) {
 			if ( $question['type'] === 'score' ) {
 				$columns["q{$question['id']}"] = array(
 					'header' => $question['report_head'],
