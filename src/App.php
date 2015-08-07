@@ -560,12 +560,6 @@ class App {
 					$page->setCampaignsDao( $slim->campaignsDao );
 					$page( $campaign );
 				} )->name( 'reports_wikitext' );
-
-				$slim->get( 'campaigns', function ( $campaign ) use ( $slim ) {
-					$page = new Controllers\Reports\Campaigns( $slim );
-					$page->setDao( $slim->reportsDao );
-					$page( $campaign );
-				} )->name( 'reports_campaigns' );
 			}
 		);
 
