@@ -37,7 +37,7 @@
   {% if records is not empty %}
     {% for row in records %}
       <tr>
-        <td><a href="{{ urlFor( 'proposals_view', { 'id':row.proposal } ) }}">{{ row.title }}</a></td>
+        <td><a href="{{ urlFor( 'proposals_view', { 'id':row.proposal, 'campaign':ctx.campid } ) }}">{{ row.title }}</a></td>
         <td>{{ row.theme }}</td>
         <td>{{ row.amount }}</td>
       </tr>
