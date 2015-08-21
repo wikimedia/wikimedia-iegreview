@@ -1,10 +1,10 @@
 {
     "_readme": [
         "This file locks the dependencies of your project to a known state",
-        "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "126af064ccbf7bb32fd066bf6c547288",
+    "hash": "748970431846052b9ccfb3b19d8c9d0f",
     "packages": [
         {
             "name": "bd808/monolog-udp2log-handler",
@@ -218,12 +218,12 @@
             "version": "2.4.3",
             "source": {
                 "type": "git",
-                "url": "https://github.com/codeguy/Slim.git",
+                "url": "https://github.com/slimphp/Slim.git",
                 "reference": "4906b77a07c7bd6ff1a99aea903e940a2d4fa106"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/codeguy/Slim/zipball/4906b77a07c7bd6ff1a99aea903e940a2d4fa106",
+                "url": "https://api.github.com/repos/slimphp/Slim/zipball/4906b77a07c7bd6ff1a99aea903e940a2d4fa106",
                 "reference": "4906b77a07c7bd6ff1a99aea903e940a2d4fa106",
                 "shasum": ""
             },
@@ -265,12 +265,12 @@
             "target-dir": "Slim/Views",
             "source": {
                 "type": "git",
-                "url": "https://github.com/codeguy/Slim-Views.git",
+                "url": "https://github.com/slimphp/Slim-Views.git",
                 "reference": "f0a05ea0b654218e40de692ed7cddcad1cf4b828"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/codeguy/Slim-Views/zipball/f0a05ea0b654218e40de692ed7cddcad1cf4b828",
+                "url": "https://api.github.com/repos/slimphp/Slim-Views/zipball/f0a05ea0b654218e40de692ed7cddcad1cf4b828",
                 "reference": "f0a05ea0b654218e40de692ed7cddcad1cf4b828",
                 "shasum": ""
             },
@@ -315,25 +315,25 @@
         },
         {
             "name": "twig/twig",
-            "version": "v1.16.0",
+            "version": "v1.20.0",
             "source": {
                 "type": "git",
-                "url": "https://github.com/fabpot/Twig.git",
-                "reference": "8ce37115802e257a984a82d38254884085060024"
+                "url": "https://github.com/twigphp/Twig.git",
+                "reference": "1ea4e5f81c6d005fe84d0b38e1c4f1955eb86844"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/fabpot/Twig/zipball/8ce37115802e257a984a82d38254884085060024",
-                "reference": "8ce37115802e257a984a82d38254884085060024",
+                "url": "https://api.github.com/repos/twigphp/Twig/zipball/1ea4e5f81c6d005fe84d0b38e1c4f1955eb86844",
+                "reference": "1ea4e5f81c6d005fe84d0b38e1c4f1955eb86844",
                 "shasum": ""
             },
             "require": {
-                "php": ">=5.2.4"
+                "php": ">=5.2.7"
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.16-dev"
+                    "dev-master": "1.20-dev"
                 }
             },
             "autoload": {
@@ -359,7 +359,7 @@
                 },
                 {
                     "name": "Twig Team",
-                    "homepage": "https://github.com/fabpot/Twig/graphs/contributors",
+                    "homepage": "http://twig.sensiolabs.org/contributors",
                     "role": "Contributors"
                 }
             ],
@@ -368,19 +368,19 @@
             "keywords": [
                 "templating"
             ],
-            "time": "2014-07-05 12:19:05"
+            "time": "2015-08-12 15:56:39"
         },
         {
             "name": "wikimedia/simplei18n",
             "version": "v1.0.0",
             "source": {
                 "type": "git",
-                "url": "https://github.com/bd808/wikimedia-simplei18n.git",
+                "url": "https://github.com/wikimedia/simplei18n.git",
                 "reference": "0ff19a7ba55fd698fe67edf9f4dbb2056f93053d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/bd808/wikimedia-simplei18n/zipball/0ff19a7ba55fd698fe67edf9f4dbb2056f93053d",
+                "url": "https://api.github.com/repos/wikimedia/simplei18n/zipball/0ff19a7ba55fd698fe67edf9f4dbb2056f93053d",
                 "reference": "0ff19a7ba55fd698fe67edf9f4dbb2056f93053d",
                 "shasum": ""
             },

@@ -23,7 +23,7 @@ Extensions
 PEAR
 ----
 
-PEAR support has been discontinued in Twig 1.15.1, and no PEAR packages is
+PEAR support has been discontinued in Twig 1.15.1, and no PEAR packages are
 provided anymore. Use Composer instead.
 
 Filters
@@ -80,6 +80,12 @@ Tests
 * The ``sameas`` and ``divisibleby`` tests are deprecated in favor of ``same
   as`` and ``divisible by`` respectively.
 
+Nodes
+-----
+
+* As of Twig 1.x, ``Node::toXml()`` is deprecated and will be removed in Twig
+  2.0.
+
 Interfaces
 ----------
 
@@ -95,9 +101,36 @@ Interfaces
   those constants Twig_Template::ANY_CALL, Twig_Template::ARRAY_CALL,
   Twig_Template::METHOD_CALL)
 
+Loaders
+-------
+
+* As of Twig 1.x, ``Twig_Loader_String`` is deprecated and will be removed in
+  2.0.
+
+Node Visitors
+-------------
+
+* Because of the removal of ``Twig_NodeInterface`` in 2.0, you need to extend
+  ``Twig_BaseNodeVistor`` instead of implementing ``Twig_NodeVisitorInterface``
+  directly to make your node visitors compatible with both Twig 1.x and 2.x.
+
 Globals
 -------
 
 * As of Twig 2.x, the ability to register a global variable after the runtime
   or the extensions have been initialized is not possible anymore (but
   changing the value of an already registered global is possible).
+
+* As of Twig 1.x, the ``_self`` global variable is deprecated except for usage
+  in the ``from`` and the ``import`` tags. In Twig 2.0, ``_self`` is not
+  exposed anymore but still usable in the ``from`` and the ``import`` tags.
+
+Miscellaneous
+-------------
+
+* As of Twig 1.x, ``Twig_Environment::clearTemplateCache()`` is deprecated and
+  will be removed in 2.0.
+
+* As of Twig 1.x, ``Twig_Template::getEnvironment()`` and
+  ``Twig_TemplateInterface::getEnvironment()`` are deprecated and will be
+  removed in 2.0.
