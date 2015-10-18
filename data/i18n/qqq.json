@@ -120,7 +120,6 @@
 	"password": "Input label, followed by text box.\n{{Identical|Password}}",
 	"password-username": "Input label, followed by authenticated user's username.\n{{Identical|Username}}",
 	"privacy": "Privacy page title",
-	"privacy-page": "Privacy policy page content.",
 	"proposal-summary": "Section title",
 	"proposals-edit-amount": "Input label, followed by text box.",
 	"proposals-edit-amount-placeholder": "Placeholder for input text box",
