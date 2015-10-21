@@ -43,6 +43,7 @@ class PasswordTest extends \PHPUnit_Framework_TestCase {
 
 	/**
 	 * @covers ::comparePasswordToHash
+	 * @covers ::hashEquals
 	 */
 	public function testComparePasswordToHash() {
 		$enc = Password::encodePassword( 'password' );
@@ -59,6 +60,17 @@ class PasswordTest extends \PHPUnit_Framework_TestCase {
 		// number of characters.
 		$p = Password::randomPassword( 16 );
 		$this->assertEquals( 16, strlen( $p ) );
+	}
+
+	/**
+	 * @covers ::hashEquals
+	 */
+	public function testHashEquals() {
+		$this->assertFalse( Password::hashEquals( false, '' ) );
+		$this->assertFalse( Password::hashEquals( '', false ) );
+		$this->assertFalse( Password::hashEquals( 'a', '' ) );
+		$this->assertFalse( Password::hashEquals( 'a', 'b' ) );
+		$this->assertTrue( Password::hashEquals( 'a', 'a' ) );
 	}
 
 } //end PasswordTest
