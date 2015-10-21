@@ -194,9 +194,11 @@ class Users extends AbstractDao {
 			$stmt->execute( array( Password::encodePassword( $newpw ), $id ) );
 			$this->dbh->commit();
 			$this->logger->notice( 'Changed password for user', array(
-					'method' => __METHOD__,
-					'user' => $id,
+				'method' => __METHOD__,
+				'user' => $id,
 			) );
+			// Invalidate any password reset token that may have been issued
+			$this->updatePasswordResetHash( $id, null );
 			return true;
 
 		} catch ( PDOException $e) {
@@ -243,4 +245,89 @@ class Users extends AbstractDao {
 		return $this->update( $sql, $params );
 	}
 
+	/**
+	 * Generate password reset token(s) for the given email address.
+	 *
+	 * @param string $email Email address
+	 * @return array (token, user) pairs; token === false on error
+	 */
+	public function createPasswordResetToken( $email ) {
+		$ret = array();
+		$users = $this->search( array(
+			'email' => $email,
+			'items' => 'all',
+		) );
+		foreach ( $users->rows as $user ) {
+			$token = bin2hex( Password::getBytes( 16, true ) );
+			$hash = hash( 'sha256', $token );
+			if ( !$this->updatePasswordResetHash( $user['id'], $hash ) ) {
+				$token = false;
+			}
+			$ret[] = array( $token, $user );
+		}
+		return $ret;
+	}
+
+	protected function updatePasswordResetHash( $id, $hash ) {
+		$ret = false;
+		$stmt = $this->dbh->prepare(
+			'UPDATE users SET reset_hash = ? WHERE id = ?'
+		);
+		try {
+			$this->dbh->beginTransaction();
+			$stmt->execute( array( $hash, $id ) );
+			$this->dbh->commit();
+			$this->logger->notice( 'Created reset token for user', array(
+				'method' => __METHOD__,
+				'user' => $id,
+			) );
+			$ret = true;
+
+		} catch ( PDOException $e) {
+			$this->dbh->rollback();
+			$this->logger->error(
+				'Failed to update reset_hash for user',
+				array(
+					'method' => __METHOD__,
+					'exception' => $e,
+			) );
+		}
+		return $ret;
+	}
+
+	/**
+	 * Validate a user's password reset token.
+	 *
+	 * @param int $id User id
+	 * @param string $token Reset token
+	 * @return bool
+	 */
+	public function validatePasswordResetToken( $id, $token ) {
+		$hash = hash( 'sha256', $token );
+		$row = $this->fetch(
+			'SELECT reset_hash FROM users WHERE id = ?',
+			array( $id )
+		);
+		return $row && $row['reset_hash'] === $hash;
+	}
+
+	/**
+	 * Reset a user's password after validating the reset token.
+	 *
+	 * @param int $id User id
+	 * @param string $token Reset token
+	 * @param string $pass New password
+	 * @return bool
+	 */
+	public function resetPassword( $id, $token, $pass ) {
+		$ret = false;
+		if ( $this->validatePasswordResetToken( $id, $token ) ) {
+			$ret = $this->updatePassword( null, $pass, $id, true );
+			if ( $ret ) {
+				// Consume token if change was successful
+				$this->updatePasswordResetHash( $id, null );
+			}
+		}
+		return $ret;
+	}
 }
