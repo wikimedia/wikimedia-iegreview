@@ -439,6 +439,45 @@ class App {
 			}
 		);
 
+		// Account management helpers
+		$slim->group( '/account/',
+			$middleware['inject-user'],
+			function () use ( $slim, $middleware ) {
+				$slim->get( 'recover', $middleware['must-revalidate'],
+					function () use ( $slim ) {
+						$page = new Controllers\Account\Recover( $slim );
+						$page->setDao( $slim->usersDao );
+						$page();
+					}
+				)->name( 'account_recover' );
+
+				$slim->post( 'recover.post', $middleware['must-revalidate'],
+					function () use ( $slim ) {
+						$page = new Controllers\Account\Recover( $slim );
+						$page->setDao( $slim->usersDao );
+						$page->setMailer( $slim->mailer );
+						$page();
+					}
+				)->name( 'account_recover_post' );
+
+				$slim->get( 'reset/:token/:uid', $middleware['must-revalidate'],
+					function ( $token, $uid ) use ( $slim ) {
+						$page = new Controllers\Account\Reset( $slim );
+						$page->setDao( $slim->usersDao );
+						$page( $uid, $token );
+					}
+				)->name( 'account_reset' );
+
+				$slim->post( 'reset.post/:token/:uid', $middleware['must-revalidate'],
+					function ( $token, $uid ) use ( $slim ) {
+						$page = new Controllers\Account\Reset( $slim );
+						$page->setDao( $slim->usersDao );
+						$page( $uid, $token );
+					}
+				)->name( 'account_reset_post' );
+			}
+		);
+
 		// Routes for authenticated users
 		$slim->group( '/user/',
 			$middleware['must-revalidate'],

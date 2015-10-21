@@ -1,0 +1,4 @@
+ALTER TABLE users
+  ADD COLUMN reset_hash VARCHAR(64) DEFAULT NULL
+  AFTER blocked;
+
