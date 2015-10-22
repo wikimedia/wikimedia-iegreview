@@ -80,7 +80,7 @@ class Recover extends Controller {
 		);
 
 		if ( !$sent ) {
-			$this->logger->error(
+			$this->log->error(
 				'Failed to send reset email for user',
 				array(
 					'method' => __METHOD__,
