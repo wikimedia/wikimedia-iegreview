@@ -59,6 +59,28 @@ settings will be injected into the application environment.
     APPLICATION_CLOSE=2013-02-01T00:00:00Z
     MOCK=1
 
+Hacking
+-------
+
+To manage PHP dependencies we use composer. When doing development on your
+machine bring the dependencies using:
+
+  composer install
+
+And run tests via:
+
+  composer test
+
+Since the deployment dependencies are added to this repository (vendor
+directory), before commiting a change you will want to remove the development
+dependencies which must not be added to git:
+
+  composer install --no-dev
+  composer dump-autoload --no-dev
+
+Should instruct composer to drop the development dependencies from the vendor
+directory and the autoloaders.
+
 Authors
 -------
 * Bryan Davis, Wikimedia Foundation
