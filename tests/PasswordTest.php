@@ -66,8 +66,6 @@ class PasswordTest extends \PHPUnit_Framework_TestCase {
 	 * @covers ::hashEquals
 	 */
 	public function testHashEquals() {
-		$this->assertFalse( Password::hashEquals( false, '' ) );
-		$this->assertFalse( Password::hashEquals( '', false ) );
 		$this->assertFalse( Password::hashEquals( 'a', '' ) );
 		$this->assertFalse( Password::hashEquals( 'a', 'b' ) );
 		$this->assertTrue( Password::hashEquals( 'a', 'a' ) );
