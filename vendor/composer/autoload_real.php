@@ -43,8 +43,3 @@ class ComposerAutoloaderInit_iegreview
         return $loader;
     }
 }
-
-function composerRequire_iegreview($file)
-{
-    require $file;
-}
