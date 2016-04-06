@@ -5,6 +5,7 @@
         "This file is @generated automatically"
     ],
     "hash": "748970431846052b9ccfb3b19d8c9d0f",
+    "content-hash": "dee8a1fba94547d870674df5701d99cc",
     "packages": [
         {
             "name": "bd808/monolog-udp2log-handler",
