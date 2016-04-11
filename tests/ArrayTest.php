@@ -99,7 +99,7 @@ class ArrayTest extends \PHPUnit_Framework_TestCase {
 	/**
 	 * @covers ::difference
 	 * @expectedException PHPUnit_Framework_Error
-	 * @expectedExceptionMessageRegExp /must be an (instance of )?array, \w+ given/
+	 * @expectedExceptionMessageRegExp /must be (an( instance of)?|of the type) array, \w+ given/
 	 * @dataProvider differenceExceptionProvider
 	 */
 	public function testDifferenceException( $from, $to ) {
