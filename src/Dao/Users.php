@@ -85,7 +85,6 @@ class Users extends AbstractDao {
 			$where[] = 'email like :email';
 			$crit['email'] = $params['email'];
 		}
-		$where[] = 'blocked = 0';
 
 		$sql = self::concat(
 			'SELECT SQL_CALC_FOUND_ROWS * FROM users',
