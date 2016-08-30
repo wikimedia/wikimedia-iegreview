@@ -67,7 +67,7 @@ class App {
 			'db.user' => Config::getStr( 'DB_USER' ),
 			'db.pass' => Config::getStr( 'DB_PASS' ),
 			'parsoid.url' => Config::getStr( 'PARSOID_URL',
-				'http://parsoid.svc.eqiad.wmnet:8000/enwiki/'
+				'https://en.wikipedia.org/api/rest_v1/transform/wikitext/to/html'
 			),
 			'parsoid.cache' => Config::getStr( 'CACHE_DIR',
 				"{$this->deployDir}/data/cache"
