@@ -38,9 +38,17 @@ try {
 }
 restore_error_handler();
 
-// Load environment settings from .env if present
-if ( is_readable( APP_ROOT . '/.env' ) ) {
-	\Wikimedia\IEGReview\Config::load( APP_ROOT . '/.env' );
+// Load environment settings if present
+$envFileLocations = [
+	'/etc/iegreview.ini',
+	APP_ROOT . '/.env',
+];
+foreach ( $envFileLocations as $file ) {
+	if ( is_readable( $file ) ) {
+		\Wikimedia\IEGReview\Config::load( $file );
+		// Stop after first env file is found
+		break;
+	}
 }
 
 $app = new \Wikimedia\IEGReview\App( APP_ROOT );
