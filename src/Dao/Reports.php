@@ -142,7 +142,7 @@ class Reports extends AbstractDao {
 			$crit["int_{$sub}"] = $question['id'];
 		}
 		$sql = self::concat(
-			'SELECT', implode( ',', $fields ),
+			'SELECT SQL_CALC_FOUND_ROWS', implode( ',', $fields ),
 			'FROM proposals p',
 			$joins,
 			self::buildWhere( $where ),

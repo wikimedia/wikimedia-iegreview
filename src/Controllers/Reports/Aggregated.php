@@ -117,9 +117,22 @@ class Aggregated extends AbstractReport {
 			'items' => $this->form->get( 'items' ),
 			'page' => $this->form->get( 'p' ),
 		);
-		return $this->dao->aggregatedScores(
+
+		$searchResults = $this->dao->aggregatedScores(
 			$campaign, $this->getQuestions( $campaign ), $params
 		);
+		$this->view->set( 'records', $searchResults->rows );
+		$this->view->set( 'found', $searchResults->found );
+
+		// pagination information
+		list( $pageCount, $first, $last ) = $this->pagination(
+			$searchResults->found, $this->form->get( 'p' ), $this->form->get( 'items' )
+		);
+		$this->view->set( 'pages', $pageCount );
+		$this->view->set( 'left', $first );
+		$this->view->set( 'right', $last );
+
+		return $searchResults;
 	}
 
 }
