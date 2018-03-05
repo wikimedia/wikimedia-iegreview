@@ -23,7 +23,7 @@
 
 namespace Wikimedia\IEGReview\Controllers\Account;
 
-use Wikimedia\IEGReview\Controller;
+use Wikimedia\Slimapp\Controller;
 
 /**
  * Reset password using recovery token

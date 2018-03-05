@@ -45,7 +45,7 @@ class FingersCrossedHandler extends AbstractHandler
      * @param Boolean                         $stopBuffering      Whether the handler should stop buffering after being triggered (default true)
      * @param int                             $passthruLevel      Minimum level to always flush to handler on close, even if strategy not triggered
      */
-    public function __construct($handler, $activationStrategy = null, $bufferSize = 0, $bubble = true, $stopBuffering = true, $passthruLevel = NULL)
+    public function __construct($handler, $activationStrategy = null, $bufferSize = 0, $bubble = true, $stopBuffering = true, $passthruLevel = null)
     {
         if (null === $activationStrategy) {
             $activationStrategy = new ErrorLevelActivationStrategy(Logger::WARNING);
@@ -61,7 +61,14 @@ class FingersCrossedHandler extends AbstractHandler
         $this->bufferSize = $bufferSize;
         $this->bubble = $bubble;
         $this->stopBuffering = $stopBuffering;
-        $this->passthruLevel = $passthruLevel;
+
+        if ($passthruLevel !== null) {
+            $this->passthruLevel = Logger::toMonologLevel($passthruLevel);
+        }
+
+        if (!$this->handler instanceof HandlerInterface && !is_callable($this->handler)) {
+            throw new \RuntimeException("The given handler (".json_encode($this->handler).") is not a callable nor a Monolog\Handler\HandlerInterface object");
+        }
     }
 
     /**
@@ -70,6 +77,26 @@ class FingersCrossedHandler extends AbstractHandler
     public function isHandling(array $record)
     {
         return true;
+    }
+
+    /**
+     * Manually activate this logger regardless of the activation strategy
+     */
+    public function activate()
+    {
+        if ($this->stopBuffering) {
+            $this->buffering = false;
+        }
+        if (!$this->handler instanceof HandlerInterface) {
+            $record = end($this->buffer) ?: null;
+
+            $this->handler = call_user_func($this->handler, $record, $this);
+            if (!$this->handler instanceof HandlerInterface) {
+                throw new \RuntimeException("The factory callable should return a HandlerInterface");
+            }
+        }
+        $this->handler->handleBatch($this->buffer);
+        $this->buffer = array();
     }
 
     /**
@@ -89,20 +116,7 @@ class FingersCrossedHandler extends AbstractHandler
                 array_shift($this->buffer);
             }
             if ($this->activationStrategy->isHandlerActivated($record)) {
-                if ($this->stopBuffering) {
-                    $this->buffering = false;
-                }
-                if (!$this->handler instanceof HandlerInterface) {
-                    if (!is_callable($this->handler)) {
-                        throw new \RuntimeException("The given handler (".json_encode($this->handler).") is not a callable nor a Monolog\Handler\HandlerInterface object");
-                    }
-                    $this->handler = call_user_func($this->handler, $record, $this);
-                    if (!$this->handler instanceof HandlerInterface) {
-                        throw new \RuntimeException("The factory callable should return a HandlerInterface");
-                    }
-                }
-                $this->handler->handleBatch($this->buffer);
-                $this->buffer = array();
+                $this->activate();
             }
         } else {
             $this->handler->handle($record);
@@ -116,7 +130,7 @@ class FingersCrossedHandler extends AbstractHandler
      */
     public function close()
     {
-        if (NULL !== $this->passthruLevel) {
+        if (null !== $this->passthruLevel) {
             $level = $this->passthruLevel;
             $this->buffer = array_filter($this->buffer, function ($record) use ($level) {
                 return $record['level'] >= $level;
@@ -134,5 +148,16 @@ class FingersCrossedHandler extends AbstractHandler
     public function reset()
     {
         $this->buffering = true;
+    }
+
+    /**
+     * Clears the buffer without flushing any messages down to the wrapped handler.
+     *
+     * It also resets the handler to its initial buffering state.
+     */
+    public function clear()
+    {
+        $this->buffer = array();
+        $this->reset();
     }
 }

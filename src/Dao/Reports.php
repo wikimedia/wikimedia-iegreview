@@ -23,6 +23,8 @@
 
 namespace Wikimedia\IEGReview\Dao;
 
+use Wikimedia\Slimapp\Dao\AbstractDao;
+
 /**
  * Data access object for reports.
  *
@@ -70,8 +72,10 @@ class Reports extends AbstractDao {
 		$params = array_merge( $defaults, $params );
 
 		$questionIds = array_map(
-			function ( $elm ) { return "q{$elm['id']}";
-	  }, $questions
+			function ( $elm ) {
+				return "q{$elm['id']}";
+			},
+			$questions
 		);
 		$validSorts = array_merge(
 			array( 'id', 'title', 'amount', 'theme', 'rcnt', 'pcnt' ),

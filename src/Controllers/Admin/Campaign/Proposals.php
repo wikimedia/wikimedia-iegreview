@@ -23,7 +23,7 @@
 
 namespace Wikimedia\IEGReview\Controllers\Admin\Campaign;
 
-use Wikimedia\IEGReview\Controller;
+use Wikimedia\Slimapp\Controller;
 
 /**
  * Display proposals reviewed for a given campaign by a given reviewer

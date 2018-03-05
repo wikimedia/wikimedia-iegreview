@@ -23,7 +23,7 @@
 
 namespace Wikimedia\IEGReview\Controllers\Admin;
 
-use Wikimedia\IEGReview\Controller;
+use Wikimedia\Slimapp\Controller;
 
 /**
  * List users.

@@ -23,7 +23,7 @@
 
 namespace Wikimedia\IEGReview\Controllers\Proposals;
 
-use Wikimedia\IEGReview\Controller;
+use Wikimedia\Slimapp\Controller;
 
 /**
  * Edit a proposal.
@@ -119,20 +119,20 @@ class Edit extends Controller {
 			}
 
 			if ( $ok ) {
-				$this->flash( 'info', $this->msg( 'proposals-edit-save' ) );
+				$this->flash( 'info', $this->i18nContext->message( 'proposals-edit-save' ) );
 				$redir = $this->urlFor( 'proposals_view',
 						array( 'id' => $id, 'campaign' => $campaign )
 				);
 			} else {
 				$this->flash( 'error',
-					$this->msg( 'proposals-edit-save-error' )
+					$this->i18nContext->message( 'proposals-edit-save-error' )
 				);
 				// TODO: save input to be shown in get screen
 			}
 
 		} else {
 			// TODO: save input to be shown in get screen
-			$this->flash( 'error', $this->msg( 'proposals-edit-error' ) );
+			$this->flash( 'error', $this->i18nContext->message( 'proposals-edit-error' ) );
 		}
 		$this->redirect( $redir );
 	}

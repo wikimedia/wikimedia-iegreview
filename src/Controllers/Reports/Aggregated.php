@@ -23,7 +23,7 @@
 
 namespace Wikimedia\IEGReview\Controllers\Reports;
 
-use Wikimedia\IEGReview\Controller;
+use Wikimedia\Slimapp\Controller;
 
 /**
  * Aggregated scores.

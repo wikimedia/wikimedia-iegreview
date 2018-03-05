@@ -23,7 +23,7 @@
 
 namespace Wikimedia\IEGReview\Controllers\User;
 
-use Wikimedia\IEGReview\Controller;
+use Wikimedia\Slimapp\Controller;
 
 /**
  * Manage account screen for user.

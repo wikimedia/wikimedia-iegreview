@@ -23,7 +23,7 @@
 
 namespace Wikimedia\IEGReview\Controllers\Proposals;
 
-use Wikimedia\IEGReview\Controller;
+use Wikimedia\Slimapp\Controller;
 
 /**
  * Review a proposal.
@@ -61,16 +61,16 @@ class Review extends Controller {
 			if ( $this->campaignsDao->isReviewer( $campaign, $userId ) ) {
 				$ok = $this->dao->insertOrUpdateReview( $review );
 				if ( $ok ) {
-					$this->flash( 'info', $this->msg( 'review-edit-save' ) );
+					$this->flash( 'info', $this->i18nContext->message( 'review-edit-save' ) );
 				} else {
 					$this->flash( 'error',
-						$this->msg( 'review-edit-save-error' )
+						$this->i18nContext->message( 'review-edit-save-error' )
 					);
 				}
 			}
 		} else {
 			$this->flash( 'error',
-				$this->msg( 'review-edit-submission-error' )
+				$this->i18nContext->message( 'review-edit-submission-error' )
 			);
 			// TODO: save input to be shown in get screen
 		}

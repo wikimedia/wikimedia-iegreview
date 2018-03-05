@@ -23,7 +23,7 @@
 
 namespace Wikimedia\IEGReview\Controllers\Account;
 
-use Wikimedia\IEGReview\Controller;
+use Wikimedia\Slimapp\Controller;
 
 /**
  * Request an account recovery by providing an email address

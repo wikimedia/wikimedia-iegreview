@@ -23,7 +23,7 @@
 
 namespace Wikimedia\IEGReview\Controllers\User;
 
-use Wikimedia\IEGReview\Controller;
+use Wikimedia\Slimapp\Controller;
 
 /**
  * Routes related to authentication.
@@ -40,7 +40,7 @@ class ChangePassword extends Controller {
 	}
 
 	protected function handleGet() {
-		$this->view->set( 'user', $this->authManager->getUser() );
+		$this->view->set( 'user', $this->authManager->getUserData() );
 		$this->view->set( 'listcampaigns', $this->campaignsDao->getUserCampaigns() );
 		$this->render( 'user/changePassword.html' );
 	}

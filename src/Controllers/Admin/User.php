@@ -23,8 +23,8 @@
 
 namespace Wikimedia\IEGReview\Controllers\Admin;
 
-use Wikimedia\IEGReview\Controller;
-use Wikimedia\IEGReview\Password;
+use Wikimedia\Slimapp\Controller;
+use Wikimedia\Slimapp\Auth\Password;
 
 /**
  * View/edit a user.

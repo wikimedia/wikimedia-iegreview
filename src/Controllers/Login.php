@@ -23,8 +23,8 @@
 
 namespace Wikimedia\IEGReview\Controllers;
 
-use Wikimedia\IEGReview\AuthManager;
-use Wikimedia\IEGReview\Controller;
+use Wikimedia\IEGReview\Auth\AuthManager;
+use Wikimedia\Slimapp\Controller;
 
 /**
  * Routes related to authentication.

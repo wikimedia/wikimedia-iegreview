@@ -23,46 +23,38 @@
 
 namespace Wikimedia\IEGReview;
 
+use Wikimedia\IEGReview\Auth\AuthManager;
+
+use Wikimedia\Slimapp\Dao\Users;
+use Wikimedia\SimpleI18n\I18nContext;
+use Wikimedia\SimpleI18n\JsonCache;
+use Wikimedia\Slimapp\AbstractApp;
+use Wikimedia\Slimapp\Config;
+use Wikimedia\Slimapp\CsrfMiddleware;
+use Wikimedia\Slimapp\Form;
+use Wikimedia\Slimapp\HeaderMiddleware;
+use Wikimedia\Slimapp\Mailer;
+use Wikimedia\Slimapp\ParsoidClient;
+use Wikimedia\Slimapp\TwigExtension;
+
 /**
  * Grants review application.
  *
  * @author Bryan Davis <bd808@wikimedia.org>
  * @copyright © 2014 Bryan Davis, Wikimedia Foundation and contributors.
  */
-class App {
+class App extends AbstractApp {
 
 	/**
-	 * @var string $deployDir
+	 * Apply settings to the Slim application.
+	 *
+	 * @param \Slim\Slim $slim Application
 	 */
-	protected $deployDir;
-
-	/**
-	 * @var \Slim\Slim $slim
-	 */
-	protected $slim;
-
-	/**
-	 * @param string $deployDir Full path to code deployment
-	 */
-	public function __construct( $deployDir ) {
-		$this->deployDir = $deployDir;
+	protected function configureSlim( \Slim\Slim $slim ) {
 
 		// Common configuration
-		$this->slim = new \Slim\Slim( array(
-			'mode' => 'production',
-			'debug' => false,
-			'log.level' => Config::getStr( 'LOG_LEVEL',
-				\Psr\Log\LogLevel::NOTICE
-			),
-			'log.file' => Config::getStr( 'LOG_FILE', 'php://stderr' ),
-			'view' => new \Slim\Views\Twig(),
-			'view.cache' => Config::getStr( 'CACHE_DIR',
-				"{$this->deployDir}/data/cache"
-			),
-			'smtp.host' => Config::getStr( 'SMTP_HOST', 'localhost' ),
-			'templates.path' => "{$this->deployDir}/data/templates",
-			'i18n.path' => "{$this->deployDir}/data/i18n",
-			'i18n.default' => 'en',
+		$slim->config( array(
+			'log.channel' => 'iegreview',
 			'db.dsn' => Config::getStr( 'DB_DSN' ),
 			'db.user' => Config::getStr( 'DB_USER' ),
 			'db.pass' => Config::getStr( 'DB_PASS' ),
@@ -74,11 +66,9 @@ class App {
 			),
 		) );
 
-		$slim = $this->slim;
-
 		// Production configuration that should not be shared with development
 		// Enabled by default or SLIM_MODE=production in environment
-		$this->slim->configureMode( 'production', function () use ( $slim ) {
+		$slim->configureMode( 'production', function () use ( $slim ) {
 			// Install a custom error handler
 			$slim->error( function ( \Exception $e ) use ( $slim ) {
 				$errorId = substr( session_id(), 0, 8 ) . '-' . substr( uniqid(), -8 );
@@ -94,60 +84,33 @@ class App {
 
 		// Development configuration
 		// Enable by setting SLIM_MODE=development in environment
-		$this->slim->configureMode( 'development', function () use ( $slim ) {
+		$slim->configureMode( 'development', function () use ( $slim ) {
 			$slim->config( array(
 				'debug' => true,
 				'log.level' => Config::getStr( 'LOG_LEVEL', \Psr\Log\LogLevel::DEBUG ),
 				'view.cache' => false,
 			) );
 		} );
-
-		// Slim does not natively understand being behind a proxy
-		// If not corrected template links created via siteUrl() may use the wrong
-		// Protocol (http instead of https).
-		if ( getenv( 'HTTP_X_FORWARDED_PROTO' ) ) {
-			$proto = getenv( 'HTTP_X_FORWARDED_PROTO' );
-			$this->slim->environment['slim.url_scheme'] = $proto;
-
-			$port = getenv( 'HTTP_X_FORWARDED_PORT' );
-			if ( $port === false ) {
-				$port = ( $proto == 'https' ) ? '443' : '80';
-			}
-			$this->slim->environment['SERVER_PORT'] = $port;
-		}
-
-		$this->configureIoc();
-		$this->configureView();
-		$this->configureRoutes();
-	}
-
-	/**
-	 * Main entry point for all requests.
-	 */
-	public function run() {
-		session_name( '_s' );
-		session_cache_limiter( false );
 		ini_set( 'session.cookie_httponly', true );
-		session_start();
 		register_shutdown_function( 'session_write_close' );
-		$this->slim->run();
 	}
 
 	/**
 	 * Configure inversion of control/dependency injection container.
+	 *
+	 * @param \Slim\Helper\Set $container IOC container
 	 */
-	protected function configureIoc() {
-		$container = $this->slim->container;
+	protected function configureIoc( \Slim\Helper\Set $container ) {
 
 		$container->singleton( 'usersDao', function ( $c ) {
-			return new \Wikimedia\IEGReview\Dao\Users(
+			return new Dao\Users(
 				$c->settings['db.dsn'],
 				$c->settings['db.user'], $c->settings['db.pass'],
 				$c->log );
 		} );
 
 		$container->singleton( 'settingsDao', function ( $c ) {
-			return new \Wikimedia\IEGReview\Dao\Settings(
+			return new Dao\Settings(
 				$c->settings['db.dsn'],
 				$c->settings['db.user'], $c->settings['db.pass'],
 				$c->log
@@ -156,7 +119,7 @@ class App {
 
 		$container->singleton( 'proposalsDao', function ( $c ) {
 			$uid = $c->authManager->getUserId();
-			return new \Wikimedia\IEGReview\Dao\Proposals(
+			return new Dao\Proposals(
 				$c->settings['db.dsn'],
 				$c->settings['db.user'], $c->settings['db.pass'],
 				$uid, $c->log
@@ -165,7 +128,7 @@ class App {
 
 		$container->singleton( 'reviewsDao', function ( $c ) {
 			$uid = $c->authManager->getUserId();
-			return new \Wikimedia\IEGReview\Dao\Reviews(
+			return new Dao\Reviews(
 				$c->settings['db.dsn'],
 				$c->settings['db.user'], $c->settings['db.pass'],
 				$uid, $c->log
@@ -174,7 +137,7 @@ class App {
 
 		$container->singleton( 'reportsDao', function ( $c ) {
 			$uid = $c->authManager->getUserId();
-			return new \Wikimedia\IEGReview\Dao\Reports(
+			return new Dao\Reports(
 				$c->settings['db.dsn'],
 				$c->settings['db.user'], $c->settings['db.pass'],
 				$uid, $c->log
@@ -183,7 +146,7 @@ class App {
 
 		$container->singleton( 'campaignsDao', function ( $c ) {
 			$uid = $c->authManager->getUserId();
-			return new \Wikimedia\IEGReview\Dao\Campaigns(
+			return new Dao\Campaigns(
 				$c->settings['db.dsn'],
 				$c->settings['db.user'], $c->settings['db.pass'],
 				$uid, $c->log
@@ -191,23 +154,23 @@ class App {
 		} );
 
 		$container->singleton( 'authManager', function ( $c ) {
-			return new \Wikimedia\IEGReview\AuthManager( $c->usersDao );
+			return new AuthManager( $c->usersDao );
 		} );
 
 		$container->singleton( 'i18nCache', function ( $c ) {
-			return new \Wikimedia\SimpleI18n\JsonCache(
+			return new JsonCache(
 				$c->settings['i18n.path'], $c->log
 			);
 		} );
 
 		$container->singleton( 'i18nContext', function ( $c ) {
-			return new \Wikimedia\SimpleI18n\I18nContext(
+			return new I18nContext(
 				$c->i18nCache, $c->settings['i18n.default'], $c->log
 			);
 		} );
 
 		$container->singleton( 'mailer',  function ( $c ) {
-			return new \Wikimedia\IEGReview\Mailer(
+			return new Mailer(
 				array(
 					'Host' => $c->settings['smtp.host'],
 				),
@@ -216,44 +179,20 @@ class App {
 		} );
 
 		$container->singleton( 'parsoid', function ( $c ) {
-			return new \Wikimedia\IEGReview\ParsoidClient(
+			return new ParsoidClient(
 				$c->settings['parsoid.url'],
 				$c->settings['parsoid.cache'],
 				$c->log
 			);
 		} );
-
-		// Replace default logger with monolog
-		$container->singleton( 'log', function ( $c ) {
-			// Convert string level to Monolog integer value
-			$level = strtoupper( $c->settings['log.level'] );
-			$level = constant( "\Monolog\Logger::{$level}" );
-
-			$log = new \Monolog\Logger( 'iegreview' );
-			$handler = new \Monolog\Handler\Udp2logHandler(
-				$c->settings['log.file'],
-				$level
-			);
-			$handler->setFormatter( new \Monolog\Formatter\LogstashFormatter(
-				'iegreview', null, null, '',
-				\Monolog\Formatter\LogstashFormatter::V1
-			) );
-			$handler->pushProcessor( new \Monolog\Processor\PsrLogMessageProcessor() );
-			$handler->pushProcessor( new \Monolog\Processor\ProcessIdProcessor() );
-			$handler->pushProcessor( new \Monolog\Processor\UidProcessor() );
-			$handler->pushProcessor( new \Monolog\Processor\WebProcessor() );
-			$log->pushHandler( $handler );
-			return $log;
-		} );
 	}
 
 	/**
 	 * Configure view behavior.
+	 *
+	 * @param \Slim\View $view Default view
 	 */
-	protected function configureView() {
-		// Configure twig views
-		$view = $this->slim->view;
-
+	protected function configureView( \Slim\View $view ) {
 		$view->parserOptions = array(
 			'charset' => 'utf-8',
 			'cache' => $this->slim->config( 'view.cache' ),
@@ -280,10 +219,10 @@ class App {
 
 	/**
 	 * Configure routes to be handled by application.
+	 *
+	 * @param \Slim\Slim $slim Application
 	 */
-	protected function configureRoutes() {
-		$slim = $this->slim;
-
+	protected function configureRoutes( \Slim\Slim $slim ) {
 		// Add a Vary: Cookie header to all responses
 		$headerMiddleware = new HeaderMiddleware( array(
 			'Vary' => 'Cookie',
@@ -317,7 +256,7 @@ class App {
 			},
 
 			'inject-user' => function () use ( $slim ) {
-				$user = $slim->authManager->getUser();
+				$user = $slim->authManager->getUserData();
 				$slim->view->set( 'user', $user );
 				$slim->view->set( 'isadmin', $slim->authManager->isAdmin() );
 				$slim->view->set( 'isreviewer',
@@ -333,7 +272,7 @@ class App {
 					// Redirect to login form if not authenticated
 					if ( $slim->request->isGet() ) {
 						$uri = $slim->request->getUrl() . $slim->request->getPath();
-						$qs = \Wikimedia\IEGReview\Form::qsMerge();
+						$qs = Form::qsMerge();
 						if ( $qs ) {
 							$uri = "{$uri}?{$qs}";
 						}
@@ -367,7 +306,7 @@ class App {
 					// Redirect to login form if not a report viewer
 					if ( $slim->request->isGet() ) {
 						$uri = $slim->request->getUrl() . $slim->request->getPath();
-						$qs = \Wikimedia\IEGReview\Form::qsMerge();
+						$qs = Form::qsMerge();
 						if ( $qs ) {
 							$uri = "{$uri}?{$qs}";
 						}
@@ -676,7 +615,7 @@ class App {
 	 * @param string $to Redirect target route name
 	 * @param string $routeName Name for the route
 	 */
-	public static function redirect( $slim, $name, $to, $routeName = null ) {
+	public static function redirect( \Slim\Slim $slim, $name, $to, $routeName = null ) {
 		$routeName = $routeName ?: $name;
 
 		$slim->get( $name, function () use ( $slim, $name, $to ) {
@@ -685,17 +624,4 @@ class App {
 		} )->name( $routeName );
 	}
 
-	/**
-	 * Add a static template route to the app.
-	 * @param \Slim\Slim $slim App
-	 * @param string $name Page name
-	 * @param string $routeName Name for the route
-	 */
-	public static function template( $slim, $name, $routeName = null ) {
-		$routeName = $routeName ?: $name;
-
-		$slim->get( $name, function () use ( $slim, $name ) {
-			$slim->render( "{$name}.html" );
-		} )->name( $routeName );
-	}
 }

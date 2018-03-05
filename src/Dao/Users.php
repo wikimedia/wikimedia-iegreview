@@ -23,15 +23,30 @@
 
 namespace Wikimedia\IEGReview\Dao;
 
+use Wikimedia\IEGReview\Auth\UserData;
+
 use \PDOException;
-use Wikimedia\IEGReview\Password;
+use Wikimedia\Slimapp\Auth\Password;
+use Wikimedia\Slimapp\Auth\UserManager;
+use Wikimedia\Slimapp\Dao\AbstractDao;
 
 /**
  * Data access object for users.
  * @copyright © 2014 Bryan Davis, Wikimedia Foundation and contributors.
  */
-class Users extends AbstractDao {
+class Users extends AbstractDao implements UserManager {
 
+	public function getUserData( $username ) {
+		$data = $this->fetch(
+			'SELECT * FROM users WHERE username = ? AND isvalid = 1',
+			[ $username ]
+		);
+		if ( $data === false ) {
+			$this->logger->info( "No data found for user '{$username}'" );
+			$data = [];
+		}
+		return new UserData( $data );
+	}
 	public function getUser( $username ) {
 		return $this->fetch(
 			'SELECT * FROM users WHERE username = ? AND isvalid = 1',

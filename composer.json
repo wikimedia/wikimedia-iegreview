@@ -2,17 +2,12 @@
   "name": "mediawiki/iegreview",
   "require": {
     "php": ">=5.3.7",
-    "bd808/monolog-udp2log-handler": "1.0.1",
-    "monolog/monolog": "1.10.0",
-    "phpmailer/phpmailer": "v5.2.8",
-    "slim/slim": "2.4.3",
-    "slim/views": "0.1.2",
-    "twig/twig": "1.20.0",
-    "wikimedia/simplei18n": "1.0.0"
+    "phpmailer/phpmailer": "v5.2.9",
+    "wikimedia/slimapp": "0.8.0"
   },
   "require-dev": {
     "jakub-onderka/php-parallel-lint": "0.9.*",
-    "mediawiki/mediawiki-codesniffer": "0.5.1",
+    "mediawiki/mediawiki-codesniffer": "0.6",
     "phpunit/phpunit": "~4.8"
   },
   "autoload": {

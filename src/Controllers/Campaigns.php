@@ -23,7 +23,7 @@
 
 namespace Wikimedia\IEGReview\Controllers;
 
-use Wikimedia\IEGReview\Controller;
+use Wikimedia\Slimapp\Controller;
 
 /**
  * Landing page after authentication which lists all the campaigns.

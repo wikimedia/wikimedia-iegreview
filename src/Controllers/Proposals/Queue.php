@@ -23,7 +23,7 @@
 
 namespace Wikimedia\IEGReview\Controllers\Proposals;
 
-use Wikimedia\IEGReview\Controller;
+use Wikimedia\Slimapp\Controller;
 
 /**
  * Proposal reqiew queue.

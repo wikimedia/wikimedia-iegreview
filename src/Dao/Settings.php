@@ -23,6 +23,8 @@
 
 namespace Wikimedia\IEGReview\Dao;
 
+use Wikimedia\Slimapp\Dao\AbstractDao;
+
 /**
  * Data access object for Admin Settings in scholarship applications.
  *
