@@ -8,3 +8,6 @@ vendor/phpmailer/phpmailer/examples/scripts/shBrushPhp.js
 vendor/phpmailer/phpmailer/examples/scripts/shCore.js
 vendor/phpmailer/phpmailer/examples/scripts/shLegacy.js
 vendor/phpmailer/phpmailer/examples/scripts/XRegExp.js
+node_modules/**
+public/js/vendor/**
+vendor/**
