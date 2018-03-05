@@ -62,6 +62,12 @@ settings will be injected into the application environment.
 
 Hacking
 -------
+Code review process is done through [Diffusion]
+(https://phabricator.wikimedia.org/source/iegreview/repository/master/).
+We use [Arcanist](https://www.mediawiki.org/wiki/Phabricator/Arcanist)
+to submit patches. [Phabricator]
+(https://phabricator.wikimedia.org/tag/wikimedia-ieg-grant-review/)
+is used to track issues. To understand the workflow of the application refer to this [doc](https://www.mediawiki.org/wiki/Grants_Review_app).
 
 We manage PHP dependencies using Composer. This git repository includes the
 Composer managed resources that are needed for deployment on the Wikimedia
@@ -70,17 +76,17 @@ Foundation production servers.
 For local testing you will need to install several additional development-only
 libraries:
 
-  composer install
+    composer install
 
 Once the testing libraries are installed you can run tests with this command:
 
-  composer test
+    composer test
 
 When submitting a patch for review you must ensure that your locally installed
 testing libraries have been removed:
 
-  composer install --no-dev
-  composer dump-autoload --no-dev
+    composer install --no-dev
+    composer dump-autoload --no-dev
 
 A typical git commit should not include any changes to `composer.lock` or
 files in the `vendor` directory. These files should only be updated when a new
@@ -92,7 +98,7 @@ Authors
 * Bryan Davis, Wikimedia Foundation
 * Niharika Kohli, Wikimedia Foundation
 
-Based on code developed for the Wikimania Scaholarships application.
+Based on code developed for the Wikimania Scholarships application.
 
 License
 -------
