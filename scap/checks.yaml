@@ -3,5 +3,5 @@ checks:
   iegreview_responds:
     type: command
     stage: promote
-    command: curl -SsI -H 'Host: iegreview.wikimedia.org' 'http://localhost:80/campaigns'
+    command: "curl -SsI -H 'Host: iegreview.wikimedia.org' 'http://localhost:80/campaigns'"
     timeout: 10
