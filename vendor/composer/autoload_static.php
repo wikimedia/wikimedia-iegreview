@@ -6,6 +6,10 @@ namespace Composer\Autoload;
 
 class ComposerStaticInit_iegreview
 {
+    public static $files = array (
+        '320cde22f66dd4f5d3fd621d3e88b98f' => __DIR__ . '/..' . '/symfony/polyfill-ctype/bootstrap.php',
+    );
+
     public static $prefixLengthsPsr4 = array (
         'W' => 
         array (
@@ -19,11 +23,13 @@ class ComposerStaticInit_iegreview
         ),
         'S' => 
         array (
+            'Symfony\\Polyfill\\Ctype\\' => 23,
             'Slim\\Views\\' => 11,
         ),
         'P' => 
         array (
             'Psr\\Log\\' => 8,
+            'PHPMailer\\PHPMailer\\' => 20,
         ),
         'M' => 
         array (
@@ -49,6 +55,10 @@ class ComposerStaticInit_iegreview
         array (
             0 => __DIR__ . '/..' . '/twig/twig/src',
         ),
+        'Symfony\\Polyfill\\Ctype\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/symfony/polyfill-ctype',
+        ),
         'Slim\\Views\\' => 
         array (
             0 => __DIR__ . '/..' . '/slim/views',
@@ -56,6 +66,10 @@ class ComposerStaticInit_iegreview
         'Psr\\Log\\' => 
         array (
             0 => __DIR__ . '/..' . '/psr/log/Psr/Log',
+        ),
+        'PHPMailer\\PHPMailer\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/phpmailer/phpmailer/src',
         ),
         'Monolog\\Handler\\' => 
         array (
@@ -84,20 +98,12 @@ class ComposerStaticInit_iegreview
         ),
     );
 
-    public static $classMap = array (
-        'PHPMailer' => __DIR__ . '/..' . '/phpmailer/phpmailer/class.phpmailer.php',
-        'POP3' => __DIR__ . '/..' . '/phpmailer/phpmailer/class.pop3.php',
-        'SMTP' => __DIR__ . '/..' . '/phpmailer/phpmailer/class.smtp.php',
-        'phpmailerException' => __DIR__ . '/..' . '/phpmailer/phpmailer/class.phpmailer.php',
-    );
-
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
             $loader->prefixLengthsPsr4 = ComposerStaticInit_iegreview::$prefixLengthsPsr4;
             $loader->prefixDirsPsr4 = ComposerStaticInit_iegreview::$prefixDirsPsr4;
             $loader->prefixesPsr0 = ComposerStaticInit_iegreview::$prefixesPsr0;
-            $loader->classMap = ComposerStaticInit_iegreview::$classMap;
 
         }, null, ClassLoader::class);
     }

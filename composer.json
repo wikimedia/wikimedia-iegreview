@@ -2,8 +2,8 @@
   "name": "mediawiki/iegreview",
   "require": {
     "php": ">=5.3.7",
-    "phpmailer/phpmailer": "v5.2.9",
-    "wikimedia/slimapp": "0.8.0"
+    "phpmailer/phpmailer": "v6.0.6",
+    "wikimedia/slimapp": "0.9.0"
   },
   "require-dev": {
     "jakub-onderka/php-parallel-lint": "0.9.*",
