@@ -45,7 +45,7 @@ $envFileLocations = [
 ];
 foreach ( $envFileLocations as $file ) {
 	if ( is_readable( $file ) ) {
-		\Wikimedia\IEGReview\Config::load( $file );
+		\Wikimedia\Slimapp\Config::load( $file );
 		// Stop after first env file is found
 		break;
 	}
