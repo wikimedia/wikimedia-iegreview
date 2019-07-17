@@ -62,15 +62,16 @@ settings will be injected into the application environment.
 
 Hacking
 -------
-Code review process is done through [Diffusion]
-(https://phabricator.wikimedia.org/source/iegreview/repository/master/).
-We use [Arcanist](https://www.mediawiki.org/wiki/Phabricator/Arcanist)
-to submit patches. [Phabricator]
-(https://phabricator.wikimedia.org/tag/wikimedia-ieg-grant-review/)
-is used to track issues. To understand the workflow of the application refer to this [doc](https://www.mediawiki.org/wiki/Grants_Review_app).
+Code review process is done through [Gerrit](https://gerrit.wikimedia.org/). Please register a
+[developer account](https://www.mediawiki.org/wiki/Developer_account) to
+[contribute](https://www.mediawiki.org/wiki/Developer_hub).
 
-We manage PHP dependencies using Composer. This git repository includes the
-Composer managed resources that are needed for deployment on the Wikimedia
+[Phabricator](https://phabricator.wikimedia.org/tag/wikimedia-ieg-grant-review/)
+is used to track issues. To understand the workflow of the application refer to this
+[doc](https://www.mediawiki.org/wiki/Grants_Review_app).
+
+We manage PHP dependencies using [Composer](https://getcomposer.org/). This git repository
+includes the Composer managed resources that are needed for deployment on the Wikimedia
 Foundation production servers.
 
 For local testing you will need to install several additional development-only
