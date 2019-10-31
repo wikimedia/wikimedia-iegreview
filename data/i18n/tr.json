@@ -2,7 +2,8 @@
 	"@metadata": {
 		"authors": [
 			"BaRaN6161 TURK",
-			"Fitoschido"
+			"Fitoschido",
+			"Grkn gll"
 		]
 	},
 	"header-title": "Hibeler incelemesi",
@@ -34,7 +35,7 @@
 	"login": "Oturum aç",
 	"username": "Kullanıcı adı",
 	"password": "Parola",
-	"login-success": "Giriş başarılı.",
+	"login-success": "Oturum açma başarılı.",
 	"login-failed": "Oturum açma başarısız.",
 	"login-error": "Kullanıcı adı ve parola gerekli.",
 	"forgot-password": "Parolanızı mı unuttunuz?",
@@ -100,7 +101,7 @@
 	"admin-campaigns-reviewers-report": "Değerlendirmeci Tarafından Bildir",
 	"admin-campaigns-active": "Aktif mi?",
 	"admin-campaign-create-success": "Kampanya başarıyla oluşturuldu.",
-	"admin-campaign-create-fail": "Kampanya oluşturma başarısız oldu. Günlükleri kontrol et.",
+	"admin-campaign-create-fail": "Kampanya oluşturma başarısız oldu. Günlükleri kontrol edin.",
 	"admin-campaign-update-success": "Kampanya güncellendi.",
 	"admin-campaign-update-fail": "Hata. Günlükleri kontrol et.",
 	"admin-campaign-end-button": "Kampanyayı Bitir",
@@ -158,7 +159,7 @@
 	"proposals-view-url": "URL:",
 	"proposals-view-amount": "Miktar:",
 	"proposals-view-theme": "Tema:",
-	"proposals-view-notes": "Hizmetli notları",
+	"proposals-view-notes": "Yönetici notları",
 	"proposals-view-edit": "Düzenle",
 	"proposals-review": "Benim incelemem",
 	"review-instructions": "'''Gerekli alan *'''",
@@ -208,7 +209,7 @@
 	"report-aggregated-amount": "Miktar",
 	"report-aggregated-recommend": "Önerilen",
 	"report-format-recommend": "%$4 ($1/$3)$2",
-	"reviews-notes": "İnceleyici notlar",
+	"reviews-notes": "İnceleyici notları",
 	"theme-": "Tema belirtilmedi",
 	"theme-online": "Çevrimiçi topluluk düzenleme",
 	"theme-offline": "Çevrimdışı erişim ve ortaklıklar",
