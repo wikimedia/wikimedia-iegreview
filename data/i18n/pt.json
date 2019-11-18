@@ -1,12 +1,13 @@
 {
 	"@metadata": {
 		"authors": [
-			"Mansil alfalb"
+			"Mansil alfalb",
+			"Hamilton Abreu"
 		]
 	},
 	"header-title": "Revisão de bolsas",
 	"logo-alt": "Revisão de bolsas",
-	"nav-language": "Idioma:",
+	"nav-language": "Língua:",
 	"nav-proposals": "Propostas",
 	"nav-proposals-add": "Adicionar proposta",
 	"nav-proposals-edit": "editar",
