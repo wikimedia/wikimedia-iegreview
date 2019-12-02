@@ -1,7 +1,8 @@
 {
 	"@metadata": {
 		"authors": [
-			"Robby"
+			"Robby",
+			"Les Meloures"
 		]
 	},
 	"nav-language": "Sprooch:",
@@ -76,7 +77,7 @@
 	"proposals-list-title": "Titel",
 	"summary-list-range": "Beräich",
 	"report-aggregated-proposal": "Propos",
-	"theme-tool": "Geschirkëscht",
+	"theme-tool": "Geschierkëscht",
 	"proposals-queue-type": "Typ",
 	"proposals-queue-type-all": "All",
 	"user-manage-username": "Benotzernumm:",
