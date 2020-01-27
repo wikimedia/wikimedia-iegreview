@@ -1,7 +1,8 @@
 {
 	"@metadata": {
 		"authors": [
-			"Mirin"
+			"Mirin",
+			"Robin van der Vliet"
 		]
 	},
 	"header-title": "Reviziado pri gratifiko",
@@ -31,7 +32,7 @@
 	"footer-credits": "agnoskoj",
 	"footer-privacy": "privateco",
 	"login": "Ensaluti",
-	"username": "Salutnomo",
+	"username": "Uzantnomo",
 	"password": "Pasvorto",
 	"login-success": "Vi sukcese ensalutis.",
 	"login-failed": "Ensalutado malsukcesis.",
@@ -56,7 +57,7 @@
 	"404-message": "La paĝo petita de vi ne estas trovebla. Bonvolu kontroli la ligilon/retadreson kaj reprovi.",
 	"change-password": "Ŝanĝi pasvorton",
 	"logout": "Elsaluti",
-	"password-username": "Salutnomo:",
+	"password-username": "Uzantnomo:",
 	"old-password": "Malnova pasvorto:",
 	"new-password": "Nova pasvorto:",
 	"new-password-again": "Nova pasvorto (ree):",
@@ -70,7 +71,7 @@
 	"admin-user-blocked": "Ĉu forbarata:",
 	"admin-user-save": "Konservi ŝanĝojn",
 	"admin-users-id": "Numero",
-	"admin-users-username": "Salutnomo",
+	"admin-users-username": "Uzantnomo",
 	"admin-users-email": "Retpoŝta adreso",
 	"admin-users-admin": "Ĉu administranto?",
 	"admin-users-reviewer": "Ĉu revizianto?",
@@ -222,7 +223,7 @@
 	"proposals-queue-theme": "Temo",
 	"proposals-queue-theme-empty": "Elekti temon",
 	"proposals-queue-go": "Filtri vicon",
-	"user-manage-username": "Salutnomo:",
+	"user-manage-username": "Uzantnomo:",
 	"user-manage-email": "Retpoŝta adreso:",
 	"user-manage-blocked": "Malŝalti konton",
 	"user-manage-update": "Ĝisdatigi detalojn",
