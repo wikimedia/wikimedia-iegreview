@@ -57,7 +57,7 @@
 	"404-header": "Sayfa bulunamadı",
 	"404-message": "İstediğiniz sayfa bulunamadı. Lütfen bağlantıyı/URL'yi kontrol edin ve tekrar deneyin.",
 	"change-password": "Parolayı değiştir",
-	"logout": "Çıkış",
+	"logout": "Oturumu kapat",
 	"password-username": "Kullanıcı adı:",
 	"old-password": "Eski parola:",
 	"new-password": "Yeni parola:",
