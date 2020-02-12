@@ -199,27 +199,27 @@
     },
     {
         "name": "psr/log",
-        "version": "1.1.0",
-        "version_normalized": "1.1.0.0",
+        "version": "1.1.2",
+        "version_normalized": "1.1.2.0",
         "source": {
             "type": "git",
             "url": "https://github.com/php-fig/log.git",
-            "reference": "6c001f1daafa3a3ac1d8ff69ee4db8e799a654dd"
+            "reference": "446d54b4cb6bf489fc9d75f55843658e6f25d801"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/php-fig/log/zipball/6c001f1daafa3a3ac1d8ff69ee4db8e799a654dd",
-            "reference": "6c001f1daafa3a3ac1d8ff69ee4db8e799a654dd",
+            "url": "https://api.github.com/repos/php-fig/log/zipball/446d54b4cb6bf489fc9d75f55843658e6f25d801",
+            "reference": "446d54b4cb6bf489fc9d75f55843658e6f25d801",
             "shasum": ""
         },
         "require": {
             "php": ">=5.3.0"
         },
-        "time": "2018-11-20T15:27:04+00:00",
+        "time": "2019-11-01T11:05:21+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
-                "dev-master": "1.0.x-dev"
+                "dev-master": "1.1.x-dev"
             }
         },
         "installation-source": "dist",
@@ -352,17 +352,17 @@
     },
     {
         "name": "symfony/polyfill-ctype",
-        "version": "v1.10.0",
-        "version_normalized": "1.10.0.0",
+        "version": "v1.13.1",
+        "version_normalized": "1.13.1.0",
         "source": {
             "type": "git",
             "url": "https://github.com/symfony/polyfill-ctype.git",
-            "reference": "e3d826245268269cd66f8326bd8bc066687b4a19"
+            "reference": "f8f0b461be3385e56d6de3dbb5a0df24c0c275e3"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/symfony/polyfill-ctype/zipball/e3d826245268269cd66f8326bd8bc066687b4a19",
-            "reference": "e3d826245268269cd66f8326bd8bc066687b4a19",
+            "url": "https://api.github.com/repos/symfony/polyfill-ctype/zipball/f8f0b461be3385e56d6de3dbb5a0df24c0c275e3",
+            "reference": "f8f0b461be3385e56d6de3dbb5a0df24c0c275e3",
             "shasum": ""
         },
         "require": {
@@ -371,11 +371,11 @@
         "suggest": {
             "ext-ctype": "For best performance"
         },
-        "time": "2018-08-06T14:22:27+00:00",
+        "time": "2019-11-27T13:56:44+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
-                "dev-master": "1.9-dev"
+                "dev-master": "1.13-dev"
             }
         },
         "installation-source": "dist",
@@ -393,12 +393,12 @@
         ],
         "authors": [
             {
-                "name": "Symfony Community",
-                "homepage": "https://symfony.com/contributors"
-            },
-            {
                 "name": "Gert de Pagter",
                 "email": "BackEndTea@gmail.com"
+            },
+            {
+                "name": "Symfony Community",
+                "homepage": "https://symfony.com/contributors"
             }
         ],
         "description": "Symfony polyfill for ctype functions",
@@ -412,33 +412,32 @@
     },
     {
         "name": "twig/twig",
-        "version": "v1.36.0",
-        "version_normalized": "1.36.0.0",
+        "version": "v1.42.5",
+        "version_normalized": "1.42.5.0",
         "source": {
             "type": "git",
             "url": "https://github.com/twigphp/Twig.git",
-            "reference": "730c9c4471b5152d23061feb02b03382264c8a15"
+            "reference": "87b2ea9d8f6fd014d0621ca089bb1b3769ea3f8e"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/twigphp/Twig/zipball/730c9c4471b5152d23061feb02b03382264c8a15",
-            "reference": "730c9c4471b5152d23061feb02b03382264c8a15",
+            "url": "https://api.github.com/repos/twigphp/Twig/zipball/87b2ea9d8f6fd014d0621ca089bb1b3769ea3f8e",
+            "reference": "87b2ea9d8f6fd014d0621ca089bb1b3769ea3f8e",
             "shasum": ""
         },
         "require": {
-            "php": ">=5.3.3",
+            "php": ">=5.5.0",
             "symfony/polyfill-ctype": "^1.8"
         },
         "require-dev": {
             "psr/container": "^1.0",
-            "symfony/debug": "^2.7",
-            "symfony/phpunit-bridge": "^3.4.19|^4.1.8"
+            "symfony/phpunit-bridge": "^4.4|^5.0"
         },
-        "time": "2018-12-16T10:34:11+00:00",
+        "time": "2020-02-11T05:59:23+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
-                "dev-master": "1.36-dev"
+                "dev-master": "1.42-dev"
             }
         },
         "installation-source": "dist",
@@ -462,14 +461,13 @@
                 "role": "Lead Developer"
             },
             {
+                "name": "Twig Team",
+                "role": "Contributors"
+            },
+            {
                 "name": "Armin Ronacher",
                 "email": "armin.ronacher@active-4.com",
                 "role": "Project Founder"
-            },
-            {
-                "name": "Twig Team",
-                "homepage": "https://twig.symfony.com/contributors",
-                "role": "Contributors"
             }
         ],
         "description": "Twig, the flexible, fast, and secure template language for PHP",
@@ -535,27 +533,27 @@
     },
     {
         "name": "wikimedia/slimapp",
-        "version": "v0.9.0",
-        "version_normalized": "0.9.0.0",
+        "version": "v0.9.2",
+        "version_normalized": "0.9.2.0",
         "source": {
             "type": "git",
             "url": "https://github.com/wikimedia/slimapp.git",
-            "reference": "d96fa22dc12f645c09d7f4385575efc31146357e"
+            "reference": "e5b35675b4ddd6ebb8e7c14f70b167dfe376e3f2"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/wikimedia/slimapp/zipball/d96fa22dc12f645c09d7f4385575efc31146357e",
-            "reference": "d96fa22dc12f645c09d7f4385575efc31146357e",
+            "url": "https://api.github.com/repos/wikimedia/slimapp/zipball/e5b35675b4ddd6ebb8e7c14f70b167dfe376e3f2",
+            "reference": "e5b35675b4ddd6ebb8e7c14f70b167dfe376e3f2",
             "shasum": ""
         },
         "require": {
             "bd808/monolog-udp2log-handler": "~1.0",
             "monolog/monolog": "~1.23.0",
-            "php": ">=5.5.9",
+            "php": ">=5.6.4",
             "phpmailer/phpmailer": "~6.0",
             "slim/slim": "~2.4",
             "slim/views": "~0.1",
-            "twig/twig": "~1.30",
+            "twig/twig": "~1.42",
             "wikimedia/simplei18n": "~1.0"
         },
         "require-dev": {
@@ -563,7 +561,7 @@
             "mediawiki/mediawiki-codesniffer": "19.1.0",
             "phpunit/phpunit": "~4.8|~5.0"
         },
-        "time": "2018-11-30T00:39:03+00:00",
+        "time": "2019-12-22T02:26:38+00:00",
         "type": "library",
         "installation-source": "dist",
         "autoload": {
@@ -573,7 +571,7 @@
         },
         "notification-url": "https://packagist.org/downloads/",
         "license": [
-            "GPL-3.0+"
+            "GPL-3.0-or-later"
         ],
         "authors": [
             {
