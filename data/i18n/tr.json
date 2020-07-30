@@ -3,7 +3,8 @@
 		"authors": [
 			"BaRaN6161 TURK",
 			"Fitoschido",
-			"Grkn gll"
+			"Grkn gll",
+			"LuCKY"
 		]
 	},
 	"header-title": "Hibeler incelemesi",
@@ -215,7 +216,7 @@
 	"theme-offline": "Çevrimdışı erişim ve ortaklıklar",
 	"theme-tool": "Araçlar",
 	"theme-research": "Araştırma",
-	"proposals-queue-intro": "Hoşgeldiniz, inceleyici! İşte henüz incelemediğiniz öneriler. Lütfen puanlamaya başlamak için bir teklif seçin.",
+	"proposals-queue-intro": "Hoş geldiniz, inceleyici! İşte henüz incelemediğiniz öneriler. Lütfen puanlamaya başlamak için bir teklif seçin.",
 	"proposals-queue-type": "Tür",
 	"proposals-queue-type-empty": "Sıra seç",
 	"proposals-queue-type-myqueue": "Benim incelenmemiş",
