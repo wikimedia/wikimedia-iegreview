@@ -29,7 +29,7 @@
 	"new-account-subject": "Nouveau compte de supervision de subventions",
 	"new-account-email": "Un nouveau compte de supervision de subventions a été créé pour vous.\n\nVos informations de connexion sont :\n\nnom d’utilisateur : $1\nmot de passe : $2\n\nVous pouvez vous connecter sur : $3\n\nVous pouvez modifier votre mot de passe sur : $4\n\nCordialement,\nLes administrateurs de supervision de subventions",
 	"credits": "Attributions et licences",
-	"credits-page-license": "Le logiciel de supervision de subventions de Wikimédia est au code source ouvert et <a href=\"//git.wikimedia.org/log/wikimedia%2Fiegreview\">disponible</a> sous la <a href=\"http://www.gnu.org/copyleft/gpl.html\">licence GNU General Public 3.0</a>.",
+	"credits-page-license": "Le logiciel de supervision de subventions de Wikimédia est à code source ouvert et <a href=\"//git.wikimedia.org/log/wikimedia%2Fiegreview\">disponible</a> sous la <a href=\"http://www.gnu.org/copyleft/gpl.html\">licence GNU General Public 3.0</a>.",
 	"credits-page-scholarships": "L’application est basée sur le code développé pour l’<a href=\"https://git.wikimedia.org/log/wikimedia%2Fwikimania-scholarships\">application Bourses de Wikimania</a>.",
 	"credits-page-logo": "Le <a href=\"https://commons.wikimedia.org/wiki/File%3AIEG_glasses_lightblue.png\">logo de lunettes</a> provient de l’utilisateur Heatherawalls de Wikimedia Commons et est utilisé sous la licence Creative Commons CC0 1.0 Universal Public Domain Dedication.",
 	"privacy": "Confidentialité",
