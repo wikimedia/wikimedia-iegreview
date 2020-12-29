@@ -35,7 +35,7 @@
 	"forgot-password": "Glömt ditt lösenord?",
 	"forgot-password-email": "E-postadress:",
 	"forgot-password-submit": "Skicka återställning via e-post",
-	"recover-account-email": "En begäran gjordes på $3 för att återställa lösenordet för ditt användarkonto.\n\nÅterställningsinformation:\n\nanvädnarnamn: $1\nåterställningsadress: $2\n\nÅterställningsadressen kommer att löpa ut om 48 timmar. Om du inte begärde detta kan du ignorera detta e-postmeddelande. Ditt konto har inte äventyrats.\n\nMed vänliga hälsningar,\nGrants review administrators",
+	"recover-account-email": "En begäran gjordes på $3 för att återställa lösenordet för ditt användarkonto.\n\nÅterställningsinformation:\n\nanvändarnamn: $1\nåterställningsadress: $2\n\nÅterställningsadressen kommer att löpa ut om 48 timmar. Om du inte begärde detta kan du ignorera detta e-postmeddelande. Ditt konto har inte äventyrats.\n\nMed vänliga hälsningar,\nGrants review administrators",
 	"recover-account-success": "Återställningsinstruktioner har skickats. Kolla din e-post och skräppost.",
 	"recover-account-bad-input": "Ogiltig inmatning.",
 	"reset-password-bad-token": "Ogiltig eller utgången återställningsnyckel.",
