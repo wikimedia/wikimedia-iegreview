@@ -2,7 +2,8 @@
 	"@metadata": {
 		"authors": [
 			"DraconicDark",
-			"Symposiarch"
+			"Symposiarch",
+			"Zabe"
 		]
 	},
 	"header-title": "Zuschussüberprüfung",
@@ -188,5 +189,14 @@
 	"proposals-list-reviews": "Überprüfungen",
 	"proposals-list-myreviews": "Überprüft?",
 	"proposal-summary": "Zusammenfassung der Überprüfung",
-	"summary-list-reviewers": "Prüfer:"
+	"summary-list-reviewers": "Prüfer:",
+	"summary-list-median": "Median",
+	"report-aggregated-amount": "Betrag",
+	"proposals-queue-type": "Typ",
+	"proposals-queue-type-all": "Alle",
+	"user-manage-username": "Benutzername:",
+	"user-manage-email": "E-Mail-Adresse:",
+	"user-manage-blocked": "Benutzerkonto deaktivieren",
+	"user-manage-update": "Einzelheiten aktualisieren",
+	"manage-account": "Benutzerkonto verwalten"
 }
