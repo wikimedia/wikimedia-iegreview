@@ -14,6 +14,7 @@
 	"forgot-password": "Ti scurdasti la password?",
 	"forgot-password-email": "Nnirizzu email:",
 	"reset-password-empty": "La password nun pò èssiri vacanti.",
+	"error-heading": "Erruri di sistema",
 	"error-id": "Erruri ID: $1",
 	"change-password": "Cancia password",
 	"logout": "Nesci",
