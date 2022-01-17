@@ -1,7 +1,8 @@
 {
 	"@metadata": {
 		"authors": [
-			"Kly"
+			"Kly",
+			"Tranve"
 		]
 	},
 	"header-title": "授予審查",
@@ -14,7 +15,7 @@
 	"nav-proposals-search": "搜尋",
 	"nav-reports": "報告",
 	"nav-reports-aggregated": "合計記分",
-	"nav-reports-wikitext": "Wiki 語法匯出",
+	"nav-reports-wikitext": "Wikitext 匯出",
 	"nav-admin": "管理員",
 	"nav-users": "管理使用者",
 	"nav-account": "我的帳號",
@@ -107,14 +108,14 @@
 	"admin-new-campaign-in-progress": "若有活動已在進行中，會無法建立新的活動。在開始新的之前，請先結束目前的活動。",
 	"admin-campaign-reviewers": "活動審查者：",
 	"admin-campaign-question": "問題$1：",
-	"admin-campaign-wikitext": "Wiki 語法報告列模板：",
+	"admin-campaign-wikitext": "Wikitext 報告列模板：",
 	"admin-campaign-questionbody-placeholder": "在此添加問題文字",
 	"admin-campaign-name-placeholder": "必須為唯一",
 	"admin-campaign-date-placeholder": "YYYY-MM-DD HH:MM:SS（僅 UTC 時間）",
 	"admin-campaign-questiontitle-placeholder": "在此添加問題的標題，例如：Criteria A: Innovation",
 	"admin-campaign-questionfooter-placeholder": "在此添加問題註腳字串",
 	"admin-campaign-reporthead-placeholder": "合計報告欄位標頭，例如：Innovation",
-	"admin-campaign-wikitext-placeholder": "Wiki 語法模版",
+	"admin-campaign-wikitext-placeholder": "Wikitext 模版",
 	"admin-reviewer-name": "審查者名稱",
 	"admin-reviewer-percentage": "已審查百分比",
 	"admin-reviewer-proposals": "已審查提案的連結",
