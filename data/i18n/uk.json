@@ -3,7 +3,8 @@
 		"authors": [
 			"Base",
 			"DDPAT",
-			"Piramidion"
+			"Piramidion",
+			"Ата"
 		]
 	},
 	"header-title": "Оцінка ґрантів",
@@ -22,7 +23,7 @@
 	"nav-account": "Мій обліковий запис",
 	"nav-campaigns-reviewers": "Звіт від оцінювачів",
 	"nav-campaigns-reviewers-proposals": "Пропозиції",
-	"nav-campaigns": "Компанії",
+	"nav-campaigns": "Кампанії",
 	"new-account-subject": "Новий обліковий запис для оцінювання ґрантів",
 	"new-account-email": "Для вас створено новий обліковий запис для оцінювання ґрантів.\n\nВаша інформація для входу в систему:\n\nім'я користувача: $1\nпароль: $2\n\nУвійти в систему ви можете отут: $3\n\nСвій пароль можете змінити отут: $4\n\nІз найщирішими побажаннями,\nадміністратори оцінювання ґрантів",
 	"credits": "Подяки та ліцензування",
@@ -100,12 +101,12 @@
 	"admin-campaigns-id": "Ідентифікатор",
 	"admin-campaigns-reviewers-report": "Звіт від оцінювача",
 	"admin-campaigns-active": "Активний?",
-	"admin-campaign-create-success": "Компанію успішно створено.",
+	"admin-campaign-create-success": "Кампанію успішно створено.",
 	"admin-campaign-create-fail": "Створити кампанію не вдалося. Перегляньте журнали.",
-	"admin-campaign-update-success": "Компанію оновлено.",
+	"admin-campaign-update-success": "Кампанію оновлено.",
 	"admin-campaign-update-fail": "Помилка. Перегляньте журнали.",
 	"admin-campaign-end-button": "Завершити кампанію",
-	"admin-campaign-end-success": "Компанію успішно завершено",
+	"admin-campaign-end-success": "Кампанію успішно завершено",
 	"admin-new-campaign-in-progress": "Неможливо створити нову кампанію, якщо одна вже триває. Будь ласка, завершіть поточну кампанію, перш ніж розпочинати нову.",
 	"admin-campaign-reviewers": "Оцінювачі кампанії:",
 	"admin-campaign-question": "Запитання № $1:",
