@@ -2,7 +2,8 @@
 	"@metadata": {
 		"authors": [
 			"A Chinese Wikipedian",
-			"ColdAnMoe"
+			"ColdAnMoe",
+			"Lakejason0"
 		]
 	},
 	"header-title": "\n赠款审查",
@@ -227,7 +228,7 @@
 	"user-manage-email": "邮件地址：",
 	"user-manage-blocked": "禁用账户",
 	"user-manage-update": "更新详细信息",
-	"manage-account": "管理帐号",
+	"manage-account": "管理账号",
 	"user-manage-blocked-helptext": "请注意，禁用帐户后，您将无法再登录该应用程序。 您的电子邮件地址和用户名将自动从应用程序中删除。",
 	"user-manage-update-error": "您的详细信息目前无法更新。 请检查日志以了解原因。",
 	"user-manage-update-success": "您的详细信息已更新。",
