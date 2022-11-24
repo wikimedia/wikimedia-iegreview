@@ -23,7 +23,7 @@
 	"nav-campaigns-reviewers": "评论者的报告",
 	"nav-campaigns-reviewers-proposals": "建议",
 	"nav-campaigns": "通告",
-	"new-account-subject": "新的补助金审查帐户",
+	"new-account-subject": "新的补助金审查账户",
 	"new-account-email": "已为您创建了一个新的赠款审核帐户。\n\n您的登录信息是：\n\n用户名: 帐户用户名$1\n密码：Acocunt密码$2\n\n您可以登录：应用程序登录页面的URL$3\n\n您可以在以下位置更改密码：应用程序密码更改页面的URL$4\n\n此致\n拨款审核管理员",
 	"credits": "积分和许可",
 	"credits-page-license": "The Wikimedia grants review software is open source and <a href=\"//git.wikimedia.org/log/wikimedia%2Fiegreview\">available</a> under the <a href=\"http://www.gnu.org/copyleft/gpl.html\">GNU General Public License 3.0</a>.",
