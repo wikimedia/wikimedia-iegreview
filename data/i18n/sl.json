@@ -43,7 +43,7 @@
 	"recover-account-email": "Iz $3 je bila poslana zahteva za ponastavitev gesla za vaš uporabniški račun.\n\nInformacije o obnovitvi:\n\nuporabniško ime: $1 \nURL za obnovitev: $2 \n\nURL za obnovitev bo potekel v 48 urah. Če niste vložili te zahteve, lahko to e-pošto prezrete. Vaš račun ni bil kompromitiran.\n\nLep pozdrav.\n\nAdministratorji pregledovanja dotacij",
 	"recover-account-success": "Navodila za obnovitev poslana. Preverite e-pošto in mapo z vsiljeno pošto.",
 	"recover-account-bad-input": "Neveljaven vnos.",
-	"reset-password-bad-token": "Predloženi žeton za obnovitev je neveljaven ali potekel.",
+	"reset-password-bad-token": "Predloženi žeton za obnovitev ni veljaven ali je pretekel.",
 	"reset-password-no-match": "Gesli se ne ujemata.",
 	"reset-password-empty": "Geslo ne more biti prazno.",
 	"reset-password-success": "Ponastavitev gesla je uspela.",
