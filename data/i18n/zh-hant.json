@@ -4,7 +4,8 @@
 			"Diskdance",
 			"Kly",
 			"Tranve",
-			"Winston Sung"
+			"Winston Sung",
+			"捍粵者"
 		]
 	},
 	"header-title": "授予審查",
@@ -85,7 +86,7 @@
 	"admin-users-add": "添加新使用者",
 	"admin-campaign-add": "添加新活動",
 	"admin-users-form-go": "搜尋",
-	"admin-campaign-name": "進行中的活動：",
+	"admin-campaign-name": "活動中的提案：",
 	"admin-campaign-end": "結束活動？",
 	"admin-campaign-start": "建立活動",
 	"admin-campaign-start-date": "開始日期：",
@@ -216,7 +217,7 @@
 	"theme-offline": "離線拓廣＆合作夥伴關係",
 	"theme-tool": "工具",
 	"theme-research": "研究",
-	"proposals-queue-intro": "歡迎您，審查者！您尚未審查在此的提案，請選擇提案來進行記分。",
+	"proposals-queue-intro": "歡迎您，審查者！您尚未審查此等提案，請選擇提案開始計分。",
 	"proposals-queue-type": "類型",
 	"proposals-queue-type-empty": "選擇佇列",
 	"proposals-queue-type-myqueue": "我的未經過審查",
