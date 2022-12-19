@@ -108,7 +108,7 @@
 	"admin-campaign-update-fail": "錯誤。檢查日誌。",
 	"admin-campaign-end-button": "結束活動",
 	"admin-campaign-end-success": "活動已成功結束",
-	"admin-new-campaign-in-progress": "若有活動已在進行中，會無法建立新的活動。在開始新的之前，請先結束目前的活動。",
+	"admin-new-campaign-in-progress": "若有活動已開始，無法建立新活動。開始新活動前請先結束此活動。",
 	"admin-campaign-reviewers": "活動審查者：",
 	"admin-campaign-question": "問題$1：",
 	"admin-campaign-wikitext": "Wikitext 報告列模板：",
