@@ -111,7 +111,7 @@
 	"admin-campaign-questionbody-placeholder": "Tukaj vnesite besedilo vprašanja",
 	"admin-campaign-name-placeholder": "Biti mora edinstveno",
 	"admin-campaign-date-placeholder": "LLLL-MM-DD HH:MM:SS (samo UTC)",
-	"admin-campaign-questiontitle-placeholder": "Tukaj dodajte naslov vprašanja. Na primer: Kriterij A: Inovativnost",
+	"admin-campaign-questiontitle-placeholder": "Tukaj dodajte naslov vprašanja. Na primer: Merilo A: Inovativnost",
 	"admin-campaign-questionfooter-placeholder": "Tukaj dodajte niz za nogo strani z vprašanjem",
 	"admin-campaign-reporthead-placeholder": "Naslov stolpca združenega poročila. Na primer: »Inovativnost«",
 	"admin-campaign-wikitext-placeholder": "Predloga vikibesedila",
