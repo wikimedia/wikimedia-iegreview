@@ -64,5 +64,9 @@
 	"admin-campaign-start-date": "మొదలు తేదీ:",
 	"admin-campaign-manage": "ప్రచారాల నిర్వహణ",
 	"admin-campaigns-name": "ప్రచారం పేరు",
+	"admin-campaigns-form-go": "అన్వేషించు",
+	"admin-campaigns-start": "ఆరంభ తేదీ",
+	"admin-campaigns-end": "ముగింపు తేదీ",
+	"admin-campaigns-id": "ఐడీ",
 	"theme-tool": "పరికరాలు"
 }
