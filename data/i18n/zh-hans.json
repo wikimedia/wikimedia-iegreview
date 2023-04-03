@@ -3,6 +3,7 @@
 		"authors": [
 			"A Chinese Wikipedian",
 			"ColdAnMoe",
+			"GuoPC",
 			"Lakejason0"
 		]
 	},
@@ -27,7 +28,7 @@
 	"new-account-email": "已为您创建了一个新的赠款审核帐户。\n\n您的登录信息是：\n\n用户名: 帐户用户名$1\n密码：Acocunt密码$2\n\n您可以登录：应用程序登录页面的URL$3\n\n您可以在以下位置更改密码：应用程序密码更改页面的URL$4\n\n此致\n拨款审核管理员",
 	"credits": "积分和许可",
 	"credits-page-license": "The Wikimedia grants review software is open source and <a href=\"//git.wikimedia.org/log/wikimedia%2Fiegreview\">available</a> under the <a href=\"http://www.gnu.org/copyleft/gpl.html\">GNU General Public License 3.0</a>.",
-	"credits-page-scholarships": "该应用程序基于为<a href=\"https://git.wikimedia.org/log/wikimedia%2Fwikimania-scholarships\"> Wikimania奖学金应用程序</a>开发的代码。",
+	"credits-page-scholarships": "该应用程序基于为<a href=\"//gerrit.wikimedia.org/g/wikimedia/wikimania-scholarships\">Wikimania奖学金应用程序</a>开发的代码。",
 	"credits-page-logo": "<a href=\"https://commons.wikimedia.org/wiki/File%3AIEG_glasses_lightblue.png\"> glasses徽标</a>由Wikimedia Commons用户Heatherawalls所使用，并根据Creative Commons CC0 1.0通用公共领域专用许可证使用。 。",
 	"privacy": "隐私",
 	"footer-credits": "制作人员",
