@@ -1,6 +1,7 @@
 {
 	"@metadata": {
 		"authors": [
+			"Dr-Taher",
 			"Habib-d",
 			"ديفيد"
 		]
@@ -26,7 +27,7 @@
 	"new-account-email": "تم إنشاء حساب مراجعة منح جديد لك. \n\nمعلومات تسجيل دخولك هي: \n\nاسم المستخدم: $1\nكلمة المرور: $2\n\nيمكنك تسجيل الدخول إلى: $3\n\nيمكنك تغيير كلمة مرورك في: $4\n\nمع خالص التقدير، \nإداريو مراجعة المنح",
 	"credits": "النسبة والترخيص",
 	"credits-page-license": "برنامج مراجعة منح ويكيميديا ​​مفتوح المصدر و <a href=\"//git.wikimedia.org/log/wikimedia%2Fiegreview\">متاح</a> ضمن <a href=\"http://www.gnu.org/copyleft/gpl.html\">رخصة جنو العمومية 3.0</a>.",
-	"credits-page-scholarships": "يعتمد التطبيق على كود تم تطويره من أجل <a href=\"https://git.wikimedia.org/log/wikimedia%2Fwikimania-scholarships\">تطبيق منح ويكيمانيا</a>.",
+	"credits-page-scholarships": "يعتمد التطبيق على كود جرى تطويره من أجل <a href=\"https://git.wikimedia.org/log/wikimedia%2Fwikimania-scholarships\">تطبيق منح ويكيمانيا</a>.",
 	"credits-page-logo": "<a href=\"https://commons.wikimedia.org/wiki/File%3AIEG_glasses_lightblue.png\">شعار النظارات</a> بواسطة مستخدم ويكيميديا كومنز Heatherawalls ومستخدم بموجب ترخيص المشاع الإبداعي CC0 1.0 تفاني الملكية العامة العالمي.",
 	"privacy": "الخصوصية",
 	"footer-credits": "الإحالات",
