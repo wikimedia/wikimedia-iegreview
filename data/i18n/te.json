@@ -2,10 +2,12 @@
 	"@metadata": {
 		"authors": [
 			"Chaduvari",
+			"Nskjnv",
 			"Thirumalgoud"
 		]
 	},
 	"header-title": "గ్రాంట్ల సమీక్ష",
+	"logo-alt": "గ్రాంట్ల సమీక్ష",
 	"nav-language": "భాష:",
 	"nav-proposals": "ప్రతిపాదనలు",
 	"nav-proposals-add": "ప్రతిపాదనను జోడించండి",
@@ -14,6 +16,7 @@
 	"nav-proposals-search": "వెతుకు",
 	"nav-reports": "నివేదికలు",
 	"nav-reports-aggregated": "సమగ్ర స్కోర్‌లు",
+	"nav-reports-wikitext": "వికీ టెక్స్ట్ ఎగుమతి",
 	"nav-admin": "నిర్వాహకుడు",
 	"nav-account": "నా ఖాతా",
 	"nav-campaigns-reviewers": "సమీక్షకుల నివేదిక",
