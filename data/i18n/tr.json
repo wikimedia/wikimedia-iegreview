@@ -4,6 +4,7 @@
 			"BaRaN6161 TURK",
 			"Fitoschido",
 			"Grkn gll",
+			"Hedda",
 			"LuCKY",
 			"Stonecy"
 		]
@@ -28,8 +29,8 @@
 	"new-account-subject": "Yeni hibeler inceleme hesabı",
 	"new-account-email": "Sizin için yeni bir bağış inceleme hesabı oluşturuldu.\n\nGiriş bilgileriniz:\n\nkullanıcı adı: $1\nşifre: $2\n\nGiriş yapabilirsiniz: $3\n\nŞifrenizi şu adreste değiştirebilirsiniz: $4\n\nİçtenlikle,\nHibelere inceleme yöneticileri",
 	"credits": "Katkılar ve lisanslı",
-	"credits-page-license": "Wikimedia hibe inceleme yazılımı açık kaynak kodlu ve açıkt <a href=\"//git.wikimedia.org/log/wikimedia%2Fiegreview\">mevcut</a> <a href=\"http://www.gnu.org/copyleft/gpl.html\">GNU Genel Kamu Lisansı 3.0</a> altındadır.",
-	"credits-page-scholarships": "Başvuru, <a href=\"https://git.wikimedia.org/log/wikimedia%2Fwikimania-scholarships\">Wikimania Bursları uygulaması</a> için geliştirilen koda dayanmaktadır.",
+	"credits-page-license": "Wikimedia hibe inceleme yazılımı açık kaynak kodlu ve açıkt <a href=\"//gerrit.wikimedia.org/g/wikimedia/iegreview\">mevcut</a> <a href=\"https://www.gnu.org/copyleft/gpl.html\">GNU Genel Kamu Lisansı 3.0</a> altındadır.",
+	"credits-page-scholarships": "Başvuru, <a href=\"//gerrit.wikimedia.org/g/wikimedia/wikimania-scholarships\">Wikimania Bursları uygulaması</a> için geliştirilen koda dayanmaktadır.",
 	"credits-page-logo": "<a href=\"https://commons.wikimedia.org/wiki/File%3AIEG_glasses_lightblue.png\">Gözlük logosu</a>, Wikimedia Commons kullanıcısı Heatherawalls'a aittir ve Creative Commons CC0 1.0 Universal Public Domain Dedication lisansı altında kullanılır.",
 	"privacy": "Gizlilik",
 	"footer-credits": "katkılar",

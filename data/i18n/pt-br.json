@@ -2,7 +2,8 @@
 	"@metadata": {
 		"authors": [
 			"Eduardo Addad de Oliveira",
-			"Eduardoaddad"
+			"Eduardoaddad",
+			"Felipe L. Ewald"
 		]
 	},
 	"header-title": "Revisão de subsídios",
@@ -25,8 +26,8 @@
 	"new-account-subject": "Nova conta de revisão de subsídios",
 	"new-account-email": "Uma nova conta de revisão de subsídios foi criada para você.\n\nSuas informações de login é:\n\nnome de usuário: $1\nsenha: $2\n\nVocê pode fazer autenticação apos: $3\n\nVocê pode alterar sua senha a: $4\n\nAtenciosamente,\nAdministradores de revisão de subsídios",
 	"credits": "Créditos e licenciamento",
-	"credits-page-license": "O software de análise de subsídios da Wikimedia é em código aberto e está <a href=\"//git.wikimedia.org/log/wikimedia%2Fiegreview\">disponível</a> under the <a href=\"http://www.gnu.org/copyleft/gpl.html\">GNU General Public License 3.0</a>.",
-	"credits-page-scholarships": "O aplicativo é baseado em código desenvolvido para o <a href=\"https://git.wikimedia.org/log/wikimedia%2Fwikimania-scholarships\">Aplicação de Bolsas de Estudo da Wikimania</a>.",
+	"credits-page-license": "O software de análise de subsídios da Wikimedia é em código aberto e está <a href=\"//gerrit.wikimedia.org/g/wikimedia/iegreview\">disponível</a> sob <a href=\"https://www.gnu.org/copyleft/gpl.html\">GNU General Public License 3.0</a>.",
+	"credits-page-scholarships": "O aplicativo é baseado em código desenvolvido para o <a href=\"//gerrit.wikimedia.org/g/wikimedia/wikimania-scholarships\">Aplicação de Bolsas de Estudo da Wikimania</a>.",
 	"credits-page-logo": "O <a href=\"https://commons.wikimedia.org/wiki/File%3AIEG_glasses_lightblue.png\">logotipo de óculos</a> é pelo usuário do Wikimedia Commons Heatherawalls e usado sob a licença Creative Commons CC0 1.0 Universal Public Domain Dedication.",
 	"privacy": "Privacidade",
 	"footer-credits": "créditos",
