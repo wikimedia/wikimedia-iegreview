@@ -4,6 +4,7 @@
 			"Base",
 			"DDPAT",
 			"Ice bulldog",
+			"Movses",
 			"Piramidion",
 			"Ата"
 		]
@@ -28,8 +29,8 @@
 	"new-account-subject": "Новий обліковий запис для оцінювання ґрантів",
 	"new-account-email": "Для вас створено новий обліковий запис для оцінювання ґрантів.\n\nВаша інформація для входу в систему:\n\nім'я користувача: $1\nпароль: $2\n\nУвійти в систему ви можете отут: $3\n\nСвій пароль можете змінити отут: $4\n\nІз найщирішими побажаннями,\nадміністратори оцінювання ґрантів",
 	"credits": "Подяки та ліцензування",
-	"credits-page-license": "Програмне забезпечення для оцінювання ґрантів Вікімедіа має відкритий код та <a href=\"//git.wikimedia.org/log/wikimedia%2Fiegreview\">доступне</a> на умовах ліцензії <a href=\"http://www.gnu.org/copyleft/gpl.html\">GNU General Public License 3.0</a>.",
-	"credits-page-scholarships": "Програма створена на основі коду, розробленого для <a href=\"https://git.wikimedia.org/log/wikimedia%2Fwikimania-scholarships\">застосунка для надсилання заявок на отримання стипендії на участь у Вікіманії</a>.",
+	"credits-page-license": "Програмне забезпечення для оцінювання ґрантів Вікімедіа має відкритий код та <a href=\"//gerrit.wikimedia.org/g/wikimedia/iegreview\">доступне</a> на умовах ліцензії <a href=\"https://www.gnu.org/copyleft/gpl.html\">GNU General Public License 3.0</a>.",
+	"credits-page-scholarships": "Програма створена на основі коду, розробленого для <a href=\"//gerrit.wikimedia.org/g/wikimedia/wikimania-scholarships\">застосунка для надсилання заявок на отримання стипендії на участь у Вікіманії</a>.",
 	"credits-page-logo": "<a href=\"https://commons.wikimedia.org/wiki/File%3AIEG_glasses_lightblue.png\">Логотип із окулярами</a> створено користувачем Вікісховища, зареєстрованим під іменем Heatherawalls, та використовується на умовах ліцензії Creative Commons CC0 1.0 Universal Public Domain Dedication.",
 	"privacy": "Конфіденційність",
 	"footer-credits": "подяки",
