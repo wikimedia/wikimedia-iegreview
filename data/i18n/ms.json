@@ -1,6 +1,7 @@
 {
 	"@metadata": {
 		"authors": [
+			"Hakimi97",
 			"Tofeiku"
 		]
 	},
@@ -51,9 +52,11 @@
 	"admin-campaign-questionbody-placeholder": "Tambah teks soalan di sini",
 	"admin-campaign-wikitext-placeholder": "Templat Wikiteks",
 	"admin-proposal-title": "Tajuk",
+	"admin-proposal-theme": "Tema",
 	"admin-proposal-amount": "Jumlah",
 	"proposals-edit-title": "Tajuk",
 	"proposals-edit-url": "URL",
+	"proposals-edit-theme": "Tema",
 	"proposals-edit-notes": "Catatan",
 	"proposals-view-url": "URL:",
 	"proposals-view-theme": "Tema:",
@@ -71,6 +74,7 @@
 	"status-open": "Buka",
 	"proposals-list-title": "Tajuk",
 	"proposals-list-theme": "Tema",
+	"report-aggregated-theme": "Tema",
 	"proposals-queue-type": "Jenis",
 	"proposals-queue-type-all": "Semua",
 	"proposals-queue-theme": "Tema",
